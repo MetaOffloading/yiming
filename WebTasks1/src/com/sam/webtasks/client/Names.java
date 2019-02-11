@@ -25,5 +25,10 @@ public class Names {
 	//initial practice difficulty
 	public final static int PRACTICE_EASY=0;
 	public final static int PRACTICE_DIFFICULT=1;
+	
+	//what stimuli are inside the circles?
+	public final static int ONGOING_STIM_NUMBERS=0;
+	public final static int ONGOING_STIM_LETTERS=1;
+	public final static int ONGOING_STIM_NUMBERS_DESCENDING=3;
 }
 

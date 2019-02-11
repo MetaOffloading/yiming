@@ -17,6 +17,12 @@ public class IOtask2Block {
 
 	// run a standard 17-trial block?
 	public boolean standard17block = false;
+	
+	// run a standard 13-trial block?
+	public boolean standard13block = false;
+		
+	// run a standard 9-trial block?
+	public boolean standard9block = false;
 
 	// number of circles visible on screen
 	public int nCircles = 6;
@@ -77,9 +83,102 @@ public class IOtask2Block {
 	// task lockout as a penalty for reminders?
 	public boolean reminderLockout = false;
 	public int reminderLockoutTime = 2000; // duration of lockout in ms
+	
+	//what type of stimuli are inside the circles?
+	public int ongoingStimType = Names.ONGOING_STIM_NUMBERS;
 
 	// this method actually runs the block
 	public void Run() { 
+		if (standard9block) {
+			nTrials=9;
+			
+			// 9 trials is the standard number of trials for 2 of each forced condition
+			// plus 5 choice trials (2, 4, 5, 6, 8)
+
+			// first set up and shuffle the 9 choice values
+			ArrayList<Integer> choiceValues = new ArrayList<Integer>();
+
+			// add choice numbers
+			choiceValues.add(2);
+			choiceValues.add(4);
+			choiceValues.add(5);
+			choiceValues.add(6);
+			choiceValues.add(8);
+
+			// now shuffle
+			for (int i = 0; i < choiceValues.size(); i++) {
+				Collections.swap(choiceValues, i, Random.nextInt(choiceValues.size()));
+			}
+
+			// now set up the values corresponding to the forced internal / forced external
+			// conditions
+			int forcedA = 0; // begin with forced internal
+			int forcedB = 10; // then have forced external
+
+			if (Counterbalance.getFactorLevel("forcedOrder") == 1) { // depending on counterbalancing version,
+																		// switch these around
+				forcedA = 10;
+				forcedB = 0;
+			}
+
+			// now put the whole list of target values together
+			targetValues.add(choiceValues.get(0));
+			targetValues.add(forcedA);
+			targetValues.add(choiceValues.get(1));
+			targetValues.add(forcedB);
+			targetValues.add(choiceValues.get(2));
+			targetValues.add(forcedA);
+			targetValues.add(choiceValues.get(3));
+			targetValues.add(forcedB);
+			targetValues.add(choiceValues.get(4));
+		}
+		
+		if (standard13block) {
+			nTrials=13;
+			
+			// 17 trials is the standard number of trials for 4 of each forced condition
+			// plus 9 choice trials
+
+			// first set up and shuffle the 9 choice values
+			ArrayList<Integer> choiceValues = new ArrayList<Integer>();
+
+			// add numbers 2-8
+			for (int i = 2; i < 9; i++) {
+				choiceValues.add(i);
+			}
+
+			// now shuffle
+			for (int i = 0; i < choiceValues.size(); i++) {
+				Collections.swap(choiceValues, i, Random.nextInt(choiceValues.size()));
+			}
+
+			// now set up the values corresponding to the forced internal / forced external
+			// conditions
+			int forcedA = 0; // begin with forced internal
+			int forcedB = 10; // then have forced external
+
+			if (Counterbalance.getFactorLevel("forcedOrder") == 1) { // depending on counterbalancing version,
+																		// switch these around
+				forcedA = 10;
+				forcedB = 0;
+			}
+
+			// now put the whole list of target values together
+			targetValues.add(choiceValues.get(0));
+			targetValues.add(forcedA);
+			targetValues.add(choiceValues.get(1));
+			targetValues.add(forcedB);
+			targetValues.add(choiceValues.get(2));
+			targetValues.add(forcedA);
+			targetValues.add(choiceValues.get(3));
+			targetValues.add(forcedB);
+			targetValues.add(choiceValues.get(4));
+			targetValues.add(forcedA);
+			targetValues.add(choiceValues.get(5));
+			targetValues.add(forcedB);
+			targetValues.add(choiceValues.get(6));
+		}
+		
 		if (standard17block) {
 			nTrials=17;
 			

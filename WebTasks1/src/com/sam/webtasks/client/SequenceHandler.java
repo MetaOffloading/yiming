@@ -68,6 +68,7 @@ public class SequenceHandler {
 				//this runs the task with default settings: no choice at the beginning, and just one trial
 				IOtask2Block block1 = new IOtask2Block();
 				block1.showPostTrialFeedback=false; //this switches off the feedback after the trial
+				block1.ongoingStimType=Names.ONGOING_STIM_NUMBERS_DESCENDING;
 				block1.Run();
 				break;
 			case 4:

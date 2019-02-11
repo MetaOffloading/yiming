@@ -52,7 +52,17 @@ public class IOtask2RunTrial {
 		final String[] labels = new String[block.nCircles];
 
 		for (int i = 0; i < block.totalCircles; i++) {
-			labels[i] = "" + (i + 1);
+			if (block.ongoingStimType == Names.ONGOING_STIM_NUMBERS) {
+				labels[i] = "" + (i + 1);
+			}
+
+			if (block.ongoingStimType == Names.ONGOING_STIM_LETTERS) {
+				labels[i] = String.valueOf((char) (65 + i));
+			}
+
+			if (block.ongoingStimType == Names.ONGOING_STIM_NUMBERS_DESCENDING) {
+				labels[i] = "" + (block.totalCircles-i);
+			}
 		}
 
 		// set size parameters
