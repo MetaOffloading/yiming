@@ -45,7 +45,7 @@ public class IOtask2Block {
 	public boolean showTargetFeedback = true;
 
 	// should post-trial feedback be shown?
-	public boolean showPostTrialFeedback = true;
+	public boolean showPostTrialFeedback = false;
 
 	// total number of targets to include
 	public int nTargets = 10;
@@ -55,6 +55,11 @@ public class IOtask2Block {
 
 	// target values
 	public ArrayList<Integer> targetValues = new ArrayList<Integer>();
+	
+	// do different target directions have variable numbers of points?
+	public boolean variablePoints = false;
+	
+	public int[] pointValues = new int[4];
 
 	// maximum number of points per target (i.e. in the no reminder condition)
 	public int maxPoints = 10;
@@ -64,13 +69,22 @@ public class IOtask2Block {
 
 	// total number of points scored so far
 	public int totalPoints = 0;
+	
+	// are points being scored in this block? can set to false for prac blocks
+	public boolean scorePoints = true;
 
 	// tell participants how many points they've scored at each PreTrial screen?
 	public boolean showPoints = true;
+	
+	// tell points how many points they've scored as they perform the task?
+	public boolean showLivePoints = false;
 
 	// check whether the first circle has been double-clicked, if so a double-click
 	// on the final circle exits the task, to help speed up debugging
 	public boolean doubleClickFlag = false;
+	
+	// log drag end data?
+	public boolean logDragData = false;
 
 	// if a circle has been dragged out of the box, which side has it been dragged
 	// to?

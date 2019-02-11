@@ -7,13 +7,12 @@ public class Instructions {
 		 
 		switch(index) {
 		case 0:
-			i="Hello.<br>This is the first page of instructions.";
+			i="This time the BLUE circles will be worth 1 point.<br>PINK circles will be worth 10 points."
+					+ "<br><br>Click below to start.";
 			break;
 		case 1:
-			i="This is the second page of instructions.";
-			break;
-		case 2:
-			i="Here are some instructions for a slider.";
+			i="This time the BLUE circles will be worth 10 points.<br>PINK circles will be worth 1 points."
+				+ "<br><br>Click below to start.";
 			break;
 		}
 

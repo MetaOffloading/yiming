@@ -76,3 +76,9 @@ root {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: large;
 }
+
+.livePointsDisplay {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: medium;
+	margin-bottom: 5px;
+}

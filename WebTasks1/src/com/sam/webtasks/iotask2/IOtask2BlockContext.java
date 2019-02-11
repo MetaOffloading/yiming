@@ -30,6 +30,11 @@ public class IOtask2BlockContext {
 	public static int getTotalPoints() {
 		return (blockContext.totalPoints);
 	}
+	
+	// are we logging drag data?
+	public static boolean getLogDragData() {
+		return (blockContext.logDragData);
+	}
 
 	// are we displaying points to participants?
 	public static boolean showPoints() {
@@ -155,7 +160,14 @@ public class IOtask2BlockContext {
 	
 	public static void incrementHits() {
 		blockContext.nHits++;
-		blockContext.totalPoints += blockContext.actualPoints;
+		
+		if (blockContext.scorePoints) {
+			if (blockContext.variablePoints) {
+				blockContext.totalPoints += blockContext.pointValues[blockContext.exitFlag];
+			} else {
+				blockContext.totalPoints += blockContext.actualPoints;
+			}
+		}
 	}
 	
 	//get target side - use this for checking target status

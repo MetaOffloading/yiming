@@ -19,13 +19,32 @@ public class IOtask2InitialiseTrial {
 		IOtask2DisplayParams.circleColours[2] = ColorName.VIOLET;
 		IOtask2DisplayParams.circleColours[3] = ColorName.CORAL;
 		
+		if (block.variablePoints) {
+			for (int i = 1; i < 4; i++) {
+				if (block.pointValues[i]==0) {
+					// set target side to black if it has no points associated with it
+					IOtask2DisplayParams.circleColours[i] = ColorName.BLACK;
+				}
+			}
+		}
+		
 		//set up target directions
 		ArrayList<Integer> targetDirections = new ArrayList<Integer>();
 
 		while (targetDirections.size() < block.nTargets) {
-			targetDirections.add(1);
-			targetDirections.add(2);
-			targetDirections.add(3);
+			if (block.variablePoints) {
+				//if we have variable points, only set targets for sides of the square
+				//with >0 points associated
+				for (int i = 1; i < 4; i++) {
+					if (block.pointValues[i]>0) {
+						targetDirections.add(i);
+					}
+				}
+			} else {
+				targetDirections.add(1);
+				targetDirections.add(2);
+				targetDirections.add(3);
+			}
 		}
 		
 		//shuffle target directions

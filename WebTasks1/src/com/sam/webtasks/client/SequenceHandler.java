@@ -59,69 +59,45 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				ClickPage.Run(Instructions.Get(0), "Next");
+				ClickPage.Run(Instructions.Get(0),  "Next");
 				break;
-			case 2:
-				ClickPage.Run(Instructions.Get(1),  "Next");
-				break;
-			case 3:
-				//this runs the task with default settings: no choice at the beginning, and just one trial
+			case 2:	
 				IOtask2Block block1 = new IOtask2Block();
-				block1.showPostTrialFeedback=false; //this switches off the feedback after the trial
-				block1.ongoingStimType=Names.ONGOING_STIM_NUMBERS_DESCENDING;
+				//display running total of points on the screen
+				block1.showLivePoints=true; 
+		
+				block1.totalCircles=20;
+				block1.nTargets=8;
+				
+				//different coloured circles can be worth different numbers of points
+				block1.variablePoints = true;
+				
+				//points associated with bottom, left, right, and top corners of the box
+				//if the left, right, or top is set to zero points it will be shown in black
+				//and no targets will be assigned to that side
+				block1.pointValues = new int[] {0,1,10,0};
+				
+				//lockout for setting reminders
+				block1.reminderLockout=true;
+				block1.reminderLockoutTime=2000;
+				
+				
 				block1.Run();
 				break;
+			case 3:
+				ClickPage.Run(Instructions.Get(1),  "Next");
+				break;
 			case 4:
-				if (IOtask2BlockContext.getnHits() < 8) { //if there were fewer than 8 hits on the last trial
-					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2); //this line means that instead of moving forward we will repeat the previous instructions
-					ClickPage.Run("You need to get at least 8 correct.", "Try again");
-				} else {
-					SequenceHandler.Next(); //move to the next instruction
-				}
-				break;
-			case 5:
-				if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_EASY) {
-					ClickPage.Run("This one will be easy.", "Next");
-				} else if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_DIFFICULT) {
-					ClickPage.Run("This one will be difficult.", "Next");
-				}
-				break;
-			case 6:
 				IOtask2Block block2 = new IOtask2Block();
-				block2.targetValues.add(0); //forced internal condition
-				block2.showPoints=false;    //don't display the number of points so far at the beginning. The default is to show this
-				block2.blockNum=2;          //we always set the block number so that data from each block is kept separate
-				
-				if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_EASY) {
-					block2.nTargets=4;
-				} else if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_DIFFICULT) {
-					block2.nTargets=16;
-				}
-				
+				block2.showLivePoints=true; 
+				block2.totalCircles=20;
+				block2.nTargets=8;	
+				block2.nTrials=2;
+				block2.variablePoints = true;
+				block2.pointValues = new int[] {0,10,1,0};
+				block2.reminderLockout=true;
+				block2.reminderLockoutTime=2000;
 				block2.Run();
-				break;
-			case 7:
-				IOtask2Block block3 = new IOtask2Block();
-				block3.targetValues.add(10); //forced external condition
-				block3.showPoints=false;
-				block3.blockNum=3;
-				block3.Run();
-				break;
-			case 8:
-				Slider.Run(Instructions.Get(2),  "None of them",  "All of them");
-				break;
-			case 9:
-				//save the selected slider value to the database
-				PHP.logData("sliderValue",  "" + Slider.getSliderValue(), true);
-				break;
-			case 10:
-				IOtask2Block block4 = new IOtask2Block();
-				block4.standard17block = true; //run a standard block of 17 trials
-				block4.Run();
-				break;
-			case 11:
-				Finish.Run();
-				break;
 			}
 			break;
 

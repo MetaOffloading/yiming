@@ -31,6 +31,7 @@ import com.ait.lienzo.shared.core.types.TextBaseLine;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -91,11 +92,24 @@ public class IOtask2RunTrial {
 		verticalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-		final HorizontalPanel horizontalPanel = new HorizontalPanel();
+		final VerticalPanel lienzoWrapper = new VerticalPanel();
+		
+		final VerticalPanel pointsWrapper = new VerticalPanel();
+		pointsWrapper.setWidth(boxSize + "px");
+		pointsWrapper.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		
+		final HTML pointsDisplay = new HTML("You have scored " + IOtask2BlockContext.getTotalPoints() + " points");
+		pointsDisplay.setStyleName("livePointsDisplay");
+		pointsWrapper.add(pointsDisplay);
+		
+		if (block.showLivePoints) {
+			lienzoWrapper.add(pointsWrapper);
+		}
+		
+		lienzoWrapper.add(panel);	
 
-		horizontalPanel.add(panel);
-
-		verticalPanel.add(horizontalPanel);
+		verticalPanel.add(lienzoWrapper);
+		
 		RootPanel.get().add(verticalPanel);
 
 		// set up outline
@@ -325,6 +339,17 @@ public class IOtask2RunTrial {
 			circleGroup[c].addNodeDragEndHandler((NodeDragEndHandler) new NodeDragEndHandler() {
 				@Override
 				public void onNodeDragEnd(NodeDragEndEvent event) {
+					if (IOtask2BlockContext.getLogDragData()) {
+						int circleNum = IOtask2BlockContext.getClickedCircle() + IOtask2BlockContext.getCircleAdjust();
+						
+						String data = "" + circleNum + ",";
+						data = data + IOtask2BlockContext.getTargetSide(circleNum) + ",";
+						data = data + IOtask2BlockContext.getNextCircle() + IOtask2BlockContext.getCircleAdjust() + ",";
+						data = data + IOtask2BlockContext.getExitFlag();
+						
+						PHP.logData("dragEnd", data, false);
+					}		
+					
 					AnimationProperties grow = new AnimationProperties();
 					grow.push(Properties.SCALE(5));
 					
@@ -358,6 +383,12 @@ public class IOtask2RunTrial {
 					}
 
 					if ((IOtask2BlockContext.getExitFlag() > 0) & (IOtask2BlockContext.getClickedCircle() == IOtask2BlockContext.getNextCircle())) {
+						new Timer() {
+							public void run() {
+								pointsDisplay.setHTML("You have scored " + IOtask2BlockContext.getTotalPoints() + " points");
+							}
+						}.schedule(10);
+						
 						IOtask2BlockContext.incrementCompletedCircles();
 
 						if ((IOtask2BlockContext.getCompletedCircles() % IOtask2BlockContext.getnCircles()) == 0) {
