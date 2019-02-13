@@ -64,13 +64,14 @@ public class PHP {
 
 	public static void logData(final String dataType, final String data, final boolean checkSaved) {
 		String postData = "dataType=" + dataType + "&participantCode=" + SessionInfo.participantID;
-		postData = postData + "&experimentCode=" + SessionInfo.experimentCode + "&version=" + SessionInfo.experimentVersion;
+		postData = postData + "&experimentCode=" + SessionInfo.experimentCode + "&version="
+				+ SessionInfo.experimentVersion;
 		postData = postData + "&sessionKey=" + SessionInfo.sessionKey + "&data=" + data;
 
 		phpOutput = "";
-		
-		//only register response from server if checkSaved is true,
-		//i.e. set the third argument to checkSaved
+
+		// only register response from server if checkSaved is true,
+		// i.e. set the third argument to checkSaved
 		Post("log.php", postData, checkSaved);
 
 		timeCounter = 1;
@@ -96,6 +97,44 @@ public class PHP {
 		}
 	}
 
+	public static void CheckStatusPrevExp() {
+		if (SessionInfo.newParticipantsOnly) {
+			String postData = "participantCode=" + SessionInfo.participantID;
+
+			phpOutput = null;
+			Post("checkStatusPrevExp.php", postData, true);
+
+			timeCounter = 1;
+
+			if (SessionInfo.localTesting) {
+				SequenceHandler.Next(); // don't check status if running in local mode
+			} else {
+				new Timer() {
+					public void run() {
+						if (phpOutput != null) { // response from database
+							cancel();
+
+							if (phpOutput.contains("exists")) {
+								Window.alert("You have previously taken part in one of our earlier experiments. Unfortunately this means that you re not able to participate in this one and you should return the HIT.");
+							}
+							
+							if (phpOutput.contains("unknown")) {
+								SequenceHandler.Next();
+							}
+						} else if (++timeCounter == timeOutDuration) {
+							cancel();
+							Window.alert(
+									"Database connection error. Please check your internet connection and try again.");
+							CheckStatus();
+						}
+					}
+				}.scheduleRepeating(checkInterval);
+			}
+		} else {
+			SequenceHandler.Next();
+		}
+	}
+
 	public static void CheckStatus() {
 		String postData = "participantCode=" + SessionInfo.participantID;
 		postData = postData + "&experimentCode=" + SessionInfo.experimentCode;
@@ -113,7 +152,7 @@ public class PHP {
 				public void run() {
 					if (phpOutput != null) { // response from database
 						cancel();
-						
+
 						switch (SessionInfo.eligibility) {
 						case Names.ELIGIBILITY_ANYONE:
 							// if anyone is eligible it doesn't matter what the response is, just continue
@@ -179,7 +218,7 @@ public class PHP {
 					} else if (++timeCounter == timeOutDuration) {
 						cancel();
 						Window.alert("Database connection error. Please check your internet connection and try again.");
-						UpdateStatus(newStatus);				
+						UpdateStatus(newStatus);
 					}
 				}
 			}.scheduleRepeating(checkInterval);

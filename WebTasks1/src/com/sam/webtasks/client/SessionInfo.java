@@ -26,6 +26,7 @@ public class SessionInfo {
 	//Names.NEVERCOMPLETED = anyone who has not yet completed the experiment,
 	//i.e. you can start again as long as you didn't get to the very end	
 	public static int eligibility=Names.ELIGIBILITY_NEVERCOMPLETED;
+	public static boolean newParticipantsOnly=false; //restrict eligibility to participants who have never completed any of your experiments?
 	
 	//what factors do we need to counterbalance?
 	//set up the names as follows:

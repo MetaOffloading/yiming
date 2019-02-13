@@ -124,27 +124,31 @@ public class SequenceHandler {
 				PHP.CheckStatus();
 				break;
 			case 4:
+				// check whether this participant ID has been used to access a previous experiment
+				PHP.CheckStatusPrevExp();
+				break;
+			case 5:
 				// clear screen, now that initial checks have been done
 				RootPanel.get().clear();
 
 				// make sure the browser window is big enough
 				CheckScreenSize.Run(SessionInfo.minScreenSize, SessionInfo.minScreenSize);
 				break;
-			case 5:
+			case 6:
 				if (SessionInfo.runInfoConsentPages) { 
 					InfoSheet.Run(Instructions.InfoText());
 				} else {
 					SequenceHandler.Next();
 				}
 				break;
-			case 6:
+			case 7:
 				if (SessionInfo.runInfoConsentPages) { 
 					Consent.Run();
 				} else {
 					SequenceHandler.Next();
 				}
 				break;
-			case 7:
+			case 8:
 				SequenceHandler.SetLoop(0, true); // switch to and initialise the main loop
 				SequenceHandler.Next(); // start the loop
 				break;
