@@ -84,7 +84,7 @@ public class IOtask2Block {
 	public boolean doubleClickFlag = false;
 	
 	// log drag end data?
-	public boolean logDragData = false;
+	public boolean logDragData = true;
 
 	// if a circle has been dragged out of the box, which side has it been dragged
 	// to?
