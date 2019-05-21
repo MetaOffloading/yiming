@@ -3,6 +3,7 @@ package com.sam.webtasks.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.sam.webtasks.basictools.ProgressBar;
 
 /**

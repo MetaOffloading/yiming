@@ -82,3 +82,18 @@ root {
 	font-size: medium;
 	margin-bottom: 5px;
 }
+
+.pointHTML {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.greenyellow {
+	color: GREENYELLOW;
+}
+
+.red {
+	color: RED;
+}

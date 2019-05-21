@@ -3,6 +3,7 @@ package com.sam.webtasks.basictools;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.sam.webtasks.client.Names;
 import com.sam.webtasks.client.SequenceHandler;
 import com.sam.webtasks.client.SessionInfo;
 
@@ -11,7 +12,7 @@ public class CheckIdExists {
 		if (SessionInfo.localTesting) {
 			SequenceHandler.Next();
 		} else {
-			if (SessionInfo.participantID.startsWith("A")) {
+			if ((SessionInfo.participantID.startsWith("A")) || (SessionInfo.experimentType != Names.EXPERIMENT_MTURK)) {
 				SequenceHandler.Next();
 			} else {
 				RootPanel.get().clear();

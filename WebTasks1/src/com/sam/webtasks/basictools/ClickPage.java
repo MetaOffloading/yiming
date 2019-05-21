@@ -63,7 +63,6 @@ public class ClickPage {
 
 	            new Timer() {
 	                public void run() {
-	                	RootPanel.get().clear();
 	                	SequenceHandler.Next();
 	                }
 	            }.schedule(500);

@@ -1,12 +1,14 @@
 package com.sam.webtasks.client;
 
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.sam.webtasks.basictools.ProgressBar;
+
 public class Names {
 	//reminder conditions
 	public final static int REMINDERS_NOTALLOWED=0; //can't use reminders
 	public final static int REMINDERS_OPTIONAL=1;   //optional to use reminders
 	public final static int REMINDERS_MANDATORY_ANYCIRCLE=2; //mandatory to set reminders, but it works to move any circles, not just the specified targets
 	public final static int REMINDERS_MANDATORY_TARGETONLY=3;//mandatory to set reminders for the specified targets
-	public final static int REMINDERS_VARIABLE=4;  //can set reminders for circles associated with some target direction but not others
 		
 	//Gender
 	public final static int GENDER_MALE=0;
@@ -26,14 +28,5 @@ public class Names {
 	//initial practice difficulty
 	public final static int PRACTICE_EASY=0;
 	public final static int PRACTICE_DIFFICULT=1;
-	
-	//what stimuli are inside the circles?
-	public final static int ONGOING_STIM_NUMBERS=0;
-	public final static int ONGOING_STIM_LETTERS=1;
-	public final static int ONGOING_STIM_NUMBERS_DESCENDING=3;
-	
-	//what experiment type is this?
-	public final static int EXPERIMENT_MTURK=0;
-	public final static int EXPERIMENT_TABLET=1;
 }
 
