@@ -42,7 +42,6 @@ import com.sam.webtasks.iotask1.IOtask1RunTrial;
 import com.sam.webtasks.iotask2.IOtask2Block;
 import com.sam.webtasks.iotask2.IOtask2BlockContext;
 import com.sam.webtasks.iotask2.IOtask2RunTrial;
-import com.sam.webtasks.iotask2.IOtask2Feedback;
 import com.sam.webtasks.iotask2.IOtask2InitialiseTrial;
 import com.sam.webtasks.iotask2.IOtask2PreTrial;
 
@@ -61,6 +60,12 @@ public class SequenceHandler {
 				ClickPage.Run(Instructions.Get(0), "Next");
 				break;
 			case 2:
+				IOtask2Block block1 = new IOtask2Block();
+				block1.showPostTrialFeedback = true;
+				block1.nTargets=4;
+				block1.Run();
+				break;
+			case 3:
 				Finish.Run();
 				break;
 			}
@@ -176,7 +181,12 @@ public class SequenceHandler {
 				if (IOtask2BlockContext.currentTargetValue() > -1) {
 					IOtask2PreTrial.Run();
 				} else { //otherwise just skip to the start of the block
-					SequenceHandler.Next();
+					if ((IOtask2BlockContext.getTrialNum() > 0)&&(IOtask2BlockContext.countdownTimer())) {
+						//if we're past the first trial and there's a timer, click to begin
+						ClickPage.Run("Ready?", "Continue");
+					} else {
+						SequenceHandler.Next();
+					}
 				}
 				break;
 			case 4:

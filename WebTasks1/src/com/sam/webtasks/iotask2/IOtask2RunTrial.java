@@ -75,7 +75,7 @@ public class IOtask2RunTrial {
 				
 				IOtask2BlockContext.countdown();
 				
-				if (IOtask2BlockContext.countdownTime() == 0) {
+				if (IOtask2BlockContext.countdownTime() < 1) {
 					timerLabel.addStyleName("red");
 					timerLabel.setText("Out of time. Please go faster.");
 					cancel();
