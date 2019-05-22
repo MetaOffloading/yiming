@@ -60,10 +60,7 @@ public class SequenceHandler {
 				ClickPage.Run(Instructions.Get(0), "Next");
 				break;
 			case 2:
-				IOtask2Block block1 = new IOtask2Block();
-				block1.showPostTrialFeedback = true;
-				block1.nTargets=4;
-				block1.Run();
+				ClickPage.Run(Instructions.Get(1), "Next");
 				break;
 			case 3:
 				Finish.Run();

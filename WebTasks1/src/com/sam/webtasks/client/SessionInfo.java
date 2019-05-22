@@ -8,7 +8,7 @@ public class SessionInfo {
 	//are we just testing locally? set this to true if so and it won't try to log data to the database
 	public static boolean localTesting=true;
 	public static boolean runInfoConsentPages=false; //should we do the info and consent pages?
-	public static int experimentType = Names.EXPERIMENT_TABLET;
+	public static int experimentType = Names.EXPERIMENT_STANDALONE;
 	
 	//what is the name for this experiment?
 	public static String experimentCode="testExp";

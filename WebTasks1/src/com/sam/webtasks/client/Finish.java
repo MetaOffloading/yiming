@@ -44,7 +44,7 @@ public class Finish {
 					PHP.logData("comment", commentTextArea.getText(), false);
 				}
 			});
-		} else if (SessionInfo.experimentType == Names.EXPERIMENT_TABLET) {
+		} else if (SessionInfo.experimentType == Names.EXPERIMENT_STANDALONE) {
 			final HTML goodbyeText = new HTML("You have now completed the experiment. Thank you for taking part");
 			RootPanel.get().add(goodbyeText);
 		}

@@ -9,6 +9,9 @@ public class Instructions {
 		case 0:
 			i="Here are some instructions.";
 			break;
+		case 1:
+			i="Here are some more instructions.";
+			break;
 		}
 
 		return(i);	

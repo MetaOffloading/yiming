@@ -33,7 +33,7 @@ public class Names {
 	public final static int ONGOING_STIM_NUMBERS_DESCENDING=3;
 	
 	//what experiment type is this?
-	public final static int EXPERIMENT_MTURK=0;
-	public final static int EXPERIMENT_TABLET=1;
+	public final static int EXPERIMENT_MTURK=0;      //experiment to be run on the MTurk platform
+	public final static int EXPERIMENT_STANDALONE=1; //experiment to be run without uploading to MTurk, e.g. on a tablet computer or on a desktop
 }
 

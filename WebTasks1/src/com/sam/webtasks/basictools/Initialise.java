@@ -47,7 +47,7 @@ public class Initialise {
 			}
 		}
 		
-		if (SessionInfo.experimentType == Names.EXPERIMENT_TABLET) {
+		if (SessionInfo.experimentType == Names.EXPERIMENT_STANDALONE) {
 			HTML participantHTML = new HTML("Experiment: " + SessionInfo.experimentCode + ", Version: " + SessionInfo.experimentVersion + 
 					"<br>Participant code:");
 			final TextBox textBox = new TextBox();
