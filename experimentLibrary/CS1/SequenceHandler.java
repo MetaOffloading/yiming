@@ -30,7 +30,6 @@ import com.sam.webtasks.basictools.CheckScreenSize;
 import com.sam.webtasks.basictools.ClickPage;
 import com.sam.webtasks.basictools.Consent;
 import com.sam.webtasks.basictools.Counterbalance;
-import com.sam.webtasks.basictools.Finish;
 import com.sam.webtasks.basictools.InfoSheet;
 import com.sam.webtasks.basictools.Initialise;
 import com.sam.webtasks.basictools.PHP;
@@ -45,7 +44,6 @@ import com.sam.webtasks.iotask1.IOtask1RunTrial;
 import com.sam.webtasks.iotask2.IOtask2Block;
 import com.sam.webtasks.iotask2.IOtask2BlockContext;
 import com.sam.webtasks.iotask2.IOtask2RunTrial;
-import com.sam.webtasks.iotask2.IOtask2Feedback;
 import com.sam.webtasks.iotask2.IOtask2InitialiseTrial;
 import com.sam.webtasks.iotask2.IOtask2PreTrial;
 
@@ -61,12 +59,7 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				IOtask2Block block = new IOtask2Block();
-				block.nTargets=6;
-				//block.reminderLockout=true;
-				//block.reminderLockoutTime=2000;
-				block.Run();
-				//ClickPage.Run(Instructions.Get(0), "Next");
+				ClickPage.Run(Instructions.Get(0), "Next");
 				break;
 			case 2:
 				IOtask2Block block0 = new IOtask2Block();
@@ -74,7 +67,6 @@ public class SequenceHandler {
 				block0.nTargets = 0;
 				block0.blockNum = 0;
 				block0.nTrials = 2;
-				block0.showPostTrialFeedback = false;
 				block0.Run();
 				break;
 			case 3:
@@ -97,7 +89,7 @@ public class SequenceHandler {
 				} else if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_DIFFICULT) {
 					pracTargets=16;
 				}
-				if (IOtask2BlockContext.getnHits() < 1) { //if there were fewer than 8 hits on the last trial
+				if (IOtask2BlockContext.getnHits() < 1) { //if there were fewer than 1 hits on the last trial
 					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2); //this line means that instead of moving forward we will repeat the previous instructions
 					ClickPage.Run("You didn't drag the special circle to the correct location.", "Please try again");
 				} else {
@@ -105,7 +97,6 @@ public class SequenceHandler {
 	                        + "There will be a total of 25 circles, and " + pracTargets + " of them will be special ones "
 	                        + "that should go to one of the coloured sides of the box.<br><br>Don't worry if you "
 	                        + "do not remember all of them. That's fine - just try to remember as many as you can.", "Next");
-					//*****SequenceHandler.Next(); //move to the next instruction
 				}
 				break;	
 			case 6:
@@ -117,7 +108,6 @@ public class SequenceHandler {
 				block2.nTargets=16;
 			}
 			
-			//*****block2.targetValues.add(0);
 			block2.showPoints = false;
 			block2.blockNum = 2; 
 			block2.nTrials = 5;
@@ -133,7 +123,6 @@ public class SequenceHandler {
 				ClickPage.Run("Now the task will get easier. It will stay like this for the rest of the experiment.<br><br>"  
 							                       + "Please ignore the difficulty of the practice trials you have just done and remember that the task "  
 							                       + "will be like this from now on.<br><br>Click below to continue", "Next");
-				//******SequenceHandler.Next();
 				}
 				break;
 			case 8:
@@ -143,7 +132,6 @@ public class SequenceHandler {
 				block3.nTargets = 10;
 				block3.blockNum = 3;
 				block3.nTrials = 1;
-				//*****block3.showPostTrialFeedback = false;
 				block3.Run();
 				break;
 				
@@ -174,14 +162,12 @@ public class SequenceHandler {
 				break;
 			case 12:
 				IOtask2Block block4 = new IOtask2Block();
-				//***** block4.targetValues.add(10); //forced external condition
 				block4.showPoints=false;
 				block4.showPostTrialFeedback = true;
 				block4.blockNum=4;
 				block4.Run();
 				break;
 			case 13:
-				//******
 				if (IOtask2BlockContext.getnHits() < 8) { //if there were fewer than 8 hits on the last trial
 					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2); //this line means that instead of moving forward we will repeat the previous instructions
 					String msg = "You got " + IOtask2BlockContext.getnHits() + " out of 10 correct that time. You need to get at least 8 out of "

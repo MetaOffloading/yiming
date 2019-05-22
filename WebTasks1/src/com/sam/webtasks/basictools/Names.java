@@ -1,4 +1,4 @@
-package com.sam.webtasks.client;
+package com.sam.webtasks.basictools;
 
 public class Names {
 	//reminder conditions

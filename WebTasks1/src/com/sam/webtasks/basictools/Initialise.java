@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.sam.webtasks.client.Names;
 import com.sam.webtasks.client.SequenceHandler;
 import com.sam.webtasks.client.SessionInfo;
 

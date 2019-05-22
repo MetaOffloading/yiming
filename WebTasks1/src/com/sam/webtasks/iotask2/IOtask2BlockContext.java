@@ -3,7 +3,7 @@ package com.sam.webtasks.iotask2;
 import java.util.Date;
 
 import com.google.gwt.user.client.Window;
-import com.sam.webtasks.client.Names;
+import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.client.Params;
 import com.sam.webtasks.client.SequenceHandler;
 
@@ -25,6 +25,11 @@ public class IOtask2BlockContext {
 
 	public static int getClickedCircle() {
 		return (blockContext.clickedCircle);
+	}
+	
+	//update progress bar?
+	public static boolean getUpdateProgress() {
+		return (blockContext.updateProgress);
 	}
 
 	// find out the current total number of points

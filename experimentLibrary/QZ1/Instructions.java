@@ -33,7 +33,7 @@ public class Instructions {
 		case 3:
 			String highVal = "", lowVal = "", highValLoc = "", lowValLoc = "";
 
-			if (Counterbalance.getFactorLevel("colourMeaning") == Names.BLUE_HIGHVAL) {
+			if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
 				highVal = "blue";
 				lowVal = "pink";
 

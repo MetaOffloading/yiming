@@ -3,7 +3,6 @@ package com.sam.webtasks.basictools;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.sam.webtasks.client.Names;
 import com.sam.webtasks.client.SequenceHandler;
 import com.sam.webtasks.client.SessionInfo;
 

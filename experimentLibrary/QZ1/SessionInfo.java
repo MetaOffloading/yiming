@@ -1,14 +1,16 @@
 package com.sam.webtasks.client;
 
+import com.sam.webtasks.basictools.Names;
+
 public class SessionInfo {
 	/*******************************************************/
 	/* edit the settings below to configure the experiment */
 	/*******************************************************/
 		
 	//are we just testing locally? set this to true if so and it won't try to log data to the database
-	public static boolean localTesting=false;
+	public static boolean localTesting=true;
 	public static boolean runInfoConsentPages=false; //should we do the info and consent pages?
-	public static boolean checkID=false; //should we check the worker ID? if not, it defaults to "Atest"
+	public static int experimentType = Names.EXPERIMENT_STANDALONE;
 	
 	//what is the name for this experiment?
 	public static String experimentCode="QZ1";

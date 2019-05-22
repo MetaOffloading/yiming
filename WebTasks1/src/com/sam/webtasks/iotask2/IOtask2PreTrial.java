@@ -14,8 +14,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.sam.webtasks.basictools.Counterbalance;
+import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
-import com.sam.webtasks.client.Names;
 import com.sam.webtasks.client.SequenceHandler;
 
 public class IOtask2PreTrial {
