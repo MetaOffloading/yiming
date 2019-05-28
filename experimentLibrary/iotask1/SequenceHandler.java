@@ -22,13 +22,13 @@ package com.sam.webtasks.client;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.sam.webtasks.basictools.CheckIdExists;
 import com.sam.webtasks.basictools.CheckScreenSize;
 import com.sam.webtasks.basictools.ClickPage;
 import com.sam.webtasks.basictools.Consent;
 import com.sam.webtasks.basictools.Counterbalance;
-import com.sam.webtasks.basictools.Finish;
 import com.sam.webtasks.basictools.InfoSheet;
 import com.sam.webtasks.basictools.Initialise;
 import com.sam.webtasks.basictools.PHP;
@@ -39,6 +39,11 @@ import com.sam.webtasks.iotask1.IOtask1BlockContext;
 import com.sam.webtasks.iotask1.IOtask1DisplayParams;
 import com.sam.webtasks.iotask1.IOtask1InitialiseTrial;
 import com.sam.webtasks.iotask1.IOtask1RunTrial;
+import com.sam.webtasks.iotask2.IOtask2Block;
+import com.sam.webtasks.iotask2.IOtask2BlockContext;
+import com.sam.webtasks.iotask2.IOtask2RunTrial;
+import com.sam.webtasks.iotask2.IOtask2InitialiseTrial;
+import com.sam.webtasks.iotask2.IOtask2PreTrial;
 
 public class SequenceHandler {
 	public static void Next() {	
@@ -55,74 +60,27 @@ public class SequenceHandler {
 				ClickPage.Run(Instructions.Get(0), "Next");
 				break;
 			case 2:
-				// update the status for this participant, saving their counterbalancing condition.
-				// This means that if they come back to the experiment and eligibility is set to 
-				// NEVERCOMPLETED, we will first load their previous counterbalancing settings.
-				// Note that if eligibility is set to ANYONE, this stage is ignored and the counterbalancing settings
-				// are always randomised.
-				PHP.UpdateStatus("" + Counterbalance.getCounterbalancingCell());
-				break;
-			case 3:
-				String text=""; 
-				
-				if (Counterbalance.getFactorLevel("phase1reminders")==Names.REMINDERS_NOTALLOWED) {
-					text="you cannot set reminders";
-				}
-				
-				if (Counterbalance.getFactorLevel("phase1reminders")==Names.REMINDERS_MANDATORY_ANYCIRCLE) {
-					text="you must set reminders";
-				}
-				
-				if (Counterbalance.getFactorLevel("phase1reminders")==Names.REMINDERS_MANDATORY_TARGETONLY) {
-					text="you must set reminders";
-				}
-				
-				if (Counterbalance.getFactorLevel("phase1reminders")==Names.REMINDERS_OPTIONAL) {
-					text="reminders are optional";
-				}
-				
-				ClickPage.Run(text,  "Next");
-				break;
-			case 4:
-				//phase 1
 				IOtask1Block block1 = new IOtask1Block();
-				block1.blockNum = 1;
-				block1.nTrials = 2;
-				block1.nTargets = 3;
-				block1.askArithmetic = true;
-				block1.offloadCondition = Counterbalance.getFactorLevel("phase1reminders");
-				
 				block1.Run();
 				break;
-			case 5:
-				ClickPage.Run("From now on you will not be able to set reminders", "Next");
+			case 3:
+				ClickPage.Run(Instructions.Get(1),  "Next");
 				break;
-			case 6:
-				//phase 2
+			case 4:
 				IOtask1Block block2 = new IOtask1Block();
-				block2.blockNum = 2;
-				block2.nTrials = 2;
 				block2.nTargets = 3;
-				block2.askArithmetic = true;
-				block2.offloadCondition = Names.REMINDERS_NOTALLOWED;
 				block2.Run();
 				break;
+			case 5:
+				ClickPage.Run(Instructions.Get(2),  "Next");
+				break;
+			case 6:
+				IOtask1Block block3 = new IOtask1Block();
+				block3.nTargets = 3;
+				block3.askArithmetic = true;
+				block3.Run();
+				break;
 			case 7:
-				// log data and check that it saves
-				String data = SessionInfo.rewardCode + ",";
-				data = data + Counterbalance.getFactorLevel("phase1reminders") + ",";
-				data = data + SessionInfo.gender + ",";
-				data = data + SessionInfo.age + ",";
-				data = data + TimeStamp.Now();
-
-				PHP.logData("finish", data, true);
-				break;
-			case 8:
-				//set participant status to finished
-				PHP.UpdateStatus("finished");
-				break;
-			case 9:
-				// complete the experiment
 				Finish.Run();
 				break;
 			}
@@ -151,19 +109,31 @@ public class SequenceHandler {
 				PHP.CheckStatus();
 				break;
 			case 4:
+				// check whether this participant ID has been used to access a previous experiment
+				PHP.CheckStatusPrevExp();
+				break;
+			case 5:
 				// clear screen, now that initial checks have been done
 				RootPanel.get().clear();
 
 				// make sure the browser window is big enough
-				CheckScreenSize.Run(IOtask1DisplayParams.minPixels, IOtask1DisplayParams.minPixels);
-				break;
-			case 5:
-				InfoSheet.Run(Instructions.InfoText());
+				CheckScreenSize.Run(SessionInfo.minScreenSize, SessionInfo.minScreenSize);
 				break;
 			case 6:
-				Consent.Run();
+				if (SessionInfo.runInfoConsentPages) { 
+					InfoSheet.Run(Instructions.InfoText());
+				} else {
+					SequenceHandler.Next();
+				}
 				break;
 			case 7:
+				if (SessionInfo.runInfoConsentPages) { 
+					Consent.Run();
+				} else {
+					SequenceHandler.Next();
+				}
+				break;
+			case 8:
 				SequenceHandler.SetLoop(0, true); // switch to and initialise the main loop
 				SequenceHandler.Next(); // start the loop
 				break;
@@ -172,8 +142,8 @@ public class SequenceHandler {
 		case 2: // IOtask1 loop
 			switch (sequencePosition.get(2)) {
 			/*************************************************************
-			 * The code here defines the sequence of events in subloop 1 * This runs a
-			 * single trial of IOtask1 *
+			 * The code here defines the sequence of events in subloop 2 *
+			 * This runs a single trial of IOtask1                       *
 			 *************************************************************/
 			case 1:
 				// first check if the block has ended. If so return control to the main sequence
@@ -198,7 +168,58 @@ public class SequenceHandler {
 				// we have reached the end, so we need to restart the loop
 				SequenceHandler.SetLoop(2, true);
 				SequenceHandler.Next();
-				// TODO: mechanism to give post-trial feedback?
+				break;
+			}
+			break;
+		case 3: //IOtask2 loop
+			switch (sequencePosition.get(3)) {
+			/*************************************************************
+			 * The code here defines the sequence of events in subloop 3 *
+			 * This runs a single trial of IOtask2                       *
+			 *************************************************************/
+			case 1:
+				// first check if the block has ended. If so return control to the main sequence
+				// handler
+				IOtask2Block block = IOtask2BlockContext.getContext();
+				
+				if (block.currentTrial == block.nTrials) {
+					SequenceHandler.SetLoop(0,  false);
+				}
+				
+				SequenceHandler.Next();
+				break;
+			case 2:
+				IOtask2InitialiseTrial.Run();
+				break;
+			case 3:
+				//present the pre-trial choice if appropriate
+				if (IOtask2BlockContext.currentTargetValue() > -1) {
+					IOtask2PreTrial.Run();
+				} else { //otherwise just skip to the start of the block
+					if ((IOtask2BlockContext.getTrialNum() > 0)&&(IOtask2BlockContext.countdownTimer())) {
+						//if we're past the first trial and there's a timer, click to begin
+						ClickPage.Run("Ready?", "Continue");
+					} else {
+						SequenceHandler.Next();
+					}
+				}
+				break;
+			case 4:
+				//now run the trial
+				IOtask2RunTrial.Run();
+				break;
+			case 5:
+				if (IOtask2BlockContext.showPostTrialFeedback()) {
+					IOtask2Feedback.Run();
+				} else {
+					SequenceHandler.Next();
+				}
+				break;
+			case 6:
+				//we have reached the end, so we need to restart the loop
+				SequenceHandler.SetLoop(3,  true);
+				SequenceHandler.Next();
+				break;
 			}
 		}
 	}

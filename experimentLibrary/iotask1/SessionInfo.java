@@ -1,6 +1,6 @@
 package com.sam.webtasks.client;
 
-import com.sam.webtasks.client.Names;
+import com.sam.webtasks.basictools.Names;
 
 public class SessionInfo {
 	/*******************************************************/
@@ -9,6 +9,8 @@ public class SessionInfo {
 		
 	//are we just testing locally? set this to true if so and it won't try to log data to the database
 	public static boolean localTesting=true;
+	public static boolean runInfoConsentPages=false; //should we do the info and consent pages?
+	public static int experimentType = Names.EXPERIMENT_STANDALONE;
 	
 	//what is the name for this experiment?
 	public static String experimentCode="testExp";
@@ -16,12 +18,18 @@ public class SessionInfo {
 	//which version of the experiment is this?
 	public static int experimentVersion=1;
 	
+	//what is the minimum permitted screen size in pixels?
+	//if the screen is smaller than this the participant will be asked
+	//to maximise their display before continuing
+	public static int minScreenSize=500;
+	
 	//who is eligible to take part?
 	//Names.ANYONE = anybody
 	//Names.NEVERACCESSED = anyone who has not yet started the experiment
 	//Names.NEVERCOMPLETED = anyone who has not yet completed the experiment,
 	//i.e. you can start again as long as you didn't get to the very end	
-	public static int eligibility=Names.ELIGIBILITY_NEVERCOMPLETED;
+	public static int eligibility=Names.ELIGIBILITY_ANYONE;
+	public static boolean newParticipantsOnly=false; //restrict eligibility to participants who have never completed any of your experiments?
 	
 	//what factors do we need to counterbalance?
 	//set up the names as follows:
@@ -31,8 +39,8 @@ public class SessionInfo {
 	//if you want to specify the level of any of those factors, set it with specifiedLevels. otherwise set to -1
 	//e.g. specifiedLevels = {-1, 2, -1}; would randomise factors 1 and 3, and set the second factor to level 2
 	//NB levels range from 0 to (maximum - 1)
-	public static String[] counterbalanceFactors = {"phase1reminders"};
-	public static int[] counterbalanceLevels = {3};
+	public static String[] counterbalanceFactors = {"counterbalance"};
+	public static int[] counterbalanceLevels = {2};
 	public static int[] specifiedLevels = {-1};
 	
 	/*************************************************/
