@@ -301,6 +301,9 @@ public class IOtask2Block {
 	// flash flag. use this for timing the red flash if wrong circle is dragged to
 	// the bottom
 	public boolean flashFlag = false;
+	
+	// run a surprise memory test? set to the circle number after which the test will be given. set to -1 if not happening
+	public int surpriseTest = -1;
 
 	// ???????
 	public int completedCircles = 0;

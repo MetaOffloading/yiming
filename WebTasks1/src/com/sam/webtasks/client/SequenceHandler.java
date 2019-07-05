@@ -31,7 +31,10 @@ import com.sam.webtasks.basictools.Consent;
 import com.sam.webtasks.basictools.Counterbalance;
 import com.sam.webtasks.basictools.InfoSheet;
 import com.sam.webtasks.basictools.Initialise;
+import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
+import com.sam.webtasks.basictools.ProgressBar;
+import com.sam.webtasks.basictools.Slider;
 import com.sam.webtasks.basictools.TimeStamp;
 import com.sam.webtasks.iotask1.IOtask1Block;
 import com.sam.webtasks.iotask1.IOtask1BlockContext;
@@ -54,18 +57,34 @@ public class SequenceHandler {
 			switch (sequencePosition.get(0)) {
 			/***********************************************************************
 			 * The code here defines the main sequence of events in the experiment *
-			 **********************************************************************/
-			case 1:
-				ClickPage.Run(Instructions.Get(0), "Next");
+			 ********************************************************************/		
+			case 1:	
+				IOtask2Block block1 = new IOtask2Block();
+				block1.logDragData=true; //log trial-by-trial data to the database
+				block1.blockNum=1;
+				block1.totalCircles=40;
+				block1.nTargets=20;
+				block1.nTrials=1;		
+				//different coloured circles can be worth different numbers of points
+				block1.variablePoints = true;
+
+				//points associated with bottom, left, right, and top corners of the box
+				//if the left, right, or top is set to zero points it will be shown in black
+				//and no targets will be assigned to that side
+				block1.pointValues = new int[] {0,1,1,0};
+				
+				//run a surprise memory test after circle number 10
+				block1.surpriseTest = 10;
+
+				block1.Run();
 				break;
-			case 2:
-				ClickPage.Run(Instructions.Get(1), "Next");
-				break;
-			case 3:
+			case 2:			
 				Finish.Run();
 				break;
+				   
 			}
-			break;
+			break; 
+		
 
 		/********************************************/
 		/* no need to edit the code below this line */
@@ -120,6 +139,7 @@ public class SequenceHandler {
 				break;
 			}
 			break;
+			
 		case 2: // IOtask1 loop
 			switch (sequencePosition.get(2)) {
 			/*************************************************************
@@ -150,8 +170,11 @@ public class SequenceHandler {
 				SequenceHandler.SetLoop(2, true);
 				SequenceHandler.Next();
 				break;
+				// TODO: mechanism to give post-trial feedback?
+				
 			}
 			break;
+			
 		case 3: //IOtask2 loop
 			switch (sequencePosition.get(3)) {
 			/*************************************************************
@@ -177,8 +200,7 @@ public class SequenceHandler {
 				if (IOtask2BlockContext.currentTargetValue() > -1) {
 					IOtask2PreTrial.Run();
 				} else { //otherwise just skip to the start of the block
-					if ((IOtask2BlockContext.getTrialNum() > 0)&&(IOtask2BlockContext.countdownTimer())) {
-						//if we're past the first trial and there's a timer, click to begin
+					if (IOtask2BlockContext.getTrialNum() > 0) {
 						ClickPage.Run("Ready?", "Continue");
 					} else {
 						SequenceHandler.Next();
@@ -201,7 +223,13 @@ public class SequenceHandler {
 				SequenceHandler.SetLoop(3,  true);
 				SequenceHandler.Next();
 				break;
+		
+		 
+				
+			   
+			
 			}
+		
 		}
 	}
 	
