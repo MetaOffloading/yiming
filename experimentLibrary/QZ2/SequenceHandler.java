@@ -29,9 +29,9 @@ import com.sam.webtasks.basictools.CheckScreenSize;
 import com.sam.webtasks.basictools.ClickPage;
 import com.sam.webtasks.basictools.Consent;
 import com.sam.webtasks.basictools.Counterbalance;
-import com.sam.webtasks.basictools.Finish;
 import com.sam.webtasks.basictools.InfoSheet;
 import com.sam.webtasks.basictools.Initialise;
+import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
 import com.sam.webtasks.basictools.ProgressBar;
 import com.sam.webtasks.basictools.Slider;
@@ -44,7 +44,6 @@ import com.sam.webtasks.iotask1.IOtask1RunTrial;
 import com.sam.webtasks.iotask2.IOtask2Block;
 import com.sam.webtasks.iotask2.IOtask2BlockContext;
 import com.sam.webtasks.iotask2.IOtask2RunTrial;
-import com.sam.webtasks.iotask2.IOtask2Feedback;
 import com.sam.webtasks.iotask2.IOtask2InitialiseTrial;
 import com.sam.webtasks.iotask2.IOtask2PreTrial;
 
@@ -133,7 +132,7 @@ public class SequenceHandler {
 				block4.variablePoints = true;
 				block4.countdownTimer = true;
 				
-				if (Counterbalance.getFactorLevel("colourMeaning") == Names.BLUE_HIGHVAL) {
+				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
 					block4.pointValues = new int[] {0,10,1,0};
 					
 				} else {
@@ -144,7 +143,7 @@ public class SequenceHandler {
 				block4.Run();
 				break;
 			case 10:
-				if (Counterbalance.getFactorLevel("conditionOrder") == Names.OFFLOAD_FIRST) {
+				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_FIRST) {
 					ClickPage.Run(Instructions.Get(4), "Next");
 				} else {
 					SequenceHandler.Next();
@@ -163,7 +162,7 @@ public class SequenceHandler {
 				block5.variablePoints = true;
 				block5.countdownTimer = true;
 				
-				if (Counterbalance.getFactorLevel("colourMeaning") == Names.BLUE_HIGHVAL) {
+				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
 					block5.pointValues = new int[] {0,10,1,0};
 					block5.moveableSides = new boolean[] {false,true,false,false};
 				} else {
@@ -171,7 +170,7 @@ public class SequenceHandler {
 					block5.moveableSides = new boolean[] {false,false,true,false};
 				}
 				
-				if (Counterbalance.getFactorLevel("conditionOrder") == Names.OFFLOAD_FIRST) {
+				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_FIRST) {
 					block5.offloadCondition = Names.REMINDERS_VARIABLE;
 					block5.reminderLockout = true;
 					block5.reminderLockoutTime = Params.lockOutTime;
@@ -203,7 +202,7 @@ public class SequenceHandler {
 				block7.variablePoints = true;
 				block7.countdownTimer = true;
 				
-				if (Counterbalance.getFactorLevel("colourMeaning") == Names.BLUE_HIGHVAL) {
+				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
 					block7.pointValues = new int[] {0,10,1,0};
 					block7.moveableSides = new boolean[] {false,true,false,false};
 				} else {
@@ -211,7 +210,7 @@ public class SequenceHandler {
 					block7.moveableSides = new boolean[] {false,false,true,false};
 				}
 				
-				if (Counterbalance.getFactorLevel("conditionOrder") == Names.OFFLOAD_FIRST) {
+				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_FIRST) {
 					block7.offloadCondition = Names.REMINDERS_VARIABLE;
 					block7.reminderLockout = true;
 					block7.reminderLockoutTime = Params.lockOutTime;
@@ -222,7 +221,7 @@ public class SequenceHandler {
 				block7.Run();
 				break;
 			case 14:
-				if (Counterbalance.getFactorLevel("conditionOrder") == Names.OFFLOAD_FIRST) {
+				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_FIRST) {
 					ClickPage.Run(Instructions.Get(7), "Next");
 				} else {
 					ClickPage.Run(Instructions.Get(4), "Next");
@@ -241,7 +240,7 @@ public class SequenceHandler {
 				block8.variablePoints = true;
 				block8.countdownTimer = true;
 				
-				if (Counterbalance.getFactorLevel("colourMeaning") == Names.BLUE_HIGHVAL) {
+				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
 					block8.pointValues = new int[] {0,10,1,0};
 					block8.moveableSides = new boolean[] {false,true,false,false};
 				} else {
@@ -249,7 +248,7 @@ public class SequenceHandler {
 					block8.moveableSides = new boolean[] {false,false,true,false};
 				}
 				
-				if (Counterbalance.getFactorLevel("conditionOrder") == Names.OFFLOAD_SECOND) {
+				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_SECOND) {
 					block8.offloadCondition = Names.REMINDERS_VARIABLE;
 					block8.reminderLockout = true;
 					block8.reminderLockoutTime = Params.lockOutTime;
@@ -272,7 +271,7 @@ public class SequenceHandler {
 				block10.variablePoints = true;
 				block10.countdownTimer = true;
 				
-				if (Counterbalance.getFactorLevel("colourMeaning") == Names.BLUE_HIGHVAL) {
+				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
 					block10.pointValues = new int[] {0,10,1,0};
 					block10.moveableSides = new boolean[] {false,true,false,false};
 				} else {
@@ -280,7 +279,7 @@ public class SequenceHandler {
 					block10.moveableSides = new boolean[] {false,false,true,false};
 				}
 				
-				if (Counterbalance.getFactorLevel("conditionOrder") == Names.OFFLOAD_SECOND) {
+				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_SECOND) {
 					block10.offloadCondition = Names.REMINDERS_VARIABLE;
 					block10.reminderLockout = true;
 					block10.reminderLockoutTime = Params.lockOutTime;
