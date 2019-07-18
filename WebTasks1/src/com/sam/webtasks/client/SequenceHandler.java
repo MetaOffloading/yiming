@@ -22,6 +22,7 @@ package com.sam.webtasks.client;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.sam.webtasks.basictools.CheckIdExists;
@@ -43,6 +44,7 @@ import com.sam.webtasks.iotask1.IOtask1InitialiseTrial;
 import com.sam.webtasks.iotask1.IOtask1RunTrial;
 import com.sam.webtasks.iotask2.IOtask2Block;
 import com.sam.webtasks.iotask2.IOtask2BlockContext;
+import com.sam.webtasks.iotask2.IOtask2DisplayParams;
 import com.sam.webtasks.iotask2.IOtask2RunTrial;
 import com.sam.webtasks.iotask2.IOtask2InitialiseTrial;
 import com.sam.webtasks.iotask2.IOtask2PreTrial;
@@ -59,12 +61,16 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 ********************************************************************/		
 			case 1:	
+				IOtask2DisplayParams.circleRadius = 0.05;
+				IOtask2DisplayParams.circleTextSize = 20;
+				
 				IOtask2Block block1 = new IOtask2Block();
+				block1.nCircles = 12;
 				block1.logDragData=true; //log trial-by-trial data to the database
 				block1.blockNum=1;
-				block1.totalCircles=40;
+				block1.totalCircles=42;
 				block1.nTargets=20;
-				block1.nTrials=1;		
+				block1.nTrials=10;		
 				//different coloured circles can be worth different numbers of points
 				block1.variablePoints = true;
 
@@ -74,7 +80,7 @@ public class SequenceHandler {
 				block1.pointValues = new int[] {0,1,1,0};
 				
 				//run a surprise memory test after circle number 10
-				block1.surpriseTest = 10;
+				block1.surpriseTest = 12 + Random.nextInt(18);
 
 				block1.Run();
 				break;
@@ -223,11 +229,6 @@ public class SequenceHandler {
 				SequenceHandler.SetLoop(3,  true);
 				SequenceHandler.Next();
 				break;
-		
-		 
-				
-			   
-			
 			}
 		
 		}

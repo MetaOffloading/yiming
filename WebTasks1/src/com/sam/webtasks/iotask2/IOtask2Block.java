@@ -72,6 +72,9 @@ public class IOtask2Block {
 	public boolean variablePoints = false;
 	
 	public int[] pointValues = new int[4];
+	
+	// how many circles can be dragged to each side during a surprise memory test?
+	public int[] surpriseDrags = new int[4];
 
 	// maximum number of points per target (i.e. in the no reminder condition)
 	public int maxPoints = 10;
@@ -302,8 +305,8 @@ public class IOtask2Block {
 	// the bottom
 	public boolean flashFlag = false;
 	
-	// run a surprise memory test? set to the circle number after which the test will be given. set to -1 if not happening
-	public int surpriseTest = -1;
+	// run a surprise memory test? set to the circle number after which the test will be given. set to a big number to prevent it happening
+	public int surpriseTest = 999;
 
 	// ???????
 	public int completedCircles = 0;

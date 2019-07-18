@@ -22,6 +22,15 @@ public class IOtask2BlockContext {
 	public static void setClickedCircle(int clickedCircle) {
 		blockContext.clickedCircle = clickedCircle;
 	}
+	
+	// decrement the number of drags to a particular location allowed during the surprise memory test
+	public static void decrementSurpriseDrags(int side) {
+		blockContext.surpriseDrags[side]--;
+	}
+	
+	public static int getSurpriseDrags(int side) {
+		return(blockContext.surpriseDrags[side]);
+	}
 
 	public static int getClickedCircle() {
 		return (blockContext.clickedCircle);
@@ -294,6 +303,10 @@ public class IOtask2BlockContext {
 	public static int getTotalCircles() {
 		return(blockContext.totalCircles);
 	}
+	
+	public static void setTotalCircles(int nCircles) {
+		blockContext.totalCircles=nCircles;
+	}
 
 
 	// use these methods to set and find which side of the box the circle has been
@@ -321,5 +334,9 @@ public class IOtask2BlockContext {
 
 	public static int getBackupReminderFlag() {
 		return (blockContext.backupReminderFlag);
+	}
+	
+	public static int getSurpriseTest() {
+		return (blockContext.surpriseTest);
 	}
 }
