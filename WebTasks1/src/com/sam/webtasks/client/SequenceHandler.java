@@ -80,8 +80,9 @@ public class SequenceHandler {
 				block1.pointValues = new int[] {0,1,1,0};
 				
 				//run a surprise memory test after circle number 10
-				block1.surpriseTest = 12 + Random.nextInt(18);
-
+				//block1.surpriseTest = 12 + Random.nextInt(18);
+				block1.surpriseTest=12;
+				
 				block1.Run();
 				break;
 			case 2:			

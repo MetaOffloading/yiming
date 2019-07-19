@@ -484,13 +484,18 @@ public class IOtask2RunTrial {
 								% IOtask2BlockContext.getnCircles())) {
 							circleNum += IOtask2BlockContext.getnCircles();
 						}
+							
+						//if there's a surprise memory test going on, establish the circle number using a different method
+						if (IOtask2BlockContext.getSurpriseTest() <= IOtask2BlockContext.getCompletedCircles()) {
+							circleNum = Integer.parseInt(circleText[clickedCircle].getText()) - 1;		
+						}			
 
 						String data = "" + IOtask2BlockContext.getBlockNum() + "," + circleNum + ",";
 						data = data + IOtask2BlockContext.getTrialNum() + ",";
 						data = data + IOtask2BlockContext.getTargetSide(circleNum) + ",";
 						data = data + (IOtask2BlockContext.getNextCircle() + IOtask2BlockContext.getCircleAdjust())
 								+ ",";
-						data = data + IOtask2BlockContext.getExitFlag();
+						data = data + IOtask2BlockContext.getExitFlag() + "," + IOtask2BlockContext.getSurpriseTest();
 
 						PHP.logData("dragEnd", data, false);
 					}
@@ -683,16 +688,9 @@ public class IOtask2RunTrial {
 							trialTimer.cancel();
 							IOtask2BlockContext.setCountdownTime(Params.countdownTime);
 							
-							//set a new end for the trial
-							IOtask2BlockContext.setTotalCircles(IOtask2BlockContext.getCompletedCircles() + IOtask2BlockContext.getnCircles() - 1);
-
 							final Date endTime = new Date();
 
 							int duration = (int) (endTime.getTime() - trialStart.getTime());
-
-							// TODO: data
-							final String data = "todo";
-							PHP.logData("postTrialSurprise", data, false);
 
 							RootPanel.get().remove(verticalPanel);
 
@@ -747,9 +745,19 @@ public class IOtask2RunTrial {
 							}.schedule(500);
 						}
 
-						if (IOtask2BlockContext.getCompletedCircles() == IOtask2BlockContext.getTotalCircles()) { // end
-																													// of
-																													// trial
+						boolean trialEnded=false; //end of trial
+						
+						//completed last circle?
+						if (IOtask2BlockContext.getCompletedCircles() == IOtask2BlockContext.getTotalCircles()) {
+							trialEnded=true; 
+						}
+						
+						// end of surprise test?
+						if (IOtask2BlockContext.getCompletedCircles() == (IOtask2BlockContext.getSurpriseTest() + IOtask2BlockContext.getnCircles() - 1)) { 
+							trialEnded=true;
+						}
+			
+						if (trialEnded) {
 							trialTimer.cancel();
 							IOtask2BlockContext.setCountdownTime(Params.countdownTime);
 

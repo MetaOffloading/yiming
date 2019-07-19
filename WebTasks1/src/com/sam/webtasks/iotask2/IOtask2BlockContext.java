@@ -303,10 +303,6 @@ public class IOtask2BlockContext {
 	public static int getTotalCircles() {
 		return(blockContext.totalCircles);
 	}
-	
-	public static void setTotalCircles(int nCircles) {
-		blockContext.totalCircles=nCircles;
-	}
 
 
 	// use these methods to set and find which side of the box the circle has been
