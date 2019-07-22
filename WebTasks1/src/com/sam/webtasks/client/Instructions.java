@@ -42,7 +42,7 @@ public class Instructions {
 
 		case 2:
 			i = "Now it will get more difficult. There will be a total of " + Params.totalCircles + " circles, and " + Params.nTargets + " of them will be special ones that should go to one of the coloured sides of the box.<br><br>"
-					+ "Don't worry if you do not remember all of them. That's fine-just try to remember as many as you can.<br><br>"
+					+ "This is a very hard task, and you will not be able to remember all of them. That's fine-just try to remember as many as you can.<br><br>"
 					+ "You will also see a countdown timer on the screen. Please try to complete the task before the timer runs out.";
 			break;
 			
@@ -60,12 +60,16 @@ public class Instructions {
 			i = "Now we are going to explain a strategy that can help you remember the " + highVal + " circles.<br><br>"
 					+ "As soon as you see a " + highVal + " circle, you can set a reminder by immediately dragging it next to the " + highVal + " edge of the box. "
 					+ "Then, when you get to that circle in the sequence its location would remind you where it is supposed to go.<br><br>"
-					+ "You will be able to do this for " + highVal + " circles, but not " + lowVal + " ones. Each time you use this strategy "
-					+ " there will be a brief pause before you can continue.<br><br>Please now try the task again, using this strategy to help you.";
+					+ "You will be able to do this for " + highVal + " circles, but not " + lowVal + " ones."
+					+ "<br><br>Please now try the task again, using this strategy to help you.";
 			break;
 		case 5:
-			i = "Now the task will continue as before, and you are free to set reminders by dragging the special circles to the edge of the box if you want to. "
-					+ "However, every time you do this there will be a brief pause before you can continue the task.<br><br>It is completely up to you whether you decide to set reminders or not.";
+			i = "One last thing: just occasionally, the screen will go blank and the circles will re-arrange themselves into new positions within the box.<br><br>"
+					+ "If this happens, you should try to remember which numbers were supposed to be dragged to each side of the box (e.g. drag 17 to the left), "
+					+ "and drag them to the left, right, and bottom accordingly.<br><br>You do not need to follow the numberical sequence, so you can drag the circles to "
+					+ "the edges of the box in whatever order you like. However, you can only drag a maximum of 4 circles to the left and 4 to the right.<br><br>"
+					+ "This will only happen occasionally, and you will not earn any money for remembering these circles. But please do your best.<br><br>"
+					+ "Click below to practice this.";
 			break;
 
 

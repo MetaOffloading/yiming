@@ -1,6 +1,7 @@
 package com.sam.webtasks.client;
 
 public class Params {
+	public final static int nCircles = 12; //number of circles on screeen
 	public final static int totalCircles = 40;
 	public final static int nTargets = 20;
 	public final static int lockOutTime = 2500;

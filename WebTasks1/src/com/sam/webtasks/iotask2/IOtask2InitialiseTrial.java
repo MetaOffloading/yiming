@@ -28,6 +28,11 @@ public class IOtask2InitialiseTrial {
 				}
 			}
 		}
+		
+		// set up surprise tests if specified trial-by-trial
+		if (block.surpriseTests.size() > 0) {
+			block.surpriseTest = block.surpriseTests.get(block.currentTrial);
+		}
 
 		// set up target directions
 		ArrayList<Integer> targetDirections = new ArrayList<Integer>();
@@ -151,7 +156,7 @@ public class IOtask2InitialiseTrial {
 
 				double targetProb = (double) block.nTargets / (double) (block.totalCircles - block.nCircles);
 				int expectedTargets = (int) (targetProb * (double) block.nCircles);
-					
+				
 				//re-do the sequence if its the wrong number of targets
 				if ((nTargets[1]+nTargets[2])!=expectedTargets) {
 					redosequence=true;

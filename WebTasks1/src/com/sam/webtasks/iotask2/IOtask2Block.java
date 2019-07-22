@@ -307,6 +307,9 @@ public class IOtask2Block {
 	
 	// run a surprise memory test? set to the circle number after which the test will be given. set to a big number to prevent it happening
 	public int surpriseTest = 999;
+	
+	// use this to specify surprise tests across a block
+	public ArrayList<Integer> surpriseTests = new ArrayList<Integer>();
 
 	// ???????
 	public int completedCircles = 0;

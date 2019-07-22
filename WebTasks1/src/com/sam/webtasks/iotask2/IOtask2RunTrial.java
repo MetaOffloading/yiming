@@ -374,9 +374,8 @@ public class IOtask2RunTrial {
 																													// test
 							if (IOtask2BlockContext.getExitFlag() < 4) { // circle dragged to one of the target
 																			// locations
-								IOtask2BlockContext.decrementSurpriseDrags(IOtask2BlockContext.getExitFlag());
-								
-								if (IOtask2BlockContext.getSurpriseDrags(IOtask2BlockContext.getExitFlag()) < 0) {
+	
+								if (IOtask2BlockContext.getSurpriseDrags(IOtask2BlockContext.getExitFlag()) < 1) {
 									IOtask2BlockContext.setExitFlag(0);
 									Window.alert("You are not allowed to drag any more circles to this side of the box");
 								}
@@ -485,9 +484,22 @@ public class IOtask2RunTrial {
 							circleNum += IOtask2BlockContext.getnCircles();
 						}
 							
+
 						//if there's a surprise memory test going on, establish the circle number using a different method
 						if (IOtask2BlockContext.getSurpriseTest() <= IOtask2BlockContext.getCompletedCircles()) {
-							circleNum = Integer.parseInt(circleText[clickedCircle].getText()) - 1;		
+							try {
+								circleNum = Integer.parseInt(circleText[clickedCircle].getText()) - 1;		
+							}
+							
+							catch (Exception e) {
+								//catch any error due to the circle number being removed from screen
+								circleNum = 999;
+							}
+							
+							//also decrement the allowed surprise drags, if appropriate
+							if (IOtask2BlockContext.getExitFlag() < 4) { 
+								IOtask2BlockContext.decrementSurpriseDrags(IOtask2BlockContext.getExitFlag());
+							}
 						}			
 
 						String data = "" + IOtask2BlockContext.getBlockNum() + "," + circleNum + ",";
@@ -695,9 +707,10 @@ public class IOtask2RunTrial {
 							RootPanel.get().remove(verticalPanel);
 
 							// now set all circles to yellow so that colour instructions do not appear
-							// during the surprise test
+							// during the surprise test. Also make them draggable so they can be dragged in any order
 							for (int c = 0; c < IOtask2BlockContext.getnCircles(); c++) {
 								circles[c].setFillColor(IOtask2DisplayParams.circleColours[0]);
+								circleGroup[c].setDraggable(true);
 							}
 
 							new Timer() {
