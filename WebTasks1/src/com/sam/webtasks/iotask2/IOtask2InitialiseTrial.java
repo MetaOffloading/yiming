@@ -6,10 +6,11 @@ import java.util.Collections;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
+import com.sam.webtasks.client.Params;
 import com.sam.webtasks.client.SequenceHandler;
 
 public class IOtask2InitialiseTrial {
-	public static void Run() {
+	public static void Run() {		
 		IOtask2Block block = IOtask2BlockContext.getContext();
 
 		block.reminderFlag = -1;
@@ -160,11 +161,17 @@ public class IOtask2InitialiseTrial {
 				//re-do the sequence if its the wrong number of targets
 				if ((nTargets[1]+nTargets[2])!=expectedTargets) {
 					redosequence=true;
+					
+					//set up a new position for the surprise test, in case that's the problem
+					block.surpriseTest = Params.nCircles + Random.nextInt(Params.totalCircles - Params.nCircles);
 				}
 				
 				//re-do the sequence if the target directions are not matched in number
 				if (nTargets[1] != nTargets[2]) {
 					redosequence=true;
+					
+					//set up a new position for the surprise test, in case that's the problem
+					block.surpriseTest = Params.nCircles + Random.nextInt(Params.totalCircles - Params.nCircles);
 				}
 				
 				if (randomisationCounter>999999) {
@@ -177,7 +184,7 @@ public class IOtask2InitialiseTrial {
 		IOtask2BlockContext.setContext(block);
 
 		if (randomisationCounter>999999) {
-			Window.alert("Randomisation sequence for the post-block test could not be establisihed.");
+			Window.alert("Randomisation sequence for the post-block test could not be established. nTargets = " + block.surpriseDrags + ", surprise = " + block.surpriseTest + ", trial = " + block.currentTrial);
 		} else {
 			SequenceHandler.Next();
 		}

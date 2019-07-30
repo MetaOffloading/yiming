@@ -64,10 +64,13 @@ public class Instructions {
 					+ "<br><br>Please now try the task again, using this strategy to help you.";
 			break;
 		case 5:
+			double targetProb = (double) Params.nTargets / (double) (Params.totalCircles - Params.nCircles);
+			int expectedTargets = (int) (0.5 * targetProb * (double) Params.nCircles);
+			
 			i = "One last thing: just occasionally, the screen will go blank and the circles will re-arrange themselves into new positions within the box.<br><br>"
 					+ "If this happens, you should try to remember which numbers were supposed to be dragged to each side of the box (e.g. drag 17 to the left), "
 					+ "and drag them to the left, right, and bottom accordingly.<br><br>You do not need to follow the numberical sequence, so you can drag the circles to "
-					+ "the edges of the box in whatever order you like. However, you can only drag a maximum of 4 circles to the left and 4 to the right.<br><br>"
+					+ "the edges of the box in whatever order you like. However, you can only drag a maximum of " + expectedTargets + " circles to the left and " + expectedTargets + " to the right.<br><br>"
 					+ "This will only happen occasionally, and you will not earn any money for remembering these circles. But please do your best.<br><br>"
 					+ "Click below to practice this.";
 			break;
@@ -75,7 +78,7 @@ public class Instructions {
 
 		case 6:
 			i = "Now the experiment will begin for real. The more points you score, the more money you will earn.<br><br>"
-					+ "You will start with an initial payment of £3.00 and earn additional money in addition to this."
+					+ "You will start with an initial payment of £2 and earn additional money in addition to this."
 					+ " Click below to start."; 
 			break;
 			

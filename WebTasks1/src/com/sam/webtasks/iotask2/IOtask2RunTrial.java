@@ -316,18 +316,20 @@ public class IOtask2RunTrial {
 
 					// store identity of the clicked circle
 					IOtask2BlockContext.setClickedCircle(finalc);
-
+					
+					DragContext dC = event.getDragContext();
+					
 					/*
-					 * DragContext dC = event.getDragContext();
-					 * 
-					 * // figure out which circle was clicked for (int c = 0; c < nCircles; c++) {
-					 * double xDist = dC.getDragStartX() - circleGroup[finalc].getX(); double yDist
-					 * = dC.getDragStartY() - circleGroup[finalc].getY();
-					 * 
-					 * if (Math.pow(xDist, 2) <= Math.pow(circleRadius, 2)) { if (Math.pow(yDist, 2)
-					 * <= Math.pow(circleRadius, 2)) { IOtask2BlockContext.setClickedCircle(finalc);
-					 * } }
-					 */
+					// figure out which circle was clicked 
+					for (int c = 0; c < IOtask2BlockContext.getnCircles(); c++) {
+						double xDist = dC.getDragStartX() - circleGroup[c].getX(); double yDist = dC.getDragStartY() - circleGroup[c].getY();
+					 
+					  if (Math.pow(xDist, 2) <= Math.pow(circleRadius, 2)) { 
+						  if (Math.pow(yDist, 2) <= Math.pow(circleRadius, 2)) { 
+							  IOtask2BlockContext.setClickedCircle(c);
+						  }
+					  }
+					} */
 				}
 			});
 
@@ -572,6 +574,14 @@ public class IOtask2RunTrial {
 
 						IAnimationHandle handle = circles[clickedCircle].animate(AnimationTweener.LINEAR, shrink, 200);
 
+						//move the circle away, so that it doesn't get accidentally picked up again
+						new Timer() {
+							public void run() {
+								circleGroup[clickedCircle].setX(0);
+								circleGroup[clickedCircle].setY(0);
+							}
+						}.schedule(201);	
+						
 						boolean moreCircles = false; // more circles to add on screen?
 
 						if ((IOtask2BlockContext.getTotalCircles()

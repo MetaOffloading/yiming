@@ -65,8 +65,8 @@ public class SequenceHandler {
 				break;		
 			case 2:
 				//reduce default size of circles, because there will be more on screen
-				IOtask2DisplayParams.circleRadius = 0.065;
-				IOtask2DisplayParams.circleTextSize = 26;
+				IOtask2DisplayParams.circleRadius = 0.05;
+				IOtask2DisplayParams.circleTextSize = 20;
 				
 				IOtask2Block block1 = new IOtask2Block();
 				block1.logDragData=true; //log trial-by-trial data to the database
@@ -235,7 +235,7 @@ public class SequenceHandler {
 				IOtask2Block block7 = new IOtask2Block();
 				block7.logDragData=true; //log trial-by-trial data to the database
 				block7.blockNum = 7;
-				block7.totalPoints = 3 * Params.pointsPerPound; //start with £3
+				block7.totalPoints = (int) (2 * Params.pointsPerPound); //start with £2
 				block7.showLivePoints=true;
 				block7.showPointLabels = true;
 				block7.nCircles=Params.nCircles;
