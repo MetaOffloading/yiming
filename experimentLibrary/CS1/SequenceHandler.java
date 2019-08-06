@@ -84,9 +84,9 @@ public class SequenceHandler {
 			case 5:
 				int pracTargets = 0;
 				
-				if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_EASY) {
+				if (Counterbalance.getFactorLevel("practiceDifficulty") == ExtraNames.PRACTICE_EASY) {
 					pracTargets=4;
-				} else if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_DIFFICULT) {
+				} else if (Counterbalance.getFactorLevel("practiceDifficulty") == ExtraNames.PRACTICE_DIFFICULT) {
 					pracTargets=16;
 				}
 				if (IOtask2BlockContext.getnHits() < 1) { //if there were fewer than 1 hits on the last trial
@@ -102,9 +102,9 @@ public class SequenceHandler {
 			case 6:
 			IOtask2Block block2 = new IOtask2Block();
 			
-			if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_EASY) {
+			if (Counterbalance.getFactorLevel("practiceDifficulty") == ExtraNames.PRACTICE_EASY) {
 				block2.nTargets=4;
-			} else if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_DIFFICULT) {
+			} else if (Counterbalance.getFactorLevel("practiceDifficulty") == ExtraNames.PRACTICE_DIFFICULT) {
 				block2.nTargets=16;
 			}
 			
@@ -115,11 +115,11 @@ public class SequenceHandler {
 			block2.Run();
 			break;
 			case 7:
-				if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_EASY) {
+				if (Counterbalance.getFactorLevel("practiceDifficulty") == ExtraNames.PRACTICE_EASY) {
 					ClickPage.Run("Now the task will get more difficult. It will stay like this for the rest of the experiment.<br><br>"  
 							                        + "Please ignore the difficulty of the practice trials you have just done and remember that the task "  
 							                        + "will be like this from now on.<br><br>Click below to continue", "Next");
-				} else if (Counterbalance.getFactorLevel("practiceDifficulty") == Names.PRACTICE_DIFFICULT) {
+				} else if (Counterbalance.getFactorLevel("practiceDifficulty") == ExtraNames.PRACTICE_DIFFICULT) {
 				ClickPage.Run("Now the task will get easier. It will stay like this for the rest of the experiment.<br><br>"  
 							                       + "Please ignore the difficulty of the practice trials you have just done and remember that the task "  
 							                       + "will be like this from now on.<br><br>Click below to continue", "Next");

@@ -1,5 +1,7 @@
 package com.sam.webtasks.client;
 
+import com.sam.webtasks.basictools.Names;
+
 public class SessionInfo {
 	/*******************************************************/
 	/* edit the settings below to configure the experiment */
@@ -11,7 +13,7 @@ public class SessionInfo {
 	public static int experimentType = Names.EXPERIMENT_STANDALONE;
 	
 	//what is the name for this experiment?
-	public static String experimentCode="testExp";
+	public static String experimentCode="CS1";
 	
 	//which version of the experiment is this?
 	public static int experimentVersion=1;
