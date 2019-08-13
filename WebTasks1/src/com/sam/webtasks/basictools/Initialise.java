@@ -1,5 +1,7 @@
 package com.sam.webtasks.basictools;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -37,15 +39,6 @@ public class Initialise {
 		//generate a reward code, which can be used to claim payment at end
 		RewardCode.Generate();
 
-		//set up counterbalancing
-		for (int i = 0; i < SessionInfo.counterbalanceFactors.length; i++) {
-			if (SessionInfo.specifiedLevels[i]==-1) {
-				Counterbalance.addFactor(SessionInfo.counterbalanceFactors[i], SessionInfo.counterbalanceLevels[i]);
-			} else {
-				Counterbalance.addFactor(SessionInfo.counterbalanceFactors[i], SessionInfo.counterbalanceLevels[i], SessionInfo.specifiedLevels[i]);
-			}
-		}
-		
 		if (SessionInfo.experimentType == Names.EXPERIMENT_STANDALONE) {
 			HTML participantHTML = new HTML("Experiment: " + SessionInfo.experimentCode + ", Version: " + SessionInfo.experimentVersion + 
 					"<br>Participant code:");
@@ -61,16 +54,55 @@ public class Initialise {
 					if (textBox.getText().length() > 0) {
 						SessionInfo.participantID = textBox.getText();
 						
-						int ID = Integer.parseInt(SessionInfo.participantID);
-						Counterbalance.setCounterbalancingFactors(ID % 4);
-								
-						String data = Counterbalance.getFactorLevel("colourMeaning") + ",";
-						data = data + Counterbalance.getFactorLevel("conditionOrder") + ",";
-						data = data + TimeStamp.Now();
+						//set up counterbalancing
 						
-						RootPanel.get().clear();
+						//first, check for any factors that should be fully (and reproducibly) counterbalanced, according to participant code
 						
-						PHP.logData("start", data, true);
+						//here, we calculate the number of unique counterbalancing cells for these levels.
+						int nCells = 1;
+						ArrayList<Integer> fullMax = new ArrayList<Integer>(); //maximum level for factors that will be counterbalanced fully
+						
+						for (int i = 0; i < SessionInfo.counterbalanceFactors.length; i++) {
+							if (SessionInfo.specifiedLevels[i] == -2) {
+								fullMax.add(SessionInfo.counterbalanceLevels[i]);
+								nCells = nCells * SessionInfo.counterbalanceLevels[i];
+							}
+						}
+						
+						//now we assign this participant to a cell, based on their participant code
+						final int ID = Integer.parseInt(SessionInfo.participantID);
+						int cell = ID % nCells;
+						
+						//now set factor levels, according to this code
+						ArrayList<Integer> fullLevel = new ArrayList<Integer>();
+						
+						nCells /= SessionInfo.counterbalanceLevels[SessionInfo.counterbalanceLevels.length - 1];
+
+						for (int i = fullMax.size()-1; i >= 0; i--) {							
+							fullLevel.add(cell / nCells);
+	
+							cell -= nCells*(cell/nCells);
+							
+							if (i>0) {
+								nCells /= fullMax.get(i-1);
+							}
+						}
+									
+						//the code below actually sets up the factors, whether they are random, specified, or fully counterbalanced
+						for (int i = 0; i < SessionInfo.counterbalanceFactors.length; i++) {
+							if (SessionInfo.specifiedLevels[i]==-2) { //fully counterbalanced level
+								Counterbalance.addFactor(SessionInfo.counterbalanceFactors[i], SessionInfo.counterbalanceLevels[i], fullLevel.get(fullLevel.size()-1));
+								fullLevel.remove(fullLevel.size()-1);
+							} else if (SessionInfo.specifiedLevels[i]==-1) { //randomised level
+								Counterbalance.addFactor(SessionInfo.counterbalanceFactors[i], SessionInfo.counterbalanceLevels[i]);
+							} else { //specified level
+								Counterbalance.addFactor(SessionInfo.counterbalanceFactors[i], SessionInfo.counterbalanceLevels[i], SessionInfo.specifiedLevels[i]);
+							}
+						}
+						
+						
+						
+						SequenceHandler.Next();
 					}
 					
 				}

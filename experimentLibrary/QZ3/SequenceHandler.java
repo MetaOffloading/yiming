@@ -61,6 +61,17 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 ********************************************************************/		
 			case 1:
+				int ID = Integer.parseInt(SessionInfo.participantID);
+				Counterbalance.setCounterbalancingFactors(ID % 4);
+						
+				String data = Counterbalance.getFactorLevel("colourMeaning") + ",";
+				data = data + Counterbalance.getFactorLevel("conditionOrder") + ",";
+				data = data + TimeStamp.Now();
+				
+				RootPanel.get().clear();
+				
+				PHP.logData("start", data, false);
+				
 				ClickPage.Run(Instructions.Get(0),  "Next");
 				break;		
 			case 2:
