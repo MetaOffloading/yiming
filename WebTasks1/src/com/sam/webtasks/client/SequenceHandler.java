@@ -72,7 +72,7 @@ public class SequenceHandler {
 		/********************************************/
 
 		case 1: // initialisation loop
-			switch (sequencePosition.get(1)) {
+			switch (sequencePosition.get(1)) { 
 			case 1:
 				// initialise experiment settings
 				Initialise.Run();
