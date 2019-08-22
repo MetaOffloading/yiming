@@ -31,7 +31,9 @@ import com.sam.webtasks.basictools.Consent;
 import com.sam.webtasks.basictools.Counterbalance;
 import com.sam.webtasks.basictools.InfoSheet;
 import com.sam.webtasks.basictools.Initialise;
+import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
+import com.sam.webtasks.basictools.Slider;
 import com.sam.webtasks.basictools.TimeStamp;
 import com.sam.webtasks.iotask1.IOtask1Block;
 import com.sam.webtasks.iotask1.IOtask1BlockContext;
@@ -59,11 +61,34 @@ public class SequenceHandler {
 				ClickPage.Run(Instructions.Get(0), "Next");
 				break;
 			case 2:
-				ClickPage.Run(Instructions.Get(1), "Next");
+				IOtask2Block block1 = new IOtask2Block();
+				//block1.variablePoints = true;
+				//block1.pointValues = new int[] {0,1,1,0};
+				
+				block1.offloadCondition = Names.REMINDERS_MANDATORY_TARGETONLY;
+				
+				block1.Run();
 				break;
 			case 3:
-				Finish.Run();
+				ClickPage.Run(Instructions.Get(1),  "Next");
 				break;
+			case 4:
+				IOtask2Block block2 = new IOtask2Block();
+				block2.targetValues.add(5);
+				block2.Run();
+				break;
+			/*case 5:
+				ClickPage.Run(Instructions.Get(2),  "Next");
+				break;
+			case 6:
+				IOtask1Block block3 = new IOtask1Block();
+				block3.nTargets = 3;
+				block3.askArithmetic = true;
+				block3.Run();
+				break;
+			case 7:
+				Finish.Run();
+				break;*/
 			}
 			break;
 
@@ -72,7 +97,7 @@ public class SequenceHandler {
 		/********************************************/
 
 		case 1: // initialisation loop
-			switch (sequencePosition.get(1)) { 
+			switch (sequencePosition.get(1)) {
 			case 1:
 				// initialise experiment settings
 				Initialise.Run();

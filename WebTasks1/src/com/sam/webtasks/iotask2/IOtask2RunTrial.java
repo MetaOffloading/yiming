@@ -299,9 +299,10 @@ public class IOtask2RunTrial {
 			final int finalc = c; // need to set up a final version of the c variable so that it works in the code
 									// below
 
-			circleGroup[c].addNodeDragStartHandler(new NodeDragStartHandler() {
+			circleGroup[c].addNodeDragStartHandler(new NodeDragStartHandler() {		
 				@Override
-				public void onNodeDragStart(NodeDragStartEvent event) {
+				
+				public void onNodeDragStart(NodeDragStartEvent event) {		
 					// reset the double click flag. this is used to quit the task
 					// using a double click to the first circle followed by
 					// a double click to the last circle
@@ -435,39 +436,41 @@ public class IOtask2RunTrial {
 
 									circleLayer.draw();
 								}
-							}
-						}
-						if ((IOtask2BlockContext.getFlashFlag() == false) && (IOtask2BlockContext
-								.getCompletedCircles() < IOtask2BlockContext.getSurpriseTest())) {
-							// flash a circle to indicate the participant has done something wrong
-							if (clickedCircle != IOtask2BlockContext.getNextCircle()) {
-								circles[IOtask2BlockContext.getNextCircle()].setFillColor(ColorName.RED);
-								IOtask2BlockContext.setExitFlag(0);
 							} else {
-								if (IOtask2BlockContext.getReminderFlag() > -1) {
-									circles[IOtask2BlockContext.getReminderFlag()].setFillColor(ColorName.WHITE);
-									IOtask2BlockContext.setExitFlag(0);
+								if ((IOtask2BlockContext.getFlashFlag() == false) && (IOtask2BlockContext
+										.getCompletedCircles() < IOtask2BlockContext.getSurpriseTest())) {
+									// flash a circle to indicate the participant has done something wrong
+									if (clickedCircle != IOtask2BlockContext.getNextCircle()) {
+										circles[IOtask2BlockContext.getNextCircle()].setFillColor(ColorName.RED);
+										IOtask2BlockContext.setExitFlag(0);
+									} else {
+										if (IOtask2BlockContext.getReminderFlag() > -1) {
+											circles[IOtask2BlockContext.getReminderFlag()].setFillColor(ColorName.WHITE);
+											IOtask2BlockContext.setExitFlag(0);
+										}
+									}
+
+									circleLayer.draw();
+
+									// then reset it to yellow
+									new Timer() {
+										public void run() {
+											circles[IOtask2BlockContext.getNextCircle()]
+													.setFillColor(IOtask2DisplayParams.circleColours[0]);
+
+											if (IOtask2BlockContext.getReminderFlag() > -1) {
+												circles[IOtask2BlockContext.getReminderFlag()]
+														.setFillColor(IOtask2DisplayParams.circleColours[0]);
+											}
+											circleLayer.draw();
+										}
+									}.schedule(400);
+
+									IOtask2BlockContext.setFlashFlag(false);
 								}
 							}
-
-							circleLayer.draw();
-
-							// then reset it to yellow
-							new Timer() {
-								public void run() {
-									circles[IOtask2BlockContext.getNextCircle()]
-											.setFillColor(IOtask2DisplayParams.circleColours[0]);
-
-									if (IOtask2BlockContext.getReminderFlag() > -1) {
-										circles[IOtask2BlockContext.getReminderFlag()]
-												.setFillColor(IOtask2DisplayParams.circleColours[0]);
-									}
-									circleLayer.draw();
-								}
-							}.schedule(400);
-
-							IOtask2BlockContext.setFlashFlag(false);
 						}
+						
 					}
 
 				}
@@ -607,8 +610,7 @@ public class IOtask2RunTrial {
 									if ((IOtask2BlockContext.getCompletedCircles()
 											- IOtask2BlockContext.getReminderCompletedCircles()) > 1) {
 										IOtask2BlockContext.setReminderFlag(clickedCircle);
-										IOtask2BlockContext
-												.setReminderCompletedCircles(IOtask2BlockContext.getCompletedCircles());
+										IOtask2BlockContext.setReminderCompletedCircles(IOtask2BlockContext.getCompletedCircles());
 									}
 								}
 							}
@@ -652,13 +654,13 @@ public class IOtask2RunTrial {
 
 							final double startR = IOtask2DisplayParams.circleColours[IOtask2BlockContext
 									.getTargetSide(newCircle)].getR();
-							;
+							
 							final double startG = IOtask2DisplayParams.circleColours[IOtask2BlockContext
 									.getTargetSide(newCircle)].getG();
-							;
+							
 							final double startB = IOtask2DisplayParams.circleColours[IOtask2BlockContext
 									.getTargetSide(newCircle)].getB();
-							;
+							
 
 							final double endR = (double) IOtask2DisplayParams.circleColours[0].getR();
 							final double endG = (double) IOtask2DisplayParams.circleColours[0].getG();
