@@ -8,6 +8,14 @@ public class Names {
 	public final static int REMINDERS_MANDATORY_TARGETONLY=3;//mandatory to set reminders for the specified targets
 	public final static int REMINDERS_VARIABLE=4;  //can set reminders for circles associated with some target direction but not others
 		
+	//perceptual task version
+	public final static int PERCEPT_NUMBER = 0; //number task
+	public final static int PERCEPT_CONTRAST = 1; //contrast task
+	
+	//perceptual task which side is correct
+	public final static int LEFT = 0;
+	public final static int RIGHT = 1;
+	
 	//Gender
 	public final static int GENDER_MALE=0;
 	public final static int GENDER_FEMALE=1;

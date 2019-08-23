@@ -43,6 +43,7 @@ import com.sam.webtasks.iotask1.IOtask1RunTrial;
 import com.sam.webtasks.iotask2.IOtask2Block;
 import com.sam.webtasks.iotask2.IOtask2BlockContext;
 import com.sam.webtasks.iotask2.IOtask2RunTrial;
+import com.sam.webtasks.perceptualTask.PerceptBlock;
 import com.sam.webtasks.iotask2.IOtask2InitialiseTrial;
 import com.sam.webtasks.iotask2.IOtask2PreTrial;
 
@@ -58,37 +59,14 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				ClickPage.Run(Instructions.Get(0), "Next");
-				break;
-			case 2:
-				IOtask2Block block1 = new IOtask2Block();
-				//block1.variablePoints = true;
-				//block1.pointValues = new int[] {0,1,1,0};
+				PerceptBlock.Init();
 				
-				block1.offloadCondition = Names.REMINDERS_MANDATORY_TARGETONLY;
-				
-				block1.Run();
+				PerceptBlock.nTrials = 100;
+				PerceptBlock.task = Names.PERCEPT_CONTRAST;
+				PerceptBlock.adjustDifficulty = true;
+
+				PerceptBlock.Run();
 				break;
-			case 3:
-				ClickPage.Run(Instructions.Get(1),  "Next");
-				break;
-			case 4:
-				IOtask2Block block2 = new IOtask2Block();
-				block2.targetValues.add(5);
-				block2.Run();
-				break;
-			/*case 5:
-				ClickPage.Run(Instructions.Get(2),  "Next");
-				break;
-			case 6:
-				IOtask1Block block3 = new IOtask1Block();
-				block3.nTargets = 3;
-				block3.askArithmetic = true;
-				block3.Run();
-				break;
-			case 7:
-				Finish.Run();
-				break;*/
 			}
 			break;
 
