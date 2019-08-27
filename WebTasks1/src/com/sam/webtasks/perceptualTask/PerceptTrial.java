@@ -1,18 +1,26 @@
 package com.sam.webtasks.perceptualTask;
 
 import java.util.Collections;
+import java.util.Date;
 
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.sam.webtasks.basictools.Names;
 
 public class PerceptTrial {
 	public static int correctResponse = Names.LEFT;
 	public static int response = Names.LEFT;
 	public static boolean correct, lastCorrect = false;
+	public static Date stimOn;
+	public static int RT;
 	
 	public static void Run() {
+		PerceptDisplay.panel.add(PerceptDisplay.grid2Layer);
+    	PerceptDisplay.panel.add(PerceptDisplay.fixLayer);
+    	PerceptDisplay.panel.draw();
+    	
 		int leftSquares = PerceptDisplay.referenceSquares, rightSquares = PerceptDisplay.referenceSquares;
 		
 		double lightRef = 0.75 - ((double) PerceptBlock.difficulty / 1000);
@@ -99,8 +107,17 @@ public class PerceptTrial {
         		PerceptDisplay.panel.add(PerceptDisplay.stimulusLayer);
         		PerceptDisplay.stimulusLayer.draw();
         		
-        		//add the response layer so a click on the stimulus triggers a response
-        		PerceptDisplay.panel.add(PerceptDisplay.responseLayer);
+        		//get timestamp for stimulus presentation
+        		stimOn = new Date();
+        		
+        		new Timer() {
+        			public void run() {
+        				PerceptDisplay.panel.remove(PerceptDisplay.stimulusLayer);
+        				
+        				//add the response layer so a click on the stimulus triggers a response
+                		PerceptDisplay.panel.add(PerceptDisplay.responseLayer);
+        			}
+        		}.schedule(PerceptBlock.stimDuration);
         	}
         }.schedule(PerceptBlock.preStimFixation);
 	}

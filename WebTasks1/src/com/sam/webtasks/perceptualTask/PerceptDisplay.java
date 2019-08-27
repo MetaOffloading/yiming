@@ -106,8 +106,6 @@ public class PerceptDisplay {
             grid2Layer.add(rightVerticalLines[i]);
         }
         
-        panel.add(grid2Layer);
-        
         fixPoint.setTextAlign(TextAlign.CENTER);
         fixPoint.setTextBaseLine(TextBaseLine.MIDDLE);
         fixPoint.setFillColor(ColorName.BLACK);
@@ -117,8 +115,7 @@ public class PerceptDisplay {
 
         fixLayer.add(fixPoint);
 
-        panel.add(fixLayer);
-        fixLayer.draw();
+        //we don't add the grid and fixation point to the panel here - instead it gets done at the beginning of each trial
 
         lienzoWrapper.add(panel);
         wrapper.add(lienzoWrapper);
