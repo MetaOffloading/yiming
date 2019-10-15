@@ -7,10 +7,13 @@ public class Instructions {
 		 
 		switch(index) {
 		case 0:
-			i="Here are some instructions.";
+			i="You will now do one trial with one target.";
 			break;
 		case 1:
-			i="Here are some more instructions.";
+			i="Now you will do a trial with three targets.";
+			break;
+		case 2:
+			i="Now you will do a trial with three targets and interruption.";
 			break;
 		}
 
