@@ -31,9 +31,7 @@ import com.sam.webtasks.basictools.Consent;
 import com.sam.webtasks.basictools.Counterbalance;
 import com.sam.webtasks.basictools.InfoSheet;
 import com.sam.webtasks.basictools.Initialise;
-import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
-import com.sam.webtasks.basictools.Slider;
 import com.sam.webtasks.basictools.TimeStamp;
 import com.sam.webtasks.iotask1.IOtask1Block;
 import com.sam.webtasks.iotask1.IOtask1BlockContext;
@@ -43,7 +41,6 @@ import com.sam.webtasks.iotask1.IOtask1RunTrial;
 import com.sam.webtasks.iotask2.IOtask2Block;
 import com.sam.webtasks.iotask2.IOtask2BlockContext;
 import com.sam.webtasks.iotask2.IOtask2RunTrial;
-import com.sam.webtasks.perceptualTask.PerceptBlock;
 import com.sam.webtasks.iotask2.IOtask2InitialiseTrial;
 import com.sam.webtasks.iotask2.IOtask2PreTrial;
 
@@ -59,50 +56,31 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				ClickPage.Run("Now you will get 5 easy trials of the number task.<br><br>" +
-			                  "Click on the grid with more filled squares", "Next");
+				ClickPage.Run(Instructions.Get(0), "Next");
 				break;
 			case 2:
-				//initialise the block
-				PerceptBlock.Init();
-				
-				//configure the block
-				PerceptBlock.nTrials = 5;
-				PerceptBlock.task = Names.PERCEPT_NUMBER;
-
-				//run the block
-				PerceptBlock.Run();
+				IOtask1Block block1 = new IOtask1Block();
+				block1.Run();
 				break;
 			case 3:
-				ClickPage.Run("You got " + PerceptBlock.nCorrect + " out of 5 correct. <br><br>" +
-			                  "Now you will get 5 easy trials of the contrast task. Click on the grid " +
-			                  "with higher contrast", "Next");
+				ClickPage.Run(Instructions.Get(1),  "Next");
 				break;
 			case 4:
-				PerceptBlock.Init();
-				
-				PerceptBlock.nTrials = 5;
-				PerceptBlock.task = Names.PERCEPT_CONTRAST;
-				
-				PerceptBlock.Run();
+				IOtask1Block block2 = new IOtask1Block();
+				block2.nTargets = 3;
+				block2.Run();
 				break;
 			case 5:
-				ClickPage.Run("You got " + PerceptBlock.nCorrect + " out of 5 correct. <br><br>" +
-		                      "Now you will get 50 trials of the number task. This time it will adjust the " +
-						      "difficulty as you do the task with a staircase procedure", "Next");
+				ClickPage.Run(Instructions.Get(2),  "Next");
 				break;
 			case 6:
-				PerceptBlock.Init();
-				
-				PerceptBlock.nTrials = 50;
-				PerceptBlock.task = Names.PERCEPT_NUMBER;
-				PerceptBlock.adjustDifficulty = true;
-				
-				PerceptBlock.Run();
+				IOtask1Block block3 = new IOtask1Block();
+				block3.nTargets = 3;
+				block3.askArithmetic = true;
+				block3.Run();
 				break;
 			case 7:
-				ClickPage.Run("You got " + PerceptBlock.nCorrect + " out of 50 correct.<br><br>" +
-						      "You have now finished the demo.", "End");
+				Finish.Run();
 				break;
 			}
 			break;
