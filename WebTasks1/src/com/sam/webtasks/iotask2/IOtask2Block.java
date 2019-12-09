@@ -24,6 +24,9 @@ public class IOtask2Block {
 		
 	// run a standard 9-trial block?
 	public boolean standard9block = false;
+	
+	// run just the choice trials without forced internal/external?
+	public boolean onlyChoiceTrials = false;
 
 	// number of circles visible on screen
 	public int nCircles = 6;
@@ -259,6 +262,28 @@ public class IOtask2Block {
 			targetValues.add(choiceValues.get(7));
 			targetValues.add(forcedB);
 			targetValues.add(choiceValues.get(8));
+		}
+		
+		if (onlyChoiceTrials) {
+			nTrials=9;
+			
+			//first set up and shuffle the 9 choice values
+			ArrayList<Integer> choiceValues = new ArrayList<Integer>();
+
+			//add numbers 1-9
+			for (int i = 1; i < 10; i++) {
+				choiceValues.add(i);
+			}
+
+			//now shuffle
+			for (int i = 0; i < choiceValues.size(); i++) {
+				Collections.swap(choiceValues, i, Random.nextInt(choiceValues.size()));
+			}	
+			
+			//now add to list
+			for (int i = 0; i < choiceValues.size(); i++) {
+				targetValues.add(choiceValues.get(i));
+			}
 		}
 		
 		while (targetValues.size() < nTrials) { //if not enough target values have been set up
