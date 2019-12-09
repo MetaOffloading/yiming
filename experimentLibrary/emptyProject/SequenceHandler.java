@@ -59,7 +59,7 @@ public class SequenceHandler {
 				ClickPage.Run(Instructions.Get(0), "Next");
 				break;
 			case 2:
-				ClickPage.Run(Instructions.Get(1), "Next");
+				PHP.UpdateStatus("finished");
 				break;
 			case 3:
 				Finish.Run();
@@ -115,6 +115,10 @@ public class SequenceHandler {
 				}
 				break;
 			case 8:
+				//record the participant's counterbalancing condition in the status table
+				PHP.UpdateStatus("" + Counterbalance.getCounterbalancingCell());
+				break;
+			case 9:
 				SequenceHandler.SetLoop(0, true); // switch to and initialise the main loop
 				SequenceHandler.Next(); // start the loop
 				break;
