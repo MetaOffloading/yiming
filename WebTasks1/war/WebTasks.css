@@ -53,8 +53,16 @@ root {
 	margin-bottom: 30px;
 }
 
+.bottomMarginTiny {
+    margin-bottom: 10px;
+}
+
 .rightMarginSmall {
 	margin-right: 10px;
+}
+
+.topMarginSmall {
+    margin-top: 30px;
 }
 
 .greenButton {
@@ -96,4 +104,9 @@ root {
 
 .red {
 	color: RED;
+}
+
+.black {
+	color: BLACK;
+}
 }

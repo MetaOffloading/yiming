@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
-import com.sam.webtasks.iotask2.IOtask2BlockContext;
 
 public class Finish {
 	public static void Run() {
@@ -47,8 +46,7 @@ public class Finish {
 				}
 			});
 		} else if (SessionInfo.experimentType == Names.EXPERIMENT_STANDALONE) {
-			final HTML goodbyeText = new HTML("You have now completed the experiment. Thank you for taking part.<br><br>"
-					+ "Your total payment is " + IOtask2BlockContext.getMoneyString());
+			final HTML goodbyeText = new HTML("You have now completed the experiment. Thank you for taking part");
 			RootPanel.get().add(goodbyeText);
 		}
 	}
