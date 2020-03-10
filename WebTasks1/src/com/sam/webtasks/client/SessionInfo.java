@@ -39,7 +39,7 @@ public class SessionInfo {
 	//if you want to specify the level of any of those factors, set it with specifiedLevels. otherwise set to -1
 	//e.g. specifiedLevels = {-1, 2, -1}; would randomise factors 1 and 3, and set the second factor to level 2
 	//NB levels range from 0 to (maximum - 1)
-	public static String[] counterbalanceFactors = {"counterbalance"};
+	public static String[] counterbalanceFactors = {"conditionOrder"};
 	public static int[] counterbalanceLevels = {2};
 	public static int[] specifiedLevels = {-1};
 	

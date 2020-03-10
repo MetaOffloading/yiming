@@ -1,13 +1,116 @@
 package com.sam.webtasks.client;
 
+import com.sam.webtasks.basictools.Counterbalance;
+
 public class Instructions {
 
 	public static String Get(int index) {
+		String conditionInstruct;
 		String i="";
 		 
 		switch(index) {
 		case 0:
-			i="Here are some instructions.";
+			i="In this experiment you will have a simple task to do.<br><br>"
+                    + "You will see several yellow circles inside a box. "
+                    + "Inside each circle will be a number. <br><br>"
+                    + "You can move them around using your mouse. Your task is to drag them to the bottom "
+                    + "of the box in sequence. "
+                    + "Please start by dragging 1 all the way to the bottom. "
+                    + "This will make it disappear. Then drag 2 to the bottom, then 3, "
+                    + "and so on.<br><br>";
+			break;
+		case 1:
+			i="Now you will continue the same task, but sometimes there will be something else to "
+                    + "do.<br><br>As well as dragging each circle in turn to the "
+                    + "bottom of the screen, there will sometimes be special "
+                    + "circles that you should drag in another direction (left, top, or right) instead of towards the bottom.<br><br>"
+                    + "These special circles will initially appear in a different colour "
+                    + "when they are first shown on the screen, instead of yellow. This is an "
+                    + "instruction telling you where they should go.<br><br>"
+                    + "For example, suppose that the circle with 7 in it was first shown in blue "
+                    + "when it appeared on the screen. That would be an instruction that "
+                    + "when you get to 7 in the sequence, you should drag that circle "
+                    + "to the blue side of the box (left) instead of the bottom.<br><br>"
+                    + "You will still be able to drag any "
+                    + "circle to the bottom of the box, but you should try to "
+                    + "remember to drag these special circles to the instructed "
+                    + "location instead.";
+			break;
+		case 2:
+			i="Now that you have had some practice with the experiment, we would like you to tell us "
+	                        + "how accurately you can perform the task.<br><br>"
+	                        + "Please use the scale below to indicate what percentage of "
+	                        + "the special circles you can correctly drag to the instructed side of the square, on average. 100% "
+	                        + "would mean that you always get every single one correct. 0% would mean that you can never "
+	                        + "get any of them correct.";
+			break;
+		case 3:
+			i="Now we are going to explain a strategy that can make the task easier.<br><br>"
+                    + "When you see a special circle, you can set a reminder by immediately dragging it to a "
+                    + "different part of the box. For example, if a circle initially appeared in blue, you "
+                    + "could immediately drag it next to the blue (left) side of the box. Then, when "
+                    + "you get to that circle in the sequence its location would remind you where it is supposed "
+                    + "to go.<br><br>Please now try the task again, using this strategy to help you.";
+			break;
+		case 4:
+			i="Now that you have practiced doing the task using reminders, we would like you to tell us "
+                    + "how accurately you can perform the task when you use this strategy.<br><br>"
+                    + "Please use the scale below to indicate what percentage of "
+                    + "the special circles you can correctly drag to the instructed side of the square, on average, "
+                    + "when you use reminders. 100% "
+                    + "would mean that you always get every single one correct. 0% would mean that you can never "
+                    + "get any of them correct.";
+			break;
+		case 5:
+			i="Now we will explain how you will earn your payment for performing this task.<br><br>"
+					+ "In this half of the experiment, ";
+			
+			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
+				i = i + "you are trying to score points. You will earn money by "
+						+ "scoring these points.<br><br>You can score up to a maximum of " 
+					+ (ExtraNames.MAXPOINTS / 2) + "points, and you will earn $1 for every "
+					+ ExtraNames.POINTS_PER_DOLLAR + " points you score.<br><br>This means that you "
+			        + "can earn over $" + (ExtraNames.MAXPOINTS / (2 * ExtraNames.POINTS_PER_DOLLAR))
+			        + " in this half of the experiment, in addition to the base payment of " 
+			        + ExtraNames.BASEPAYMENT + " for taking part.";
+			} else {
+				i = i + "we will start by giving you " + (ExtraNames.MAXPOINTS / 2) + " points. "
+						+ "You will earn money by holding on to these points.<br><br> You "
+						+ "will receive $1 for every " + ExtraNames.POINTS_PER_DOLLAR + " that "
+						+ "you retain.<br><br>This means that you can receive over $"
+						+ (ExtraNames.MAXPOINTS / (2 * ExtraNames.POINTS_PER_DOLLAR)) + " based on "
+						+ "how many points you retain, in addition to "
+						+ "the base payment of " + ExtraNames.BASEPAYMENT + " for taking part.";
+			}			
+			break;
+		case 6:
+			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
+				conditionInstruct = "score 10 points for every special circle you remember";
+			} else {
+				conditionInstruct = "lose 10 points for every special circle you forget";
+			}
+			
+			i="Sometimes when you do the task, you will have to do it without setting any reminders.<br><br>"
+                    + "When this happens, you will " + conditionInstruct +  ".<br><br>"
+                    + "You will always be given clear instructions what you should do. In this case you will be "
+                    + "told \"This time you must do the task without setting any reminders\" and see a red button. "
+                    + "When this happens, "
+                    + "the computer will not let you set any reminders.<br><br>Let's practise that now.";
+			break;
+		case 7:
+			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
+				conditionInstruct = "score 10 points for every special circle you remember";
+			} else {
+				conditionInstruct = "lose 10 points for every special circle you forget";
+			}
+			
+			i="Other times, you will have to set reminders for all the special circles.<br><br>When "
+	                + "this happens, you will also " + conditionInstruct + ".<br><br>"
+	                + "In this case, you will be told \"This time you <b>must</b> set a reminder for every special circle\" "
+	                + "and you will see a green button.<br><br>"
+	                + "When this happens, the computer will make sure that you always set a reminder for every "
+	                + "circle and it will not let you continue if you do not.<br><br>Let's practice that now.";
+			
 			break;
 		}
 
