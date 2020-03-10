@@ -164,7 +164,7 @@ public class RunQuestionnaire {
                         q.offset+=q.itemsPerPage;
                         
                         for (int i=0; i<q.itemsPerPage; i++) {
-                            itemHTML[i].setText(q.options[i+q.offset]);
+                            itemHTML[i].setText(q.items[i+q.offset]);
                             
                             for (int o=0; o<q.nOptions; o++) {
                                 radioButton[i][o].setChecked(false);
@@ -190,8 +190,6 @@ public class RunQuestionnaire {
                         for (int i = 0; i < q.nItems; i++) {
                         	data = data + ", " + q.responses[i];		
                         }
-                    	
-                        Window.alert(data);
                         
                     	PHP.logData("completedQuestionnaire", data, true);
                     	
