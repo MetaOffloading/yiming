@@ -830,6 +830,9 @@ public class IOtask2RunTrial {
 						if (IOtask2BlockContext.getDoubleClickFlag()) {
 							RootPanel.get().remove(verticalPanel);
 							IOtask2BlockContext.incrementCurrentTrial();
+							
+							//pretend that there were 10 hits
+							IOtask2BlockContext.setnHits(10);
 
 							trialTimer.cancel();
 							IOtask2BlockContext.setCountdownTime(Params.countdownTime);

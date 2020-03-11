@@ -18,6 +18,16 @@
 //SequenceHandler.SetLoop(0,false) will switch to the main loop,
 //continuing from where we left off.
 
+//TODO:
+//gain or lose points depending on the condition
+//counterbalance red / green
+//sort out instructions
+//equalise box size
+//timer
+//scroll
+//data output
+//resume where you left off
+
 package com.sam.webtasks.client;
 
 import java.util.ArrayList;
@@ -75,7 +85,6 @@ public class SequenceHandler {
 				block0.totalCircles = 8;
 				block0.nTargets = 0;
 				block0.blockNum = 0;
-				block0.nTrials = 2;
 				block0.blockNum = 0;
 				block0.Run();
 				break;
@@ -87,7 +96,6 @@ public class SequenceHandler {
 				block1.totalCircles = 8;
 				block1.nTargets = 1;
 				block1.blockNum = 1;
-				block1.nTrials = 2;
 				block1.blockNum = 1;
 				block1.Run();
 				break;
@@ -107,6 +115,7 @@ public class SequenceHandler {
 			case 6:
 				IOtask2Block block2 = new IOtask2Block();
 				block2.blockNum = 2;
+				block2.nTrials = 2;
 				block2.Run();
 				break;
 			case 7:
@@ -147,7 +156,8 @@ public class SequenceHandler {
 				Slider.Run(Instructions.Get(4), "0%", "100%");
 				break;
 			case 13:
-				IOtask2Block initBlock = new IOtask2Block(); //use this to initialise points
+				//use this to initialise points
+				IOtask2Block initBlock = new IOtask2Block(); 
 				initBlock.totalPoints = Params.initialPoints;
 				initBlock.pointDisplay = Names.POINT_GAINLOSS;
 				
@@ -157,14 +167,17 @@ public class SequenceHandler {
 				
 				IOtask2BlockContext.setContext(initBlock);
 				
+				SequenceHandler.Next();
+				break;
+			case 14:
 				//payment instructions
 				ClickPage.Run(Instructions.Get(5), "Next");
 				break;
-			case 14:
+			case 15:
 				//forced internal practice
 				ClickPage.Run(Instructions.Get(6),  "Next");
 				break;
-			case 15:
+			case 16:
 				IOtask2Block block5 = new IOtask2Block();
 				block5.blockNum = 5;
 				block5.targetValues.add(0);
@@ -179,11 +192,11 @@ public class SequenceHandler {
 				
 				block5.Run();
 				break;
-			case 16:
+			case 17:
 				//forced external practice
 				ClickPage.Run(Instructions.Get(7),  "Next");
 				break;
-			case 17:
+			case 18:
 				IOtask2Block block6 = new IOtask2Block();
 				block6.blockNum = 6;
 				block6.targetValues.add(10);
@@ -198,18 +211,18 @@ public class SequenceHandler {
 				
 				block6.Run();
 				break;
-			case 18:
+			case 19:
 				//instructions about choice trials
 				ClickPage.Run(Instructions.Get(8),  "Next");
 				break;
-			case 19:
-				//get ready to start
+			case 20:
+				//up to you, here's an example
 				ClickPage.Run(Instructions.Get(9),  "Next");;
 				break;
-			case 20:
-				//first half of experimental trials
+			case 21:
 				IOtask2Block block7 = new IOtask2Block();
-				block7.standard13block = true;
+				block7.targetValues.add(6);
+				block7.nTrials = -1;
 				block7.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
 				block7.pointDisplay = Names.POINT_GAINLOSS;
 				block7.showLivePoints = true;
@@ -220,45 +233,63 @@ public class SequenceHandler {
 				
 				block7.Run();
 				break;
-			case 21:
-				//change of condition
-				ClickPage.Run(Instructions.Get(10),  "Next");
-				break;
 			case 22:
-				ClickPage.Run(Instructions.Get(11),  "Next");
+				ClickPage.Run("Now the task will begin for real.<br><br>"
+						+ "Click below to start.", "Next");
 				break;
 			case 23:
-				ClickPage.Run(Instructions.Get(12),  "Next");
-				break;
-			case 24:
-				//second half of experimental trials
+				//first half of experimental trials
 				IOtask2Block block8 = new IOtask2Block();
 				block8.standard13block = true;
 				block8.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
-				
-				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
-					block8.totalPoints = block8.totalPoints + (Params.maxPoints / 2);
-				}
-				
 				block8.pointDisplay = Names.POINT_GAINLOSS;
 				block8.showLivePoints = true;
 				
-				if (rewardFrame == ExtraNames.GAIN_FIRST) {
+				if (rewardFrame == ExtraNames.GAIN_SECOND) {
 					block8.rewardFrame = Names.LOSS_FRAME;
 				}
 				
 				block8.Run();
 				break;
+			case 24:
+				//change of condition
+				ClickPage.Run(Instructions.Get(10),  "Next");
+				break;
 			case 25:
-				ClickPage.Run(Instructions.Get(13),  "Next");
+				ClickPage.Run(Instructions.Get(11),  "Next");
 				break;
 			case 26:
-				STAI.Run();
+				ClickPage.Run(Instructions.Get(12),  "Next");
 				break;
 			case 27:
-				PSWQ.Run();
+				//second half of experimental trials
+				IOtask2Block block9 = new IOtask2Block();
+				block9.standard13block = true;
+				block9.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
+				
+				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
+					block9.totalPoints = block9.totalPoints + (Params.maxPoints / 2);
+				}
+				
+				block9.pointDisplay = Names.POINT_GAINLOSS;
+				block9.showLivePoints = true;
+				
+				if (rewardFrame == ExtraNames.GAIN_FIRST) {
+					block9.rewardFrame = Names.LOSS_FRAME;
+				}
+				
+				block9.Run();
 				break;
 			case 28:
+				ClickPage.Run(Instructions.Get(13),  "Next");
+				break;
+			case 29:
+				STAI.Run();
+				break;
+			case 30:
+				PSWQ.Run();
+				break;
+			case 31:
 				Finish.Run();
 				break;
 			}
@@ -389,6 +420,7 @@ public class SequenceHandler {
 			case 4:
 				if (IOtask2BlockContext.getNTrials() == -1) { //if nTrials has been set to -1, we quit before running
 					SequenceHandler.SetLoop(0,  false);
+					SequenceHandler.Next();
 				} else {
 					//otherwise, run the trial
 					IOtask2RunTrial.Run();

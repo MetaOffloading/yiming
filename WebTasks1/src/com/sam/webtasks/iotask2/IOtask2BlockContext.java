@@ -60,7 +60,7 @@ public class IOtask2BlockContext {
 			int nDollars = nCents / 100;
 			int nRemainderCents = nCents % 100;
 		
-			money = money + "£" + nDollars + ".";
+			money = money + "$" + nDollars + ".";
 		
 			if (nRemainderCents < 10) {
 				money = money + "0" + nRemainderCents;

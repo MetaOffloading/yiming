@@ -21,6 +21,15 @@ public class Initialise {
 		
 		if (SessionInfo.experimentType == Names.EXPERIMENT_MTURK) {
 			RootPanel.get().add(new Label("initalising..."));
+			
+			//set up the counterbalancing
+			for (int i = 0; i < SessionInfo.counterbalanceFactors.length; i++) {
+				if (SessionInfo.specifiedLevels[i]==-1) { //randomised level
+					Counterbalance.addFactor(SessionInfo.counterbalanceFactors[i], SessionInfo.counterbalanceLevels[i]);
+				} else { //specified level
+					Counterbalance.addFactor(SessionInfo.counterbalanceFactors[i], SessionInfo.counterbalanceLevels[i], SessionInfo.specifiedLevels[i]);
+				}
+			}
 		}
 		
 		//set timestamp for the beginning of the experiment

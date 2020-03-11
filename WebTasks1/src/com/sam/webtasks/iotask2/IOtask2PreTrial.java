@@ -36,10 +36,10 @@ public class IOtask2PreTrial {
 		if (IOtask2BlockContext.showPoints()) {
 			if (IOtask2BlockContext.getPointDisplay() == Names.POINT_GAINLOSS) {
 			displayString = displayString + "You have " + IOtask2BlockContext.getTotalPoints()
-					+ " points .<br><br>";
+					+ " points (" + IOtask2BlockContext.getMoneyString() + ").<br><br>";
 			} else {
 				displayString = displayString + "You have scored " + IOtask2BlockContext.getTotalPoints()
-				+ " points .<br><br>";
+				+ " points.<br><br>";
 			}
 		}
 
@@ -50,10 +50,10 @@ public class IOtask2PreTrial {
 			
 			if (IOtask2BlockContext.getRewardFrame() == Names.GAIN_FRAME) {
 				displayString = displayString + "You will gain " + IOtask2BlockContext.maxPoints() 
-				+ "points for every special circle that you remember.";
+				+ " points for every special circle that you remember.";
 			} else {
 				displayString = displayString + "You will lose " + IOtask2BlockContext.maxPoints()
-				+ "points for every special circle that you forget.";
+				+ " points for every special circle that you forget.";
 			}
 			
 			displayString = displayString + "<br><br>Please click the button below to start.";
@@ -62,10 +62,10 @@ public class IOtask2PreTrial {
 					
 			if (IOtask2BlockContext.getRewardFrame() == Names.GAIN_FRAME) {
 				displayString = displayString + "You will gain " + IOtask2BlockContext.maxPoints() 
-				+ "points for every special circle that you remember.";
+				+ " points for every special circle that you remember.";
 			} else {
 				displayString = displayString + "You will lose " + + IOtask2BlockContext.maxPoints() 
-				+ "points for every special circle that you forget.";
+				+ " points for every special circle that you forget.";
 			}
 			
 			displayString = displayString + "<br><br>Please click the button below to start.";
@@ -76,7 +76,7 @@ public class IOtask2PreTrial {
 				displayString = displayString + "If you forget a special circle, you will not score any points.";
 			} else {
 				displayString = displayString + "If you forget a special circle, you will lose " 
-			    + IOtask2BlockContext.maxPoints() + "points.";
+			    + IOtask2BlockContext.maxPoints() + " points.";
 			}
 			
 			displayString = displayString + "<br><br>You have a choice for what happens when you remember. "
@@ -86,32 +86,32 @@ public class IOtask2PreTrial {
 		displayText.setHTML(displayString);
 
 		//reminder button
-		if (points == IOtask2BlockContext.maxPoints()) {
-			displayString = "You <b>must</b> set reminders";
+		if (IOtask2BlockContext.getRewardFrame() == Names.GAIN_FRAME) {
+			displayString = "Gain " + points + " points<br>each time you remember.<br><br>"
+					        + "Reminders allowed";		
+		} else {
+			displayString = "Lose " + (IOtask2BlockContext.maxPoints() - points)
+					        + " points<br>each time you remember.<br><br>Reminders allowed";
 		}
 		
-		if (IOtask2BlockContext.getRewardFrame() == Names.GAIN_FRAME) {
-			displayString = "Remember special circle:<br>Gain " + points
-					        + " points.<br><br>" + "Reminders allowed";		
-		} else {
-			displayString = "Remember special circle:<br>Lose " + (IOtask2BlockContext.maxPoints() - points)
-					        + " points.<br><br>Reminders allowed";
+		if (points == IOtask2BlockContext.maxPoints()) {
+			displayString = "You <b>must</b> set reminders";
 		}
 		
 		final Button reminderButton = new Button(displayString);
 
 		//no-reminder button
+		if (IOtask2BlockContext.getRewardFrame() == Names.GAIN_FRAME) {
+			displayString = "Gain " + IOtask2BlockContext.maxPoints()
+					        + " points<br>each time you remember.<br><br>"
+					        + "Reminders not allowed";		
+		} else {
+			displayString = "Lose 0 points<br>each time you remember.<br><br>Reminders not allowed";
+		}
+		
 		if (points == 0) {
 			displayString = "Reminders <b>not</b> allowed";
 		}
-		
-		if (IOtask2BlockContext.getRewardFrame() == Names.GAIN_FRAME) {
-			displayString = "Remember special circle:<br>Gain " + IOtask2BlockContext.maxPoints()
-					        + " points.<br><br>" + "Reminders not allowed";		
-		} else {
-			displayString = "Remember special circle:<br>Lose 0 points.<br><br>Reminders not allowed";
-		}
-		
 		
 		final Button noReminderButton = new Button(displayString);
 

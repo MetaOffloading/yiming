@@ -69,19 +69,19 @@ public class Instructions {
 			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
 				i = i + "you are trying to score points. You will earn money by "
 						+ "scoring these points.<br><br>You can score up to a maximum of " 
-					+ (Params.maxPoints / 2) + "points, and you will earn $1 for every "
+					+ (Params.maxPoints / 2) + " points, and you will earn $1 for every "
 					+ Params.pointsPerDollar + " points you score.<br><br>This means that you "
 			        + "can earn over $" + (Params.maxPoints / (2 * Params.pointsPerDollar))
-			        + " in this half of the experiment, in addition to the base payment of " 
-			        + Params.basePayment + " for taking part.<br><br>";
+			        + " in this half of the experiment. In addition, you will start with "
+			        + Params.basePayment + " as a base payment for taking part.<br><br>";
 			} else {
 				i = i + "we will start by giving you " + (Params.maxPoints / 2) + " points. "
 						+ "You will earn money by holding on to these points.<br><br> You "
 						+ "will receive $1 for every " + Params.pointsPerDollar + " that "
 						+ "you retain.<br><br>This means that you can receive over $"
-						+ (Params.maxPoints / (2 * Params.pointsPerDollar)) + " based on "
-						+ "how many points you retain, in addition to "
-						+ "the base payment of " + Params.basePayment + " for taking part.";
+						+ (Params.maxPoints / (2 * Params.pointsPerDollar)) + " if you hold on "
+						+ "to these points.<br><br>We have also given you a base payment of "
+						+ "600 points for taking part.<br><br>";
 			}			
 			
 			i = i + "You currently have " + IOtask2BlockContext.getTotalPoints()
@@ -99,7 +99,7 @@ public class Instructions {
                     + "You will always be given clear instructions what you should do. In this case you will be "
                     + "told \"This time you must do the task without setting any reminders\" and see a red button. "
                     + "When this happens, "
-                    + "the computer will not let you set any reminders.<br><br>Let's practise that now.";
+                    + "the computer will not let you set any reminders.<br><br>Click below to see an example.";
 			break;
 		case 7:
 			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
@@ -113,7 +113,7 @@ public class Instructions {
 	                + "In this case, you will be told \"This time you <b>must</b> set a reminder for every special circle\" "
 	                + "and you will see a green button.<br><br>"
 	                + "When this happens, the computer will make sure that you always set a reminder for every "
-	                + "circle and it will not let you continue if you do not.<br><br>Let's practice that now.";
+	                + "circle and it will not let you continue if you do not.<br><br>Click below to see an example.";
 			
 			break;
 		case 8:
@@ -157,7 +157,7 @@ public class Instructions {
 			
 			i="When you are presented with a choice like this, it is completely up to you. "
                     + "You should do whatever you think will allow you to " + conditionInstruct 
-                    + " the most points.<br><br>Click below to begin the task.";
+                    + " the most points.<br><br>Click below to see an example.";
 			break;	
 		case 10:
 			i="You have now completed more than half the experiment. For the rest of the experiment, the "
