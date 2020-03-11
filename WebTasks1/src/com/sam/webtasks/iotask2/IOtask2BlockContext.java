@@ -52,21 +52,40 @@ public class IOtask2BlockContext {
 	
 	// find out the amount of money earned
 	public static String getMoneyString() {
+		String money = "";
 		int nPoints = blockContext.totalPoints;
 		
-		int nPence = (int) Math.ceil( (float) (100*nPoints) / Params.pointsPerPound);
-		int nPounds = nPence / 100;
-		int nRemainderPence = nPence % 100;
+		if (blockContext.pointDisplay == Names.POINT_GAINLOSS) {
+			int nCents = (int) Math.ceil( (float) (100*nPoints) / Params.pointsPerDollar);
+			int nDollars = nCents / 100;
+			int nRemainderCents = nCents % 100;
 		
-		String money = "£" + nPounds + ".";
+			money = money + "£" + nDollars + ".";
 		
-		if (nRemainderPence < 10) {
-			money = money + "0" + nRemainderPence;
+			if (nRemainderCents < 10) {
+				money = money + "0" + nRemainderCents;
+			} else {
+				money = money + nRemainderCents;
+			}
 		} else {
-			money = money + nRemainderPence;
-		}
+			int nPence = (int) Math.ceil( (float) (100*nPoints) / Params.pointsPerPound);
+			int nPounds = nPence / 100;
+			int nRemainderPence = nPence % 100;
 		
-		return (money);
+			money = money + "£" + nPounds + ".";
+		
+			if (nRemainderPence < 10) {
+				money = money + "0" + nRemainderPence;
+			} else {
+				money = money + nRemainderPence;
+			}
+		}
+		return (money);	
+	}
+	
+	//how should points be displayed?
+	public static int getPointDisplay() {
+		return (blockContext.pointDisplay);
 	}
 	
 	// is the countdown timer running?
@@ -112,6 +131,16 @@ public class IOtask2BlockContext {
 	// what is the current trial number
 	public static int getTrialNum() {
 		return (blockContext.currentTrial);
+	}
+	
+	// what is the total number of trials
+	public static int getNTrials() {
+		return (blockContext.nTrials);
+	}
+	
+	// what reward frame are we in?
+	public static int getRewardFrame() {
+		return (blockContext.rewardFrame);
 	}
 
 	// use these methods to set and find out which is the next circle in the

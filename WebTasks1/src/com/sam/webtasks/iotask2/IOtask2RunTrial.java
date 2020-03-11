@@ -155,7 +155,7 @@ public class IOtask2RunTrial {
 		pointsWrapper.setWidth(boxSize + "px");
 		pointsWrapper.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
-		final HTML pointsDisplay = new HTML("You have scored " + IOtask2BlockContext.getTotalPoints() + " points ("
+		final HTML pointsDisplay = new HTML("You have " + IOtask2BlockContext.getTotalPoints() + " points ("
 				+ IOtask2BlockContext.getMoneyString() + ")");
 
 		pointsDisplay.setStyleName("livePointsDisplay");

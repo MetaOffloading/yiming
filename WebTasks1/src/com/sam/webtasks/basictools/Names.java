@@ -31,6 +31,14 @@ public class Names {
 	public final static int FEEDBACK_POSITIVE=0;
 	public final static int FEEDBACK_NEGATIVE=1;
 	
+	//IOtask2 reward framing
+	public final static int GAIN_FRAME=0;
+	public final static int LOSS_FRAME=1;
+	
+	//point display for IOtask2
+	public final static int POINT_STANDARD=0;
+	public final static int POINT_GAINLOSS=1;
+	
 	//initial practice difficulty
 	public final static int PRACTICE_EASY=0;
 	public final static int PRACTICE_DIFFICULT=1;

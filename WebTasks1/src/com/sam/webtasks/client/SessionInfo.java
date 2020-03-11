@@ -13,7 +13,7 @@ public class SessionInfo {
 	public static int experimentType = Names.EXPERIMENT_MTURK;
 	
 	//what is the name for this experiment?
-	public static String experimentCode="QuestionnaireDemo";
+	public static String experimentCode="CWPK1";
 	
 	//which version of the experiment is this?
 	public static int experimentVersion=1;

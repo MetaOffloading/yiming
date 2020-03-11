@@ -31,7 +31,10 @@ import com.sam.webtasks.basictools.Consent;
 import com.sam.webtasks.basictools.Counterbalance;
 import com.sam.webtasks.basictools.InfoSheet;
 import com.sam.webtasks.basictools.Initialise;
+import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
+import com.sam.webtasks.basictools.ProgressBar;
+import com.sam.webtasks.basictools.Slider;
 import com.sam.webtasks.basictools.TimeStamp;
 import com.sam.webtasks.iotask1.IOtask1Block;
 import com.sam.webtasks.iotask1.IOtask1BlockContext;
@@ -48,7 +51,9 @@ public class SequenceHandler {
 	public static void Next() {	
 		// move forward one step in whichever loop we are now in
 		sequencePosition.set(whichLoop, sequencePosition.get(whichLoop) + 1);
-
+		
+		int rewardFrame = Counterbalance.getFactorLevel("conditionOrder");
+		
 		switch (whichLoop) {
 		case 0: // MAIN LOOP
 			switch (sequencePosition.get(0)) {
@@ -56,12 +61,204 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
+				Window.alert("Counterbalancing group: " + Counterbalance.getFactorLevel("conditionOrder"));
+
 				ClickPage.Run(Instructions.Get(0), "Next");
 				break;
 			case 2:
-				DemoQuestionnaire.Run();
+				//add progress bar to screen
+				ProgressBar.Initialise();
+				ProgressBar.Show();
+				ProgressBar.SetProgress(0,  25);
+				
+				IOtask2Block block0 = new IOtask2Block();
+				block0.totalCircles = 8;
+				block0.nTargets = 0;
+				block0.blockNum = 0;
+				block0.nTrials = 2;
+				block0.blockNum = 0;
+				block0.Run();
 				break;
 			case 3:
+				ClickPage.Run(Instructions.Get(1),  "Next");
+				break;
+			case 4:
+				IOtask2Block block1 = new IOtask2Block();
+				block1.totalCircles = 8;
+				block1.nTargets = 1;
+				block1.blockNum = 1;
+				block1.nTrials = 2;
+				block1.blockNum = 1;
+				block1.Run();
+				break;
+			case 5:
+				if (IOtask2BlockContext.getnHits() < 1) { //if there were fewer than 1 hits on the last trial
+					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2); //this line means that instead of moving forward we will repeat the previous instructions
+					ProgressBar.Decrement();
+					ProgressBar.Decrement();
+					ClickPage.Run("You didn't drag the special circle to the correct location.", "Please try again");	
+				} else {
+					ClickPage.Run("Well done, that was correct.<br><br>Now it will get more difficult. "
+							+ "There will be a total of 25 circles, and many of them will be special ones "
+							+ "that should go to one of the coloured sides of the box.<br><br>Don't worry if you "
+							+ "do not remember all of them. That's fine - just try to remember as many as you can.", "Next");
+				}
+				break;
+			case 6:
+				IOtask2Block block2 = new IOtask2Block();
+				block2.blockNum = 2;
+				block2.Run();
+				break;
+			case 7:
+				//get internal metacognitive judgement
+				Slider.Run(Instructions.Get(2), "0%", "100%");
+				break;
+			case 8:
+				//offloading instructions
+				ClickPage.Run(Instructions.Get(3),  "Next");
+				break;
+			case 9:
+				IOtask2Block block3 = new IOtask2Block();
+				block3.blockNum = 3;
+				block3.Run();
+				break;
+			case 10:	
+				if (IOtask2BlockContext.getnHits() < 8) { //if there were fewer than 8 hits on the last trial
+					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2); //this line means that instead of moving forward we will repeat the previous instructions
+					ProgressBar.Decrement();
+					ProgressBar.Decrement();
+					
+					String msg = "You got " + IOtask2BlockContext.getnHits() + " correct that time. You need to get at least 8 "
+							+ "correct to continue to the next part.<br><br>Please keep in mind that you can set reminders to help you remember. Each "
+							+ "time a special circle appears, you can immediately drag it next to the part of the box where it eventually needs to go. "
+							+ "This should help reminder you what to do when you get to that circle in the sequence.";
+					ClickPage.Run(msg, "Try again");		
+				} else {
+					SequenceHandler.Next();
+				}
+				break;
+			case 11:
+				IOtask2Block block4 = new IOtask2Block();
+				block4.blockNum = 4;
+				block4.Run();
+				break;
+			case 12:
+				//get internal metacognitive judgement
+				Slider.Run(Instructions.Get(4), "0%", "100%");
+				break;
+			case 13:
+				IOtask2Block initBlock = new IOtask2Block(); //use this to initialise points
+				initBlock.totalPoints = Params.initialPoints;
+				initBlock.pointDisplay = Names.POINT_GAINLOSS;
+				
+				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_SECOND) {
+					initBlock.totalPoints = initBlock.totalPoints + (Params.maxPoints / 2);
+				}
+				
+				IOtask2BlockContext.setContext(initBlock);
+				
+				//payment instructions
+				ClickPage.Run(Instructions.Get(5), "Next");
+				break;
+			case 14:
+				//forced internal practice
+				ClickPage.Run(Instructions.Get(6),  "Next");
+				break;
+			case 15:
+				IOtask2Block block5 = new IOtask2Block();
+				block5.blockNum = 5;
+				block5.targetValues.add(0);
+				block5.nTrials = -1;
+				block5.totalPoints = IOtask2BlockContext.getTotalPoints();
+				block5.pointDisplay = Names.POINT_GAINLOSS;
+				block5.showLivePoints = true;
+				
+				if (rewardFrame == ExtraNames.GAIN_SECOND) {
+					block5.rewardFrame = Names.LOSS_FRAME;
+				}
+				
+				block5.Run();
+				break;
+			case 16:
+				//forced external practice
+				ClickPage.Run(Instructions.Get(7),  "Next");
+				break;
+			case 17:
+				IOtask2Block block6 = new IOtask2Block();
+				block6.blockNum = 6;
+				block6.targetValues.add(10);
+				block6.nTrials = -1;
+				block6.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
+				block6.pointDisplay = Names.POINT_GAINLOSS;
+				block6.showLivePoints = true;
+				
+				if (rewardFrame == ExtraNames.GAIN_SECOND) {
+					block6.rewardFrame = Names.LOSS_FRAME;
+				}
+				
+				block6.Run();
+				break;
+			case 18:
+				//instructions about choice trials
+				ClickPage.Run(Instructions.Get(8),  "Next");
+				break;
+			case 19:
+				//get ready to start
+				ClickPage.Run(Instructions.Get(9),  "Next");;
+				break;
+			case 20:
+				//first half of experimental trials
+				IOtask2Block block7 = new IOtask2Block();
+				block7.standard13block = true;
+				block7.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
+				block7.pointDisplay = Names.POINT_GAINLOSS;
+				block7.showLivePoints = true;
+				
+				if (rewardFrame == ExtraNames.GAIN_SECOND) {
+					block7.rewardFrame = Names.LOSS_FRAME;
+				}
+				
+				block7.Run();
+				break;
+			case 21:
+				//change of condition
+				ClickPage.Run(Instructions.Get(10),  "Next");
+				break;
+			case 22:
+				ClickPage.Run(Instructions.Get(11),  "Next");
+				break;
+			case 23:
+				ClickPage.Run(Instructions.Get(12),  "Next");
+				break;
+			case 24:
+				//second half of experimental trials
+				IOtask2Block block8 = new IOtask2Block();
+				block8.standard13block = true;
+				block8.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
+				
+				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
+					block8.totalPoints = block8.totalPoints + (Params.maxPoints / 2);
+				}
+				
+				block8.pointDisplay = Names.POINT_GAINLOSS;
+				block8.showLivePoints = true;
+				
+				if (rewardFrame == ExtraNames.GAIN_FIRST) {
+					block8.rewardFrame = Names.LOSS_FRAME;
+				}
+				
+				block8.Run();
+				break;
+			case 25:
+				ClickPage.Run(Instructions.Get(13),  "Next");
+				break;
+			case 26:
+				STAI.Run();
+				break;
+			case 27:
+				PSWQ.Run();
+				break;
+			case 28:
 				Finish.Run();
 				break;
 			}
@@ -190,8 +387,12 @@ public class SequenceHandler {
 				}
 				break;
 			case 4:
-				//now run the trial
-				IOtask2RunTrial.Run();
+				if (IOtask2BlockContext.getNTrials() == -1) { //if nTrials has been set to -1, we quit before running
+					SequenceHandler.SetLoop(0,  false);
+				} else {
+					//otherwise, run the trial
+					IOtask2RunTrial.Run();
+				}
 				break;
 			case 5:
 				if (IOtask2BlockContext.showPostTrialFeedback()) {

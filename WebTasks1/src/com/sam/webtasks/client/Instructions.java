@@ -1,6 +1,7 @@
 package com.sam.webtasks.client;
 
 import com.sam.webtasks.basictools.Counterbalance;
+import com.sam.webtasks.iotask2.IOtask2BlockContext;
 
 public class Instructions {
 
@@ -68,20 +69,23 @@ public class Instructions {
 			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
 				i = i + "you are trying to score points. You will earn money by "
 						+ "scoring these points.<br><br>You can score up to a maximum of " 
-					+ (ExtraNames.MAXPOINTS / 2) + "points, and you will earn $1 for every "
-					+ ExtraNames.POINTS_PER_DOLLAR + " points you score.<br><br>This means that you "
-			        + "can earn over $" + (ExtraNames.MAXPOINTS / (2 * ExtraNames.POINTS_PER_DOLLAR))
+					+ (Params.maxPoints / 2) + "points, and you will earn $1 for every "
+					+ Params.pointsPerDollar + " points you score.<br><br>This means that you "
+			        + "can earn over $" + (Params.maxPoints / (2 * Params.pointsPerDollar))
 			        + " in this half of the experiment, in addition to the base payment of " 
-			        + ExtraNames.BASEPAYMENT + " for taking part.";
+			        + Params.basePayment + " for taking part.<br><br>";
 			} else {
-				i = i + "we will start by giving you " + (ExtraNames.MAXPOINTS / 2) + " points. "
+				i = i + "we will start by giving you " + (Params.maxPoints / 2) + " points. "
 						+ "You will earn money by holding on to these points.<br><br> You "
-						+ "will receive $1 for every " + ExtraNames.POINTS_PER_DOLLAR + " that "
+						+ "will receive $1 for every " + Params.pointsPerDollar + " that "
 						+ "you retain.<br><br>This means that you can receive over $"
-						+ (ExtraNames.MAXPOINTS / (2 * ExtraNames.POINTS_PER_DOLLAR)) + " based on "
+						+ (Params.maxPoints / (2 * Params.pointsPerDollar)) + " based on "
 						+ "how many points you retain, in addition to "
-						+ "the base payment of " + ExtraNames.BASEPAYMENT + " for taking part.";
+						+ "the base payment of " + Params.basePayment + " for taking part.";
 			}			
+			
+			i = i + "You currently have " + IOtask2BlockContext.getTotalPoints()
+    			+ " points (" + IOtask2BlockContext.getMoneyString() + ").";
 			break;
 		case 6:
 			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
@@ -162,19 +166,22 @@ public class Instructions {
 			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
 				i = i + "From now on, you are trying to score additional points. You will earn money by "
 						+ "scoring these points.<br><br>You can score up to a maximum of " 
-					+ (ExtraNames.MAXPOINTS / 2) + "extra points, and you will earn $1 for every "
-					+ ExtraNames.POINTS_PER_DOLLAR + " points you score.<br><br>This means that you "
-			        + "can earn over $" + (ExtraNames.MAXPOINTS / (2 * ExtraNames.POINTS_PER_DOLLAR))
+					+ (Params.maxPoints / 2) + "extra points, and you will earn $1 for every "
+					+ Params.pointsPerDollar + " points you score.<br><br>This means that you "
+			        + "can earn over $" + (Params.maxPoints / (2 * Params.pointsPerDollar))
 			        + " in the remainder of the experiment, in addition to the money you already have."; 
 			} else {
-				i = i + "We are giving you " + (ExtraNames.MAXPOINTS / 2) + " extra points right now. "
+				i = i + "We are giving you " + (Params.maxPoints / 2) + " extra points right now. "
 						+ "You will earn money by holding on to these points.<br><br> You "
-						+ "will receive $1 for every " + ExtraNames.POINTS_PER_DOLLAR + " that "
+						+ "will receive $1 for every " + Params.pointsPerDollar + " that "
 						+ "you retain.<br><br>This means that you can receive over $"
-						+ (ExtraNames.MAXPOINTS / (2 * ExtraNames.POINTS_PER_DOLLAR)) + " based on "
+						+ (Params.maxPoints / (2 * Params.pointsPerDollar)) + " based on "
 						+ "how many points you retain, in addition to "
 						+ "the money you already have.";
-			}			
+			}	
+			
+			i = i + "You currently have " + IOtask2BlockContext.getTotalPoints()
+			+ " points (" + IOtask2BlockContext.getMoneyString() + ").";
 			break;
 		case 11:
 			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_SECOND) {
@@ -219,6 +226,10 @@ public class Instructions {
 		                + "each time you forget a special circle.";
 				break;
 			}
+		case 13:
+			i = "Thank you. The experiment is nearly finished now.<br><br>Finally, we would like you to complete two "
+					+ "brief questionnaires on the following pages.";
+			break;
 		}
 
 		return(i);	

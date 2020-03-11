@@ -99,6 +99,9 @@ public class IOtask2Block {
 	
 	// tell points how many points they've scored as they perform the task?
 	public boolean showLivePoints = false;
+	
+	// how should points be displayed?
+	public int pointDisplay = Names.POINT_STANDARD;
 
 	// check whether the first circle has been double-clicked, if so a double-click
 	// on the final circle exits the task, to help speed up debugging
@@ -106,6 +109,9 @@ public class IOtask2Block {
 	
 	// log drag end data?
 	public boolean logDragData = false;
+	
+	// are we in gain or loss freaming?
+	public int rewardFrame = Names.GAIN_FRAME;
 
 	// if a circle has been dragged out of the box, which side has it been dragged
 	// to?
