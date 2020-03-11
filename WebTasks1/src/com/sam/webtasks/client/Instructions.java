@@ -5,7 +5,7 @@ import com.sam.webtasks.basictools.Counterbalance;
 public class Instructions {
 
 	public static String Get(int index) {
-		String conditionInstruct;
+		String conditionInstruct="";
 		String i="";
 		 
 		switch(index) {
@@ -99,9 +99,9 @@ public class Instructions {
 			break;
 		case 7:
 			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
-				conditionInstruct = "score 10 points for every special circle you remember";
+				conditionInstruct = "score 10 points every time you remember a special circle";
 			} else {
-				conditionInstruct = "lose 10 points for every special circle you forget";
+				conditionInstruct = "lose 10 points every time you forget a special circle";
 			}
 			
 			i="Other times, you will have to set reminders for all the special circles.<br><br>When "
@@ -112,6 +112,113 @@ public class Instructions {
 	                + "circle and it will not let you continue if you do not.<br><br>Let's practice that now.";
 			
 			break;
+		case 8:
+			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
+				i="Sometimes, you will have a choice between two options when you do the task. One option will be to do the task "
+		                + "without being able to set any reminders. If you choose this option, you will always score "
+		                + "10 points for every special circle you remember.<br><br>The other option will be to "
+		                + "do the task with reminders, but in this case each special circle will be worth "
+		                + "fewer points. For example, you might be told that if you want to use reminders, "
+		                + "each special circle will be worth only 6 points.<br><br>You should choose whichever "
+		                + "option you think will score you the most points. <br><br>So if, for example, you "
+		                + "thought you would earn more points by setting reminders and scoring 6 points for "
+		                + "each special circle, you should choose this option. But if you thought you would "
+		                + "score more points by just using your own memory and earning 10 points for each special "
+		                + "circle, you should choose this option instead.";
+			} else {
+				i="Sometimes, you will have a choice between two options when you do the task. One option will be to do the task "
+		                + "without being able to set any reminders. If you choose this option, you can potentially "
+		                + "keep all of your points. However, you will also lose 10 points every time you forget "
+		                + "one of the special circles.<br><br>The other option will allow you to use reminders. "
+		                + "If you use reminders, you will also lose 10 points every time you forget one of the "
+		                + "special circles. However, you will also lose points even when you remember a special circle. "
+		                + "For example, you might be told that if you choose this option "
+		                + "you will lose 4 points each time you remember a special circle, and 10 points each time "
+		                + "you forget a special circle.<br><br>"
+		                + "You should choose whichever "
+		                + "option you think will allow you to keep the most points. <br><br>So if, for example, you "
+		                + "thought you would keep most points by using your own memory and keeping all your points when "
+		                + "you remember special circles, you should choose this option. But if you thought you would "
+		                + "keep most points by using reminders and losing 4 points every time you remember a special "
+		                + "circle, you should choose this option instead. In both cases, you will lose 10 points "
+		                + "each time you forget a special circle.";
+			}
+			break;
+		case 9:
+			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
+				conditionInstruct = "score";
+			} else {
+				conditionInstruct = "keep";
+			}
+			
+			i="When you are presented with a choice like this, it is completely up to you. "
+                    + "You should do whatever you think will allow you to " + conditionInstruct 
+                    + " the most points.<br><br>Click below to begin the task.";
+			break;	
+		case 10:
+			i="You have now completed more than half the experiment. For the rest of the experiment, the "
+					+ "way that you earn your payment will change. ";
+			
+			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
+				i = i + "From now on, you are trying to score additional points. You will earn money by "
+						+ "scoring these points.<br><br>You can score up to a maximum of " 
+					+ (ExtraNames.MAXPOINTS / 2) + "extra points, and you will earn $1 for every "
+					+ ExtraNames.POINTS_PER_DOLLAR + " points you score.<br><br>This means that you "
+			        + "can earn over $" + (ExtraNames.MAXPOINTS / (2 * ExtraNames.POINTS_PER_DOLLAR))
+			        + " in the remainder of the experiment, in addition to the money you already have."; 
+			} else {
+				i = i + "We are giving you " + (ExtraNames.MAXPOINTS / 2) + " extra points right now. "
+						+ "You will earn money by holding on to these points.<br><br> You "
+						+ "will receive $1 for every " + ExtraNames.POINTS_PER_DOLLAR + " that "
+						+ "you retain.<br><br>This means that you can receive over $"
+						+ (ExtraNames.MAXPOINTS / (2 * ExtraNames.POINTS_PER_DOLLAR)) + " based on "
+						+ "how many points you retain, in addition to "
+						+ "the money you already have.";
+			}			
+			break;
+		case 11:
+			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_SECOND) {
+				conditionInstruct = "score 10 points every time you remember a special circle";
+			} else {
+				conditionInstruct = "lose 10 points every time you forget a special circle";
+			}
+			
+			i="You will continue the same task as before. As before, sometimes you will have to "
+					+ "do the task using your own memory, and sometimes you will have to do the "
+					+ "task with reminders.<br><br>When you do this, you will " + conditionInstruct;
+			break;
+		case 12:
+			if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_SECOND) {
+				i="Also as before, you will sometimes have a choice between two options when you do the task. One option will be to do the task "
+		                + "without being able to set any reminders. If you choose this option, you will always score "
+		                + "10 points for every special circle you remember.<br><br>The other option will be to "
+		                + "do the task with reminders, but in this case each special circle will be worth "
+		                + "fewer points. For example, you might be told that if you want to use reminders, "
+		                + "each special circle will be worth only 6 points.<br><br>You should choose whichever "
+		                + "option you think will score you the most points. <br><br>So if, for example, you "
+		                + "thought you would earn more points by setting reminders and scoring 6 points for "
+		                + "each special circle, you should choose this option. But if you thought you would "
+		                + "score more points by just using your own memory and earning 10 points for each special "
+		                + "circle, you should choose this option instead.";
+			} else {
+				i="Also as before, you will sometimes have a choice between two options when you do the task. One option will be to do the task "
+		                + "without being able to set any reminders. If you choose this option, you can potentially "
+		                + "keep all of your points. However, you will also lose 10 points every time you forget "
+		                + "one of the special circles.<br><br>The other option will allow you to use reminders. "
+		                + "If you use reminders, you will also lose 10 points every time you forget one of the "
+		                + "special circles. However, you will also lose points even when you remember a special circle. "
+		                + "For example, you might be told that if you choose this option "
+		                + "you will lose 4 points each time you remember a special circle, and 10 points each time "
+		                + "you forget a special circle.<br><br>"
+		                + "You should choose whichever "
+		                + "option you think will allow you to keep the most points. <br><br>So if, for example, you "
+		                + "thought you would keep most points by using your own memory and keeping all your points when "
+		                + "you remember special circles, you should choose this option. But if you thought you would "
+		                + "keep most points by using reminders and losing 4 points every time you remember a special "
+		                + "circle, you should choose this option instead. In both cases, you will lose 10 points "
+		                + "each time you forget a special circle.";
+				break;
+			}
 		}
 
 		return(i);	
