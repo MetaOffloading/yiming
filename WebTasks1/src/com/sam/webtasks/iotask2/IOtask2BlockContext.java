@@ -251,7 +251,7 @@ public class IOtask2BlockContext {
 	public static void incrementHits() {
 		blockContext.nHits++;
 		
-		if (blockContext.scorePoints) {
+		if ((blockContext.scorePoints)&&(!blockContext.gainLossExp)) {
 			if (blockContext.variablePoints) {
 				blockContext.totalPoints += blockContext.pointValues[blockContext.exitFlag];
 			} else {
@@ -265,6 +265,20 @@ public class IOtask2BlockContext {
 			if (blockContext.variablePoints) {
 				blockContext.totalPoints -= 1;
 			}
+		}
+	}
+	
+	public static void incrementPoints(int nPoints) {
+		blockContext.totalPoints += nPoints;
+	}
+	
+	public static void setReminderCost(int reminderCost) {
+		blockContext.gainLossReminderCost = reminderCost;
+	}
+	
+	public static void chargeReminderCost() {
+		if (blockContext.gainLossExp) {
+			blockContext.totalPoints += blockContext.gainLossReminderCost;
 		}
 	}
 	
@@ -285,6 +299,39 @@ public class IOtask2BlockContext {
 	// how many points per target will be scored?
 	public static void setActualPoints(int newPoints) {
 		blockContext.actualPoints = newPoints;
+		
+		int rememberPoints = 0;
+		int forgetPoints = 0;
+		
+		
+		if (blockContext.gainLossExp) {
+			if (newPoints == blockContext.maxPoints) { //forced ext or forced int condition
+				rememberPoints = 10;
+			} else {
+				rememberPoints = newPoints;
+			}
+		}
+		
+		if (blockContext.rewardFrame == Names.LOSS_FRAME) {
+			rememberPoints -= blockContext.maxPoints;
+			forgetPoints -= blockContext.maxPoints;
+		}
+		
+		blockContext.gainLossRememberPoints = rememberPoints;
+		blockContext.gainLossForgetPoints = forgetPoints;
+	}
+	
+	//adjust points if this is a gain / loss experiment
+	public static void gainLossRemember() {
+		if (blockContext.gainLossExp) {
+			blockContext.totalPoints += blockContext.gainLossRememberPoints;
+		}
+	}
+	
+	public static void gainLossForget() {
+		if (blockContext.gainLossExp) {
+			blockContext.totalPoints += blockContext.gainLossForgetPoints;
+		}
 	}
 
 	// post-trial feedback

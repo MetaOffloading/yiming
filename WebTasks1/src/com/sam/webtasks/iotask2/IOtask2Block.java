@@ -112,6 +112,12 @@ public class IOtask2Block {
 	
 	// are we in gain or loss freaming?
 	public int rewardFrame = Names.GAIN_FRAME;
+	
+	// special algorithm for adjusting points in a gain/loss experiment
+	public boolean gainLossExp = false;
+	public int gainLossRememberPoints = 0;
+	public int gainLossForgetPoints = 0;
+	public int gainLossReminderCost = 0; // how much to increment points each time a target is presented
 
 	// if a circle has been dragged out of the box, which side has it been dragged
 	// to?

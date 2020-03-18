@@ -84,7 +84,7 @@ public class IOtask2RunTrial {
 			}
 		};
 
-		ProgressBar.SetProgress(Params.progress++, (2 * Params.nTrials) + 1);
+		ProgressBar.Increment();
 
 		// get block context
 		IOtask2Block block = IOtask2BlockContext.getContext();
@@ -345,9 +345,7 @@ public class IOtask2RunTrial {
 						if (IOtask2BlockContext.getReminderFlag() == IOtask2BlockContext.getBackupReminderFlag()) {
 							IOtask2BlockContext.setBackupReminderFlag(-1);
 						}
-					}
-
-					if (clickedCircle == IOtask2BlockContext.getBackupReminderFlag()) {
+					} else if (clickedCircle == IOtask2BlockContext.getBackupReminderFlag()) {
 						IOtask2BlockContext.setBackupReminderFlag(-1);
 					}
 
@@ -402,6 +400,8 @@ public class IOtask2RunTrial {
 									if (IOtask2BlockContext.getExitFlag() == IOtask2BlockContext
 											.getTargetSide(circleNum)) {
 										IOtask2BlockContext.incrementHits();
+										IOtask2BlockContext.gainLossRemember();
+										IOtask2BlockContext.chargeReminderCost(); //subtract the reminder cost, if appropriate
 										circles[clickedCircle].setFillColor(ColorName.GREENYELLOW);
 
 										if (IOtask2BlockContext.getShowPointLabels()) {
@@ -428,8 +428,15 @@ public class IOtask2RunTrial {
 									} else if (IOtask2BlockContext.getExitFlag() < 4) { // incorrect target response
 										circles[clickedCircle].setFillColor(ColorName.RED);
 										IOtask2BlockContext.decrementPoints();
+										
+										if (IOtask2BlockContext.getTargetSide(circleNum) > 0) { //incorrect respons to target
+											IOtask2BlockContext.gainLossForget();
+										}
 									} else { // ongoing response
-										//circles[clickedCircle].setFillColor(ColorName.PURPLE);
+										if (IOtask2BlockContext.getTargetSide(circleNum) > 0) { //missed target
+											IOtask2BlockContext.decrementPoints();
+											IOtask2BlockContext.gainLossForget();
+										}
 									}
 
 									circleText[clickedCircle].setVisible(false);
@@ -455,6 +462,11 @@ public class IOtask2RunTrial {
 									// then reset it to yellow
 									new Timer() {
 										public void run() {
+											if (IOtask2BlockContext.getReminderFlag() > -1) {
+												Window.alert("You need to set a reminder for circle number " +
+										                 circleText[IOtask2BlockContext.getReminderFlag()].getText());
+											}
+											
 											circles[IOtask2BlockContext.getNextCircle()]
 													.setFillColor(IOtask2DisplayParams.circleColours[0]);
 
@@ -564,7 +576,7 @@ public class IOtask2RunTrial {
 					if (IOtask2BlockContext.getExitFlag() > 0) {			
 						new Timer() {
 							public void run() {
-								pointsDisplay.setHTML("You have scored " + IOtask2BlockContext.getTotalPoints()
+								pointsDisplay.setHTML("You have " + IOtask2BlockContext.getTotalPoints()
 										+ " points (" + IOtask2BlockContext.getMoneyString() + ")");
 							}
 						}.schedule(10);

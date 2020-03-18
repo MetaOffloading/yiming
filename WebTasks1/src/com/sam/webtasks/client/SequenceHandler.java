@@ -19,11 +19,6 @@
 //continuing from where we left off.
 
 //TODO:
-//gain or lose points depending on the condition
-//counterbalance red / green
-//sort out instructions
-//equalise box size
-//timer
 //scroll
 //data output
 //resume where you left off
@@ -79,7 +74,7 @@ public class SequenceHandler {
 				//add progress bar to screen
 				ProgressBar.Initialise();
 				ProgressBar.Show();
-				ProgressBar.SetProgress(0,  25);
+				ProgressBar.SetProgress(0,  33);
 				
 				IOtask2Block block0 = new IOtask2Block();
 				block0.totalCircles = 8;
@@ -235,7 +230,8 @@ public class SequenceHandler {
 				break;
 			case 22:
 				ClickPage.Run("Now the task will begin for real.<br><br>"
-						+ "Click below to start.", "Next");
+						+ "You will see a countdown timer at the top. Please try to complete the task before "
+						+ "this runs out.<br><br>Click below to start.", "Next");
 				break;
 			case 23:
 				//first half of experimental trials
@@ -244,6 +240,8 @@ public class SequenceHandler {
 				block8.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
 				block8.pointDisplay = Names.POINT_GAINLOSS;
 				block8.showLivePoints = true;
+				block8.gainLossExp = true; //adjust points according to gain / loss
+				block8.countdownTimer = true;
 				
 				if (rewardFrame == ExtraNames.GAIN_SECOND) {
 					block8.rewardFrame = Names.LOSS_FRAME;
@@ -253,6 +251,10 @@ public class SequenceHandler {
 				break;
 			case 24:
 				//change of condition
+				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
+					IOtask2BlockContext.incrementPoints(Params.maxPoints / 2);
+				}
+				
 				ClickPage.Run(Instructions.Get(10),  "Next");
 				break;
 			case 25:
@@ -267,12 +269,9 @@ public class SequenceHandler {
 				block9.standard13block = true;
 				block9.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
 				
-				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
-					block9.totalPoints = block9.totalPoints + (Params.maxPoints / 2);
-				}
-				
 				block9.pointDisplay = Names.POINT_GAINLOSS;
 				block9.showLivePoints = true;
+				block9.gainLossExp = true; //adjust points according to gain / loss
 				
 				if (rewardFrame == ExtraNames.GAIN_FIRST) {
 					block9.rewardFrame = Names.LOSS_FRAME;
@@ -284,9 +283,11 @@ public class SequenceHandler {
 				ClickPage.Run(Instructions.Get(13),  "Next");
 				break;
 			case 29:
+				ProgressBar.Increment();
 				STAI.Run();
 				break;
 			case 30:
+				ProgressBar.Increment();
 				PSWQ.Run();
 				break;
 			case 31:
