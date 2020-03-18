@@ -86,8 +86,8 @@ public class PHP {
 							SequenceHandler.Next();
 						} else if (++timeCounter == timeOutDuration) {
 							cancel();
-							Window.alert(
-									"Database connection error. Please check your internet connection and try again.");
+							Window.alert("Database connection error " + SequenceHandler.GetLoop() + "," + SequenceHandler.GetPosition()
+							             + ". Please check your internet connection and try again.");
 							logData(dataType, data, checkSaved);
 						}
 					}
@@ -122,8 +122,8 @@ public class PHP {
 							}
 						} else if (++timeCounter == timeOutDuration) {
 							cancel();
-							Window.alert(
-									"Database connection error. Please check your internet connection and try again.");
+							Window.alert("Database connection error " + SequenceHandler.GetLoop() + "," + SequenceHandler.GetPosition()
+				             + ". Please check your internet connection and try again.");
 							CheckStatus();
 						}
 					}
@@ -175,11 +175,15 @@ public class PHP {
 								// fine to continue if the ID hasn't been used before
 								SequenceHandler.Next();
 							} else {
+								SessionInfo.resume = true;
+								
 								// it's also fine to continue if the ID has been used but the experiment was not
 								// completed
 								// in this case we need to make sure we use the some counterbalancing settings
 								// as last time
-								int cell = Integer.parseInt(phpOutput);
+								String[] parsedPhpOutput = phpOutput.split(",");
+								
+								int cell = Integer.parseInt(parsedPhpOutput[0]);
 								Counterbalance.setCounterbalancingFactors(cell);
 								SequenceHandler.Next();
 							}
@@ -187,7 +191,8 @@ public class PHP {
 						}
 					} else if (++timeCounter == timeOutDuration) {
 						cancel();
-						Window.alert("Database connection error. Please check your internet connection and try again.");
+						Window.alert("Database connection error " + SequenceHandler.GetLoop() + "," + SequenceHandler.GetPosition()
+			             + ". Please check your internet connection and try again.");
 						CheckStatus();
 					}
 				}
@@ -200,8 +205,7 @@ public class PHP {
 		postData = postData + "&experimentCode=" + SessionInfo.experimentCode;
 		postData = postData + "&version=" + SessionInfo.experimentVersion;
 		postData = postData + "&status=" + newStatus;
-
-		phpOutput = null;
+		phpOutput = "";
 		Post("updateStatus.php", postData, true);
 
 		timeCounter = 1;
@@ -216,11 +220,16 @@ public class PHP {
 						SequenceHandler.Next();
 					} else if (++timeCounter == timeOutDuration) {
 						cancel();
-						Window.alert("Database connection error. Please check your internet connection and try again.");
+						Window.alert("Database connection error " + SequenceHandler.GetLoop() + "," + SequenceHandler.GetPosition()
+			             + ". Please check your internet connection and try again.");
 						UpdateStatus(newStatus);
 					}
 				}
 			}.scheduleRepeating(checkInterval);
 		}
+	}
+	
+	public static String GetOutput() {
+		return(phpOutput);
 	}
 }

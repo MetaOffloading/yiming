@@ -40,6 +40,15 @@ public class Counterbalance {
 		return(level);
 	}
 	
+	//set factor level
+	public static void setFactorLevel(String name, int level) {
+		for (int i=0; i < factorNames.size(); i++) {
+			if (name.contentEquals(factorNames.get(i))) {
+				factorLevels.set(i,  level);
+			}
+		}
+	}
+	
 	//return an integer identifying which cell of the design we are in, i.e.
 	//a single integer which uniquely specifies all of the factors
 	public static int getCounterbalancingCell() {

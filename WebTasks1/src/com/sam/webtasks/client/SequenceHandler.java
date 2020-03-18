@@ -58,6 +58,7 @@ public class SequenceHandler {
 		sequencePosition.set(whichLoop, sequencePosition.get(whichLoop) + 1);
 		
 		int rewardFrame = Counterbalance.getFactorLevel("conditionOrder");
+		String statusString = "";
 		
 		switch (whichLoop) {
 		case 0: // MAIN LOOP
@@ -66,16 +67,37 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				Window.alert("Counterbalancing group: " + Counterbalance.getFactorLevel("conditionOrder"));
-
-				ClickPage.Run(Instructions.Get(0), "Next");
-				break;
-			case 2:
 				//add progress bar to screen
 				ProgressBar.Initialise();
 				ProgressBar.Show();
 				ProgressBar.SetProgress(0,  33);
 				
+				if (SessionInfo.resume) {
+					//get info about where to start from
+					//this experiment stores status as:
+					//0: counterbalancing cell, 1: resumablePosition, 2: progressBarPosition, 3: resumablePoints, 4: actualPoints
+					String[] parsedPhpOutput = PHP.GetOutput().split(",");
+					
+					//which position in the sequence handler should we go from?
+					int resumePosition = Integer.parseInt(parsedPhpOutput[1]);
+					sequencePosition.set(0,  resumePosition); //NB this will be incremented by one when the Next command is run
+					
+					//what should we set the progress bar to?
+					int progressBarPosition = Integer.parseInt(parsedPhpOutput[2]);	
+					ProgressBar.SetProgress(progressBarPosition,  33);
+								
+					//how many points should we start from?
+					IOtask2Block initBlock = new IOtask2Block(); 
+					initBlock.totalPoints = Integer.parseInt(parsedPhpOutput[3]);
+					IOtask2BlockContext.setContext(initBlock);	
+				}
+				
+				SequenceHandler.Next();
+				break;
+			case 2:
+				ClickPage.Run(Instructions.Get(0), "Next");
+				break;
+			case 3:
 				IOtask2Block block0 = new IOtask2Block();
 				block0.totalCircles = 8;
 				block0.nTargets = 0;
@@ -83,10 +105,10 @@ public class SequenceHandler {
 				block0.blockNum = 0;
 				block0.Run();
 				break;
-			case 3:
+			case 4:
 				ClickPage.Run(Instructions.Get(1),  "Next");
 				break;
-			case 4:
+			case 5:
 				IOtask2Block block1 = new IOtask2Block();
 				block1.totalCircles = 8;
 				block1.nTargets = 1;
@@ -94,7 +116,7 @@ public class SequenceHandler {
 				block1.blockNum = 1;
 				block1.Run();
 				break;
-			case 5:
+			case 6:
 				if (IOtask2BlockContext.getnHits() < 1) { //if there were fewer than 1 hits on the last trial
 					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2); //this line means that instead of moving forward we will repeat the previous instructions
 					ProgressBar.Decrement();
@@ -104,29 +126,35 @@ public class SequenceHandler {
 					ClickPage.Run("Well done, that was correct.<br><br>Now it will get more difficult. "
 							+ "There will be a total of 25 circles, and many of them will be special ones "
 							+ "that should go to one of the coloured sides of the box.<br><br>Don't worry if you "
-							+ "do not remember all of them. That's fine - just try to remember as many as you can.", "Next");
+							+ "do not remember all of them. That's fine - just try to remember as many as you can.<br><br>"
+							+ "Click below to practice the task twice.", "Next");
 				}
 				break;
-			case 6:
+			case 7:
 				IOtask2Block block2 = new IOtask2Block();
 				block2.blockNum = 2;
 				block2.nTrials = 2;
 				block2.Run();
 				break;
-			case 7:
+			case 8:
 				//get internal metacognitive judgement
 				Slider.Run(Instructions.Get(2), "0%", "100%");
 				break;
-			case 8:
+			case 9:
+				//save response to database
+				PHP.logData("intConfidence", "" + Slider.getSliderValue(), true);
+				break;
+			case 10:
 				//offloading instructions
 				ClickPage.Run(Instructions.Get(3),  "Next");
 				break;
-			case 9:
+			case 11:
 				IOtask2Block block3 = new IOtask2Block();
 				block3.blockNum = 3;
+				block3.offloadCondition = Names.REMINDERS_MANDATORY_TARGETONLY;
 				block3.Run();
 				break;
-			case 10:	
+			case 12:	
 				if (IOtask2BlockContext.getnHits() < 8) { //if there were fewer than 8 hits on the last trial
 					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2); //this line means that instead of moving forward we will repeat the previous instructions
 					ProgressBar.Decrement();
@@ -141,16 +169,21 @@ public class SequenceHandler {
 					SequenceHandler.Next();
 				}
 				break;
-			case 11:
+			case 13:
 				IOtask2Block block4 = new IOtask2Block();
 				block4.blockNum = 4;
+				block4.offloadCondition = Names.REMINDERS_MANDATORY_TARGETONLY;
 				block4.Run();
 				break;
-			case 12:
-				//get internal metacognitive judgement
+			case 14:
+				//get external metacognitive judgement
 				Slider.Run(Instructions.Get(4), "0%", "100%");
 				break;
-			case 13:
+			case 15:
+				//save response to database
+				PHP.logData("extConfidence",  "" + Slider.getSliderValue(), true);
+				break;
+			case 16:
 				//use this to initialise points
 				IOtask2Block initBlock = new IOtask2Block(); 
 				initBlock.totalPoints = Params.initialPoints;
@@ -164,15 +197,15 @@ public class SequenceHandler {
 				
 				SequenceHandler.Next();
 				break;
-			case 14:
+			case 17:
 				//payment instructions
 				ClickPage.Run(Instructions.Get(5), "Next");
 				break;
-			case 15:
+			case 18:
 				//forced internal practice
 				ClickPage.Run(Instructions.Get(6),  "Next");
 				break;
-			case 16:
+			case 19:
 				IOtask2Block block5 = new IOtask2Block();
 				block5.blockNum = 5;
 				block5.targetValues.add(0);
@@ -187,11 +220,11 @@ public class SequenceHandler {
 				
 				block5.Run();
 				break;
-			case 17:
+			case 20:
 				//forced external practice
 				ClickPage.Run(Instructions.Get(7),  "Next");
 				break;
-			case 18:
+			case 21:
 				IOtask2Block block6 = new IOtask2Block();
 				block6.blockNum = 6;
 				block6.targetValues.add(10);
@@ -206,15 +239,15 @@ public class SequenceHandler {
 				
 				block6.Run();
 				break;
-			case 19:
+			case 22:
 				//instructions about choice trials
 				ClickPage.Run(Instructions.Get(8),  "Next");
 				break;
-			case 20:
+			case 23:
 				//up to you, here's an example
 				ClickPage.Run(Instructions.Get(9),  "Next");;
 				break;
-			case 21:
+			case 24:
 				IOtask2Block block7 = new IOtask2Block();
 				block7.targetValues.add(6);
 				block7.nTrials = -1;
@@ -228,12 +261,26 @@ public class SequenceHandler {
 				
 				block7.Run();
 				break;
-			case 22:
+			case 25:
+				/*--------------*/
+				/* resume point */
+				/*--------------*/
+				
+				statusString = Counterbalance.getCounterbalancingCell() + ", "
+						+ sequencePosition.get(0) + ", "
+						+ IOtask2BlockContext.getTotalPoints() + ", "
+						+ IOtask2BlockContext.getTotalPoints();
+	
+				PHP.UpdateStatus(statusString);	
+				
+				SequenceHandler.Next();
+				break;
+			case 26:
 				ClickPage.Run("Now the task will begin for real.<br><br>"
 						+ "You will see a countdown timer at the top. Please try to complete the task before "
 						+ "this runs out.<br><br>Click below to start.", "Next");
 				break;
-			case 23:
+			case 27:
 				//first half of experimental trials
 				IOtask2Block block8 = new IOtask2Block();
 				block8.standard13block = true;
@@ -249,21 +296,44 @@ public class SequenceHandler {
 				
 				block8.Run();
 				break;
-			case 24:
+			case 28:
+				/*--------------*/
+				/* resume point */
+				/*--------------*/
+				
+				statusString = Counterbalance.getCounterbalancingCell() + ", "
+						+ sequencePosition.get(0) + ", "
+						+ IOtask2BlockContext.getTotalPoints() + ", "
+						+ IOtask2BlockContext.getTotalPoints();
+	
+				PHP.UpdateStatus(statusString);	
+				
+				SequenceHandler.Next();
+				break;
+			case 29:
 				//change of condition
 				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
 					IOtask2BlockContext.incrementPoints(Params.maxPoints / 2);
 				}
 				
+				//switch the forcedOrder factor, i.e. if the first half started with forced external then forced internal, we reverse this
+				//for the second half
+				
+				//first, work out the opposite of what it was before
+				int newOrder = (Counterbalance.getFactorLevel("forcedOrder")-1)^2;
+				
+				//now set this
+				Counterbalance.setFactorLevel("forcedOrder",  newOrder);
+				
 				ClickPage.Run(Instructions.Get(10),  "Next");
 				break;
-			case 25:
+			case 30:
 				ClickPage.Run(Instructions.Get(11),  "Next");
 				break;
-			case 26:
+			case 31:
 				ClickPage.Run(Instructions.Get(12),  "Next");
 				break;
-			case 27:
+			case 32:
 				//second half of experimental trials
 				IOtask2Block block9 = new IOtask2Block();
 				block9.standard13block = true;
@@ -279,18 +349,32 @@ public class SequenceHandler {
 				
 				block9.Run();
 				break;
-			case 28:
+			case 33:
+				/*--------------*/
+				/* resume point */
+				/*--------------*/
+				
+				statusString = Counterbalance.getCounterbalancingCell() + ", "
+						+ sequencePosition.get(0) + ", "
+						+ IOtask2BlockContext.getTotalPoints() + ", "
+						+ IOtask2BlockContext.getTotalPoints();
+	
+				PHP.UpdateStatus(statusString);	
+				
+				SequenceHandler.Next();
+				break;
+			case 34:
 				ClickPage.Run(Instructions.Get(13),  "Next");
 				break;
-			case 29:
+			case 35:
 				ProgressBar.Increment();
 				STAI.Run();
 				break;
-			case 30:
+			case 36:
 				ProgressBar.Increment();
 				PSWQ.Run();
 				break;
-			case 31:
+			case 37:
 				Finish.Run();
 				break;
 			}
@@ -428,11 +512,7 @@ public class SequenceHandler {
 				}
 				break;
 			case 5:
-				if (IOtask2BlockContext.showPostTrialFeedback()) {
-					IOtask2Feedback.Run();
-				} else {
-					SequenceHandler.Next();
-				}
+				IOtask2PostTrial.Run();
 				break;
 			case 6:
 				//we have reached the end, so we need to restart the loop
@@ -458,6 +538,11 @@ public class SequenceHandler {
 			sequencePosition.set(whichLoop, 0);
 		}
 	}
+	
+	// get current loop
+	public static int GetLoop() {
+		return (whichLoop);
+	}
 
 	// set a new position
 	public static void SetPosition(int newPosition) {
@@ -467,5 +552,10 @@ public class SequenceHandler {
 	// get current position
 	public static int GetPosition() {
 		return (sequencePosition.get(whichLoop));
+	}
+	
+	// get current position from particular loop
+	public static int GetPosition(int nLoop) {
+		return (sequencePosition.get(nLoop));
 	}
 }

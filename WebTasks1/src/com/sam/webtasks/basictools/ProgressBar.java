@@ -43,7 +43,7 @@ public class ProgressBar extends HTML
     	
     	progressElement.setAttribute("value", String.valueOf(--progressInt));	
     }
- 
+    
     /**
      * Remove the progress indicator values.  On firefox, this causes the
      * progress bar to sweep back and forth.
@@ -80,5 +80,14 @@ public class ProgressBar extends HTML
     
     public static void Decrement() {
     	WebTasks.progressBar.decrement();
+    }
+    
+    public int GetProgress() {
+    	Element progressElement = getElement().getFirstChildElement();
+    	
+    	String progress = progressElement.getAttribute("value");
+    	int progressInt = Integer.parseInt(progress);
+    	
+    	return(progressInt);
     }
 }

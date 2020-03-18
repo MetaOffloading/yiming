@@ -9,6 +9,11 @@ root {
     overflow: hidden;
 }
 
+html, body {
+	position: fixed;
+	overflow: hidden;
+}
+
 :focus {
     outline:0;
 }

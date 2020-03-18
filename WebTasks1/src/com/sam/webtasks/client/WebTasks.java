@@ -27,7 +27,8 @@ public class WebTasks implements EntryPoint {
 		        for (StackTraceElement elt : e.getStackTrace()) {
 		          msg += "\n in " + elt.getMethodName() + "("+elt.getFileName()+":"+elt.getLineNumber()+")";
 		        }
-		        Window.alert("Uncaught exception: " + msg);
+		        Window.alert("Uncaught exception. Loop: " + SequenceHandler.GetLoop() + ", Position: "
+		        			 + SequenceHandler.GetPosition() + "\n" + msg);
 		      }
 		    });
 		
