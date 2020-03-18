@@ -26,7 +26,7 @@ if($result = mysqli_query($db,$sql)) {
 			echo("Database entry error");
 		}
 	} else {
-		$stmt = $db->prepare("UPDATE status SET status=? WHERE participantCode=\"" . $participantCode . "\" AND experimentCode=\"" . $experimentCode . "\" AND version=\"" . $version . "\"");
+		$stmt = $db->prepare("UPDATE status SET status=(?) WHERE participantCode=\"" . $participantCode . "\" AND experimentCode=\"" . $experimentCode . "\" AND version=\"" . $version . "\"");
 		$stmt->bind_param("s", $status);
 		if($stmt->execute()) {
 			echo("OK");
