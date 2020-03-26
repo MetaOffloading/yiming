@@ -58,7 +58,6 @@ public class SequenceHandler {
 		sequencePosition.set(whichLoop, sequencePosition.get(whichLoop) + 1);
 		
 		int rewardFrame = Counterbalance.getFactorLevel("conditionOrder");
-		String statusString = "";
 		
 		switch (whichLoop) {
 		case 0: // MAIN LOOP
@@ -70,13 +69,13 @@ public class SequenceHandler {
 				//add progress bar to screen
 				ProgressBar.Initialise();
 				ProgressBar.Show();
-				ProgressBar.SetProgress(0,  33);
+				ProgressBar.SetProgress(0,  34);
 				
 				if (SessionInfo.resume) {
 					//get info about where to start from
 					//this experiment stores status as:
 					//0: counterbalancing cell, 1: resumablePosition, 2: progressBarPosition, 3: resumablePoints, 4: actualPoints
-					String[] parsedPhpOutput = PHP.GetOutput().split(",");
+					String[] parsedPhpOutput = SessionInfo.status.split(",");
 					
 					//which position in the sequence handler should we go from?
 					int resumePosition = Integer.parseInt(parsedPhpOutput[1]);
@@ -84,11 +83,14 @@ public class SequenceHandler {
 					
 					//what should we set the progress bar to?
 					int progressBarPosition = Integer.parseInt(parsedPhpOutput[2]);	
-					ProgressBar.SetProgress(progressBarPosition,  33);
+					ProgressBar.SetProgress(progressBarPosition,  34);
 								
 					//how many points should we start from?
 					IOtask2Block initBlock = new IOtask2Block(); 
 					initBlock.totalPoints = Integer.parseInt(parsedPhpOutput[3]);
+					
+					//configure block
+					initBlock.pointDisplay = Names.POINT_GAINLOSS;
 					IOtask2BlockContext.setContext(initBlock);	
 				}
 				
@@ -262,18 +264,8 @@ public class SequenceHandler {
 				block7.Run();
 				break;
 			case 25:
-				/*--------------*/
-				/* resume point */
-				/*--------------*/
-				
-				statusString = Counterbalance.getCounterbalancingCell() + ", "
-						+ sequencePosition.get(0) + ", "
-						+ IOtask2BlockContext.getTotalPoints() + ", "
-						+ IOtask2BlockContext.getTotalPoints();
-	
-				PHP.UpdateStatus(statusString);	
-				
-				SequenceHandler.Next();
+			    //resume point	
+				SavePosition.Save();
 				break;
 			case 26:
 				ClickPage.Run("Now the task will begin for real.<br><br>"
@@ -283,6 +275,7 @@ public class SequenceHandler {
 			case 27:
 				//first half of experimental trials
 				IOtask2Block block8 = new IOtask2Block();
+				block8.blockNum = 8;
 				block8.standard13block = true;
 				block8.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
 				block8.pointDisplay = Names.POINT_GAINLOSS;
@@ -297,18 +290,8 @@ public class SequenceHandler {
 				block8.Run();
 				break;
 			case 28:
-				/*--------------*/
-				/* resume point */
-				/*--------------*/
-				
-				statusString = Counterbalance.getCounterbalancingCell() + ", "
-						+ sequencePosition.get(0) + ", "
-						+ IOtask2BlockContext.getTotalPoints() + ", "
-						+ IOtask2BlockContext.getTotalPoints();
-	
-				PHP.UpdateStatus(statusString);	
-				
-				SequenceHandler.Next();
+				//resume point	
+				SavePosition.Save();
 				break;
 			case 29:
 				//change of condition
@@ -336,6 +319,7 @@ public class SequenceHandler {
 			case 32:
 				//second half of experimental trials
 				IOtask2Block block9 = new IOtask2Block();
+				block9.blockNum = 9;
 				block9.standard13block = true;
 				block9.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
 				
@@ -350,18 +334,8 @@ public class SequenceHandler {
 				block9.Run();
 				break;
 			case 33:
-				/*--------------*/
-				/* resume point */
-				/*--------------*/
-				
-				statusString = Counterbalance.getCounterbalancingCell() + ", "
-						+ sequencePosition.get(0) + ", "
-						+ IOtask2BlockContext.getTotalPoints() + ", "
-						+ IOtask2BlockContext.getTotalPoints();
-	
-				PHP.UpdateStatus(statusString);	
-				
-				SequenceHandler.Next();
+				//resume point	
+				SavePosition.Save();
 				break;
 			case 34:
 				ClickPage.Run(Instructions.Get(13),  "Next");
@@ -371,10 +345,17 @@ public class SequenceHandler {
 				STAI.Run();
 				break;
 			case 36:
+				//resume point	
+				SavePosition.Save();
+				break;
+			case 37:
 				ProgressBar.Increment();
 				PSWQ.Run();
 				break;
-			case 37:
+			case 38:
+				PHP.UpdateStatus("finished");
+				break;
+			case 39:
 				Finish.Run();
 				break;
 			}
@@ -428,8 +409,12 @@ public class SequenceHandler {
 				}
 				break;
 			case 8:
-				//record the participant's counterbalancing condition in the status table
-				PHP.UpdateStatus("" + Counterbalance.getCounterbalancingCell());
+				//record the participant's counterbalancing condition in the status table				
+				if (!SessionInfo.resume) {
+					PHP.UpdateStatus("" + Counterbalance.getCounterbalancingCell());
+				} else {
+					SequenceHandler.Next();
+				}
 				break;
 			case 9:
 				SequenceHandler.SetLoop(0, true); // switch to and initialise the main loop
@@ -489,7 +474,7 @@ public class SequenceHandler {
 			case 2:
 				IOtask2InitialiseTrial.Run();
 				break;
-			case 3:
+			case 3:;
 				//present the pre-trial choice if appropriate
 				if (IOtask2BlockContext.currentTargetValue() > -1) {
 					IOtask2PreTrial.Run();

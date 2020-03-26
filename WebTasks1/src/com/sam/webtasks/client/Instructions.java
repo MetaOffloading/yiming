@@ -109,7 +109,7 @@ public class Instructions {
 			i="Sometimes when you do the task, you will have to do it without setting any reminders.<br><br>"
                     + "When this happens, you will " + conditionInstruct +  ".<br><br>"
                     + "You will always be given clear instructions what you should do. In this case you will be "
-                    + "told \"This time you must do the task without setting any reminders\" and see a " + noReminderColour + "button. "
+                    + "told \"This time you must do the task without setting any reminders\" and see a " + noReminderColour + " button. "
                     + "When this happens, "
                     + "the computer will not let you set any reminders.<br><br>Click below to see an example.";
 			break;

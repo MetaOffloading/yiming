@@ -5,6 +5,7 @@ import com.sam.webtasks.basictools.ClickPage;
 import com.sam.webtasks.basictools.Counterbalance;
 import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
+import com.sam.webtasks.basictools.ProgressBar;
 import com.sam.webtasks.iotask2.IOtask2Block;
 import com.sam.webtasks.iotask2.IOtask2BlockContext;
 
@@ -16,10 +17,9 @@ public class IOtask2PostTrial {
 		
 		String statusString = Counterbalance.getCounterbalancingCell() + ","
 							+ SessionInfo.resumePosition + ","
+	                        + SessionInfo.resumeProgress + ","
 							+ SessionInfo.resumePoints + ","
 							+ IOtask2BlockContext.getTotalPoints();
-		
-		Window.alert(statusString);
 		
 		PHP.UpdateStatus(statusString);							
 	}

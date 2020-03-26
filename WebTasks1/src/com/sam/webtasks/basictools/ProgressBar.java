@@ -19,6 +19,9 @@ public class ProgressBar extends HTML
      * @param value Current progress value
      * @param max Target/complete value
      */
+    
+    public static int progressValue;
+    
     public void setProgress(int value, int max)
     {
         Element progressElement = getElement().getFirstChildElement();
@@ -44,6 +47,13 @@ public class ProgressBar extends HTML
     	progressElement.setAttribute("value", String.valueOf(--progressInt));	
     }
     
+    public void getProgress() {
+    	Element progressElement = getElement().getFirstChildElement();
+    	
+    	String progress = progressElement.getAttribute("value");
+    	progressValue = Integer.parseInt(progress);
+    }
+    
     /**
      * Remove the progress indicator values.  On firefox, this causes the
      * progress bar to sweep back and forth.
@@ -56,7 +66,7 @@ public class ProgressBar extends HTML
     }
     
     public static void Initialise() {
-    	WebTasks.progressBarPanel.setWidth("100%");
+    	WebTasks.progressBarPanel.setWidth(Window.getClientWidth() + "px");
     	WebTasks.progressBarPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
     	WebTasks.progressBar.setWidth("200px");
     	WebTasks.progressBarPanel.add(WebTasks.progressBar);
@@ -82,12 +92,8 @@ public class ProgressBar extends HTML
     	WebTasks.progressBar.decrement();
     }
     
-    public int GetProgress() {
-    	Element progressElement = getElement().getFirstChildElement();
-    	
-    	String progress = progressElement.getAttribute("value");
-    	int progressInt = Integer.parseInt(progress);
-    	
-    	return(progressInt);
+    public static void GetProgress() {
+    	WebTasks.progressBar.getProgress();
     }
+    
 }

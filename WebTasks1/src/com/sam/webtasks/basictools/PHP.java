@@ -62,10 +62,10 @@ public class PHP {
 	}
 
 	public static void logData(final String dataType, final String data, final boolean checkSaved) {
-		String postData = "dataType=" + dataType + "&participantCode=" + SessionInfo.participantID;
-		postData = postData + "&experimentCode=" + SessionInfo.experimentCode + "&version="
-				+ SessionInfo.experimentVersion;
-		postData = postData + "&sessionKey=" + SessionInfo.sessionKey + "&data=" + data;
+		final String postData = "dataType=" + dataType + "&participantCode=" + SessionInfo.participantID
+	                          + "&experimentCode=" + SessionInfo.experimentCode + "&version="
+				              + SessionInfo.experimentVersion
+							  + "&sessionKey=" + SessionInfo.sessionKey + "&data=" + data;
 
 		phpOutput = "";
 
@@ -86,8 +86,7 @@ public class PHP {
 							SequenceHandler.Next();
 						} else if (++timeCounter == timeOutDuration) {
 							cancel();
-							Window.alert("Database connection error " + SequenceHandler.GetLoop() + "," + SequenceHandler.GetPosition()
-							             + ". Please check your internet connection and try again.");
+							Window.alert("Database connection error. Please check your internet connection and try again.");
 							logData(dataType, data, checkSaved);
 						}
 					}
@@ -98,7 +97,7 @@ public class PHP {
 
 	public static void CheckStatusPrevExp() {
 		if (SessionInfo.newParticipantsOnly) {
-			String postData = "participantCode=" + SessionInfo.participantID;
+			final String postData = "participantCode=" + SessionInfo.participantID;
 
 			phpOutput = null;
 			Post("checkStatusPrevExp.php", postData, true);
@@ -122,8 +121,7 @@ public class PHP {
 							}
 						} else if (++timeCounter == timeOutDuration) {
 							cancel();
-							Window.alert("Database connection error " + SequenceHandler.GetLoop() + "," + SequenceHandler.GetPosition()
-				             + ". Please check your internet connection and try again.");
+							Window.alert("Database connection error. Please check your internet connection and try again.");
 							CheckStatus();
 						}
 					}
@@ -149,7 +147,7 @@ public class PHP {
 		} else {
 			new Timer() {
 				public void run() {
-					if (phpOutput != null) { // response from database
+					if (phpOutput != null) { // response from database						
 						cancel();
 
 						switch (SessionInfo.eligibility) {
@@ -175,24 +173,28 @@ public class PHP {
 								// fine to continue if the ID hasn't been used before
 								SequenceHandler.Next();
 							} else {
-								SessionInfo.resume = true;
-								
 								// it's also fine to continue if the ID has been used but the experiment was not
 								// completed
 								// in this case we need to make sure we use the some counterbalancing settings
 								// as last time
+								SessionInfo.status = phpOutput;
+								
 								String[] parsedPhpOutput = phpOutput.split(",");
 								
 								int cell = Integer.parseInt(parsedPhpOutput[0]);
 								Counterbalance.setCounterbalancingFactors(cell);
+								
+								if (phpOutput.contains(",")) { //comma indicates that some resume info has been saved
+									SessionInfo.resume = true;
+								}
+								
 								SequenceHandler.Next();
 							}
 							break;
 						}
 					} else if (++timeCounter == timeOutDuration) {
 						cancel();
-						Window.alert("Database connection error " + SequenceHandler.GetLoop() + "," + SequenceHandler.GetPosition()
-			             + ". Please check your internet connection and try again.");
+						Window.alert("Database connection error. Please check your internet connection and try again.");
 						CheckStatus();
 					}
 				}
@@ -201,10 +203,11 @@ public class PHP {
 	}
 
 	public static void UpdateStatus(final String newStatus) {
-		String postData = "participantCode=" + SessionInfo.participantID;
-		postData = postData + "&experimentCode=" + SessionInfo.experimentCode;
-		postData = postData + "&version=" + SessionInfo.experimentVersion;
-		postData = postData + "&status=" + newStatus;
+		final String postData = "participantCode=" + SessionInfo.participantID
+		+ "&experimentCode=" + SessionInfo.experimentCode
+		+ "&version=" + SessionInfo.experimentVersion
+		+ "&status=" + newStatus;
+		
 		phpOutput = "";
 		Post("updateStatus.php", postData, true);
 
@@ -220,8 +223,7 @@ public class PHP {
 						SequenceHandler.Next();
 					} else if (++timeCounter == timeOutDuration) {
 						cancel();
-						Window.alert("Database connection error " + SequenceHandler.GetLoop() + "," + SequenceHandler.GetPosition()
-			             + ". Please check your internet connection and try again.");
+						Window.alert("Database connection error. Please check your internet connection and try again.");
 						UpdateStatus(newStatus);
 					}
 				}
