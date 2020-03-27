@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.sam.webtasks.client.SessionInfo;
@@ -161,12 +162,15 @@ public class Consent {
         screenPanel.setWidth("100%");
         screenPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         screenPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        screenPanel.addStyleName("bottomMarginSmall");
 
         screenPanel.add(mainPanel);
+        
+        final ScrollPanel scrollPanel = new ScrollPanel();
 
         backButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RootPanel.get().remove(screenPanel);
+                RootPanel.get().remove(scrollPanel);
                 SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2);
                 SequenceHandler.Next();
             }
@@ -251,8 +255,11 @@ public class Consent {
                 }
             }
         });
-
-        RootPanel.get().add(screenPanel);
+ 
+        scrollPanel.add(screenPanel);
+        scrollPanel.setHeight(Window.getClientHeight() + "px");
+        RootPanel.get().add(scrollPanel);
+        
         ageBox.setWidth(ageBoxLabel.getOffsetWidth() + "px");
         emailTextBox.setWidth((printText.getOffsetWidth() - 5) + "px");
     }

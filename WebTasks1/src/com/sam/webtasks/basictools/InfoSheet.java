@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.sam.webtasks.client.SequenceHandler;
@@ -33,6 +34,8 @@ public class InfoSheet {
         final HTML contactHTML = new HTML();
         final HTML infoHTML = new HTML();
         final Button continueButton = new Button("Click here to continue");
+        
+        final ScrollPanel scrollPanel = new ScrollPanel();
 
         title.setText("Information page for participants in research studies");
         title.setStyleName("titleText");
@@ -107,12 +110,14 @@ public class InfoSheet {
 
         continueButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RootPanel.get().remove(screenPanel);
+                RootPanel.get().remove(scrollPanel);
                 SequenceHandler.Next();
             }
         });
 
-        RootPanel.get().add(screenPanel);
+        scrollPanel.add(screenPanel);
+        scrollPanel.setHeight(Window.getClientHeight() + "px");
+        RootPanel.get().add(scrollPanel);
 
         emailTextBox.setWidth((printText.getOffsetWidth() - 5) + "px");
     }

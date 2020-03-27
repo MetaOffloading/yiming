@@ -356,6 +356,15 @@ public class SequenceHandler {
 				PHP.UpdateStatus("finished");
 				break;
 			case 39:
+				String data = Counterbalance.getFactorLevel("conditionOrder") + ","
+				            + Counterbalance.getFactorLevel("buttonColours") + ","
+				            + Counterbalance.getFactorLevel("forcedOrder") + ","
+				            + SessionInfo.rewardCode + ","
+				            + IOtask2BlockContext.getTotalPoints();
+				
+				PHP.logData("finish",  "", true);
+				break;
+			case 40:
 				Finish.Run();
 				break;
 			}
