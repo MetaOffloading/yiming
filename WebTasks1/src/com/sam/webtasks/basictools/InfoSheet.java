@@ -57,7 +57,7 @@ public class InfoSheet {
             public void onClick(ClickEvent event) {
                 String phpString = "send_info.php?to=" + emailTextBox.getText();
                 PHP.Call(phpString, false);
-
+                
                 mainPanel.remove(emailPanel);
             }
         });
@@ -84,7 +84,7 @@ public class InfoSheet {
         mainPanel.add(title);
         mainPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
         mainPanel.add(printPanel);
-        mainPanel.add(emailPanel);
+        //mainPanel.add(emailPanel);
         mainPanel.add(projectTitleText);
         mainPanel.add(approvalHTML);
         mainPanel.add(contactTitle);

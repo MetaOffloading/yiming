@@ -16,6 +16,7 @@ public class SavePosition {
 				+ SequenceHandler.GetPosition(0) + ","
 				+ ProgressBar.progressValue + ","
 				+ IOtask2BlockContext.getTotalPoints() + ","
+				+ IOtask2BlockContext.getTotalPoints() + ","
 				+ IOtask2BlockContext.getTotalPoints();
 
 		PHP.UpdateStatus(statusString);	

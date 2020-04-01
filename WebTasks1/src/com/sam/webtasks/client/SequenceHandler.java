@@ -65,7 +65,9 @@ public class SequenceHandler {
 			/***********************************************************************
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
-			case 1:
+			case 1:		
+				PHP.logData("start", "" + TimeStamp.Now(), false);
+				
 				//add progress bar to screen
 				ProgressBar.Initialise();
 				ProgressBar.Show();
@@ -78,16 +80,17 @@ public class SequenceHandler {
 					String[] parsedPhpOutput = SessionInfo.status.split(",");
 					
 					//which position in the sequence handler should we go from?
-					int resumePosition = Integer.parseInt(parsedPhpOutput[1]);
-					sequencePosition.set(0,  resumePosition); //NB this will be incremented by one when the Next command is run
+					SessionInfo.resumePosition = Integer.parseInt(parsedPhpOutput[1]);
+					sequencePosition.set(0,  SessionInfo.resumePosition); //NB this will be incremented by one when the Next command is run
 					
 					//what should we set the progress bar to?
-					int progressBarPosition = Integer.parseInt(parsedPhpOutput[2]);	
-					ProgressBar.SetProgress(progressBarPosition,  34);
+					SessionInfo.resumeProgress = Integer.parseInt(parsedPhpOutput[2]);	
+					ProgressBar.SetProgress(SessionInfo.resumeProgress,  34);
 								
 					//how many points should we start from?
 					IOtask2Block initBlock = new IOtask2Block(); 
 					initBlock.totalPoints = Integer.parseInt(parsedPhpOutput[3]);
+					SessionInfo.resumePoints = initBlock.totalPoints;
 					
 					//configure block
 					initBlock.pointDisplay = Names.POINT_GAINLOSS;
@@ -298,15 +301,7 @@ public class SequenceHandler {
 				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.GAIN_FIRST) {
 					IOtask2BlockContext.incrementPoints(Params.maxPoints / 2);
 				}
-				
-				//switch the forcedOrder factor, i.e. if the first half started with forced external then forced internal, we reverse this
-				//for the second half
-				
-				//first, work out the opposite of what it was before
-				int newOrder = (Counterbalance.getFactorLevel("forcedOrder")-1)^2;
-				
-				//now set this
-				Counterbalance.setFactorLevel("forcedOrder",  newOrder);
+
 				
 				ClickPage.Run(Instructions.Get(10),  "Next");
 				break;
@@ -322,6 +317,7 @@ public class SequenceHandler {
 				block9.blockNum = 9;
 				block9.standard13block = true;
 				block9.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
+				block9.reverseForcedOrder = true; //switch the ordering of forced int / ext
 				
 				block9.pointDisplay = Names.POINT_GAINLOSS;
 				block9.showLivePoints = true;
@@ -356,13 +352,15 @@ public class SequenceHandler {
 				PHP.UpdateStatus("finished");
 				break;
 			case 39:
-				String data = Counterbalance.getFactorLevel("conditionOrder") + ","
+				String data = TimeStamp.Now() + ","
+				            + Counterbalance.getFactorLevel("conditionOrder") + ","
 				            + Counterbalance.getFactorLevel("buttonColours") + ","
 				            + Counterbalance.getFactorLevel("forcedOrder") + ","
 				            + SessionInfo.rewardCode + ","
-				            + IOtask2BlockContext.getTotalPoints();
+				            + IOtask2BlockContext.getTotalPoints() + ","
+				            + IOtask2BlockContext.getMoneyString();
 				
-				PHP.logData("finish",  "", true);
+				PHP.logData("finish",  data, true);
 				break;
 			case 40:
 				Finish.Run();
@@ -420,7 +418,7 @@ public class SequenceHandler {
 			case 8:
 				//record the participant's counterbalancing condition in the status table				
 				if (!SessionInfo.resume) {
-					PHP.UpdateStatus("" + Counterbalance.getCounterbalancingCell());
+					PHP.UpdateStatus("" + Counterbalance.getCounterbalancingCell() + ",1,0,0,0,0");
 				} else {
 					SequenceHandler.Next();
 				}

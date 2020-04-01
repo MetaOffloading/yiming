@@ -86,7 +86,7 @@ public class PHP {
 							SequenceHandler.Next();
 						} else if (++timeCounter == timeOutDuration) {
 							cancel();
-							Window.alert("Database connection error. Please check your internet connection and try again.");
+							Window.alert("Database connection error. Please check your internet connection and click OK to try again.");
 							logData(dataType, data, checkSaved);
 						}
 					}
@@ -178,13 +178,13 @@ public class PHP {
 								// in this case we need to make sure we use the some counterbalancing settings
 								// as last time
 								SessionInfo.status = phpOutput;
-								
-								String[] parsedPhpOutput = phpOutput.split(",");
-								
-								int cell = Integer.parseInt(parsedPhpOutput[0]);
-								Counterbalance.setCounterbalancingFactors(cell);
-								
+
 								if (phpOutput.contains(",")) { //comma indicates that some resume info has been saved
+									String[] parsedPhpOutput = phpOutput.split(",");
+									
+									int cell = Integer.parseInt(parsedPhpOutput[0]);
+									Counterbalance.setCounterbalancingFactors(cell);
+									
 									SessionInfo.resume = true;
 								}
 								

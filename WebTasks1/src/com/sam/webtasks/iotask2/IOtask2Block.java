@@ -25,6 +25,9 @@ public class IOtask2Block {
 	// run a standard 9-trial block?
 	public boolean standard9block = false;
 	
+	// reverse the order of the forced internal/external trials?
+	public boolean reverseForcedOrder = false;
+	
 	// run just the choice trials without forced internal/external?
 	public boolean onlyChoiceTrials = false;
 
@@ -167,6 +170,20 @@ public class IOtask2Block {
 				forcedA = 10;
 				forcedB = 0;
 			}
+			
+			if (reverseForcedOrder) {
+				if (forcedA == 0) {
+					forcedA = 10;
+				} else {
+					forcedA = 0;
+				}
+				
+				if (forcedB == 0) {
+					forcedB = 10;
+				} else {
+					forcedB = 0;
+				}
+			}
 
 			// now put the whole list of target values together
 			targetValues.add(choiceValues.get(0));
@@ -208,6 +225,20 @@ public class IOtask2Block {
 																		// switch these around
 				forcedA = 10;
 				forcedB = 0;
+			}
+			
+			if (reverseForcedOrder) {
+				if (forcedA == 0) {
+					forcedA = 10;
+				} else {
+					forcedA = 0;
+				}
+				
+				if (forcedB == 0) {
+					forcedB = 10;
+				} else {
+					forcedB = 0;
+				}
 			}
 
 			// now put the whole list of target values together
@@ -254,6 +285,20 @@ public class IOtask2Block {
 																		// switch these around
 				forcedA = 10;
 				forcedB = 0;
+			}
+			
+			if (reverseForcedOrder) {
+				if (forcedA == 0) {
+					forcedA = 10;
+				} else {
+					forcedA = 0;
+				}
+				
+				if (forcedB == 0) {
+					forcedB = 10;
+				} else {
+					forcedB = 0;
+				}
 			}
 
 			// now put the whole list of target values together

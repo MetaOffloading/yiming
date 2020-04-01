@@ -145,14 +145,14 @@ public class Consent {
         mainPanel.add(title);
         mainPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
         mainPanel.add(printPanel);
-        mainPanel.add(emailPanel1);
+        //mainPanel.add(emailPanel1);
         mainPanel.add(projectTitleText);
         mainPanel.add(approvalHTML);
         mainPanel.add(bodyHTML);
         mainPanel.add(pleaseConfirmText);
         mainPanel.add(checkBoxPanel);
         mainPanel.add(namePanel);
-        mainPanel.add(emailPanel);
+        //mainPanel.add(emailPanel);
         mainPanel.add(agePanel);
         mainPanel.add(genderPanel);
         mainPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
@@ -231,7 +231,7 @@ public class Consent {
                 	
                     String data=""+SessionInfo.gender+","+SessionInfo.age+","+Counterbalance.getCounterbalancingCell();
              
-                    RootPanel.get().remove(screenPanel);
+                    RootPanel.get().remove(scrollPanel);
 
                     if (Integer.parseInt(ageBox.getText()) < 18) {
                         under18();

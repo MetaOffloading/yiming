@@ -8,7 +8,7 @@ public class SessionInfo {
 	/*******************************************************/
 		
 	//are we just testing locally? set this to true if so and it won't try to log data to the database
-	public static boolean localTesting=true;
+	public static boolean localTesting=false;
 	public static boolean runInfoConsentPages=true; //should we do the info and consent pages?
 	public static int experimentType = Names.EXPERIMENT_MTURK;
 	
@@ -16,7 +16,7 @@ public class SessionInfo {
 	public static String experimentCode="CWPK1";
 	
 	//which version of the experiment is this?
-	public static int experimentVersion=11;
+	public static int experimentVersion=12;
 	
 	//what is the minimum permitted screen size in pixels?
 	//if the screen is smaller than this the participant will be asked
@@ -50,7 +50,7 @@ public class SessionInfo {
 	//participant info variables
 	public static boolean resume=false;      //is this a resumption of an earlier session?
 	public static String status="";          //status loaded from the database
-	public static int resumePosition=0;      //what position should we resume from, if the participant comes back?
+	public static int resumePosition=1;      //what position should we resume from, if the participant comes back?
 	public static int resumeProgress=0;      //what should the progress bar be set to if we resume?
 	public static int resumePoints=0;        //if we are scoring points, what number of points should we resume from?
 	public static int gender;
