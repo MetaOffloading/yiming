@@ -48,6 +48,11 @@ html, body {
     font-size: large; 
 }
 
+.timeText {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 50px; 
+}
+
 .titleText {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: large;
