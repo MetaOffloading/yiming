@@ -6,7 +6,14 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class TimeBlock {
 	//timing settings
-	public static int currentTime, clockStartTime, targetTime, blockDuration, tickTime, RSI;
+	public static int currentTime;
+	public static int clockStartTime;
+	public static int nextInstruction;
+	public static int nextTarget;
+	public static int lastTarget;
+	public static int blockDuration;
+	public static int tickTime;
+	public static int RSI;
 	
 	//should offloading be allowed in this block?
 	public static boolean allowOffloading;
@@ -14,6 +21,8 @@ public class TimeBlock {
 	//timestamp of beginning of block
 	public static Date blockStart;
 	
+	//how many seconds before / after target time is ok?
+	public static final int PMwindow = 2;
 	
 	/*-----------reset all block settings-----------*/
 	
@@ -24,7 +33,9 @@ public class TimeBlock {
 		
 		currentTime=0;
 		clockStartTime=0;
-		targetTime=0;
+		nextInstruction=TimeDisplay.generateDelay();
+		nextTarget=nextInstruction+TimeDisplay.generateDelay();
+		lastTarget=nextTarget;
 		blockDuration=60;
 		tickTime=1000;
 		RSI=300;
@@ -34,11 +45,9 @@ public class TimeBlock {
 	
 	public static void Run() {
 		RootPanel.get().add(TimeDisplay.wrapper);
-		TimeDisplay.startClock();
+		TimeDisplay.waitForSpacebar = true;
 		
 		//set timestamp for beginning of block
 		blockStart = new Date();
-		
-		TimeTrial.Run();
 	}
 }

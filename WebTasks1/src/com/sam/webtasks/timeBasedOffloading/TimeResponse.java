@@ -1,17 +1,53 @@
 package com.sam.webtasks.timeBasedOffloading;
 
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 
 public class TimeResponse {
 	public static void Run(int response) {
-		TimeDisplay.focusPanel.setFocus(false);
-		
-		TimeDisplay.stimulusDisplay.setHTML("");
-		
-		new Timer() {
-			public void run() {
-				TimeDisplay.stimulusDisplay.setHTML("A");
+		if (TimeDisplay.waitForSpacebar) {
+			if (response==32) {
+				TimeDisplay.waitForSpacebar = false;
+				TimeDisplay.focusPanel.setFocus(false);
+				TimeDisplay.stimulusDisplay.setHTML("");
+				TimeDisplay.startClock();
+				
+				new Timer() {
+					public void run() {
+						TimeDisplay.stimulusDisplay.setHTML(TimeDisplay.generateStimulus());
+						TimeDisplay.focusPanel.setFocus(true);
+					}
+				}.schedule(TimeBlock.RSI);
+			} else {
+				Window.alert("Press the spacebar to start the clock");
 			}
-		}.schedule(TimeBlock.RSI);
+		} else {
+			if (response==32) {
+				if (TimeDisplay.awaitingPMresponse) {
+					if (Math.abs(TimeBlock.currentTime-TimeBlock.lastTarget) <= TimeBlock.PMwindow) {
+						TimeDisplay.awaitingPMresponse=false;
+						
+						TimeDisplay.clockDisplay.addStyleName("greenyellow");
+						
+						new Timer() {
+							public void run() {
+								TimeDisplay.clockDisplay.removeStyleName("greenyellow");
+							}
+						}.schedule(200);
+					}
+				}
+			} else {
+				TimeDisplay.focusPanel.setFocus(false);
+		
+				TimeDisplay.stimulusDisplay.setHTML("");
+		
+				new Timer() {
+					public void run() {
+						TimeDisplay.stimulusDisplay.setHTML(TimeDisplay.generateStimulus());
+						TimeDisplay.focusPanel.setFocus(true);
+					}
+				}.schedule(TimeBlock.RSI);
+			}
+		}
 	}
 }
