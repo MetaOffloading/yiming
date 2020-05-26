@@ -16,7 +16,7 @@ public class TimeBlock {
 	public static int RSI;
 	
 	//should offloading be allowed in this block?
-	public static boolean allowOffloading;
+	public static boolean allowOffloading=true;
 	
 	//timestamp of beginning of block
 	public static Date blockStart;

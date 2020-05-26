@@ -53,6 +53,11 @@ html, body {
     font-size: 50px; 
 }
 
+.clockText {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 25px; 
+}
+
 .titleText {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: large;

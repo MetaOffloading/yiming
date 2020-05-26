@@ -7,6 +7,12 @@ public class TimeResponse {
 	public static void Run(int response) {
 		if (TimeDisplay.waitForSpacebar) {
 			if (response==32) {
+				if (TimeDisplay.awaitingPMresponse) {
+					if (TimeBlock.allowOffloading) {
+						TimeDisplay.offloadButton.setEnabled(true);
+					}
+				}
+				
 				TimeDisplay.waitForSpacebar = false;
 				TimeDisplay.focusPanel.setFocus(false);
 				TimeDisplay.stimulusDisplay.setHTML("");
@@ -27,6 +33,10 @@ public class TimeResponse {
 					if (Math.abs(TimeBlock.currentTime-TimeBlock.lastTarget) <= TimeBlock.PMwindow) {
 						TimeDisplay.awaitingPMresponse=false;
 						
+						TimeDisplay.reminder.cancel();
+						TimeDisplay.showReminder = false;
+						TimeDisplay.offloadButton.setEnabled(false);
+						
 						TimeDisplay.clockDisplay.addStyleName("greenyellow");
 						
 						new Timer() {
@@ -43,8 +53,10 @@ public class TimeResponse {
 		
 				new Timer() {
 					public void run() {
-						TimeDisplay.stimulusDisplay.setHTML(TimeDisplay.generateStimulus());
-						TimeDisplay.focusPanel.setFocus(true);
+						if (!TimeDisplay.waitForSpacebar) { 
+							TimeDisplay.stimulusDisplay.setHTML(TimeDisplay.generateStimulus());
+							TimeDisplay.focusPanel.setFocus(true);
+						}
 					}
 				}.schedule(TimeBlock.RSI);
 			}

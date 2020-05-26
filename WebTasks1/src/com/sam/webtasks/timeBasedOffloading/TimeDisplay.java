@@ -1,5 +1,7 @@
 package com.sam.webtasks.timeBasedOffloading;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Random;
@@ -23,8 +25,12 @@ public class TimeDisplay {
 	//are we waiting for a target response?
 	public static boolean awaitingPMresponse = false;
 	
+	//should a reminder be displayed for the next target?
+	public static boolean showReminder = false;
+	
 	/*------------display parameters------------*/
-	public static String displayPanelSize="50%";
+	public static String displayHeight="50%";
+	public static String displayWidth="80%";
 	
 	/*------------stimulus------------*/
 	public static int stimulus = -1, stimulus_1back = -1, stimulus_2back = -1;
@@ -52,12 +58,14 @@ public class TimeDisplay {
 		wrapper.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		wrapper.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		
-		displayPanel.setWidth(displayPanelSize);
-		displayPanel.setHeight(displayPanelSize);
+		displayPanel.setWidth(displayWidth);
+		displayPanel.setHeight(displayHeight);
 		displayPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		
 		//clock panel
 		clockPanel.add(clockDisplay);
+		
+		clockDisplay.addStyleName("clockText");
 		
 		displayPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 		displayPanel.add(clockPanel);
@@ -73,6 +81,8 @@ public class TimeDisplay {
 		displayPanel.add(stimulusPanel);
 		
 		//offloading panel
+		offloadButton.setEnabled(false);
+		
 		offloadPanel.add(offloadButton);
 		
 		displayPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
@@ -89,6 +99,15 @@ public class TimeDisplay {
 		});
 		
 		focusPanel.setFocus(true);
+		
+		//set up the offload button
+		offloadButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				showReminder=true;
+				offloadButton.setEnabled(false);
+				focusPanel.setFocus(true);
+			}
+		});
 	}
 
 	/*------------clock functions------------*/
@@ -100,10 +119,24 @@ public class TimeDisplay {
 			
 			clockDisplay.setHTML(timeString(TimeBlock.currentTime));
 			
+			//start reminding for target?
+			if (TimeBlock.lastTarget - TimeBlock.currentTime == TimeBlock.PMwindow) {
+				if (showReminder) {
+					reminder.scheduleRepeating(200);
+				}
+			}
+			
+			//stop reminding for target?
+			if (TimeBlock.currentTime - TimeBlock.lastTarget == TimeBlock.PMwindow) {
+				reminder.cancel();
+			}
+			
+			//instruction for next target?
 			if (TimeBlock.currentTime == TimeBlock.nextInstruction) {
 				awaitingPMresponse=true;
 				stimulusDisplay.setHTML("Hit the spacebar at " + timeString(TimeBlock.nextTarget));
 				waitForSpacebar=true;
+				focusPanel.setFocus(true);
 				
 				TimeBlock.nextInstruction = TimeBlock.nextTarget+generateDelay();
 				TimeBlock.lastTarget = TimeBlock.nextTarget; //save this, to check against PM response
@@ -111,6 +144,18 @@ public class TimeDisplay {
 				
 				cancel();
 			}
+		}
+	};
+	
+	public static final Timer reminder = new Timer() {
+		public void run() {
+			clockDisplay.addStyleName("red");
+			
+			new Timer() {
+				public void run() {
+					clockDisplay.removeStyleName("red");
+				}
+			}.schedule(100);
 		}
 	};
 	
@@ -156,7 +201,7 @@ public class TimeDisplay {
 		
 		return(s);
 	}
-	
+
 	/*------------stimulus generation------------*/
 	public static String generateStimulus() {
 		boolean notvalid=true;
