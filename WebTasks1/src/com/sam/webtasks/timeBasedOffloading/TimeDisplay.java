@@ -22,6 +22,10 @@ public class TimeDisplay {
 	//use this to wait specifically for a space-bar response
 	public static boolean waitForSpacebar = false;
 	
+	//is it time to show the instruction for the next target?
+	public static boolean timeForInstruction = false;
+	public static String instructionString = "";
+	
 	//are we waiting for a target response?
 	public static boolean awaitingPMresponse = false;
 	
@@ -134,9 +138,13 @@ public class TimeDisplay {
 			//instruction for next target?
 			if (TimeBlock.currentTime == TimeBlock.nextInstruction) {
 				awaitingPMresponse=true;
-				stimulusDisplay.setHTML("Hit the spacebar at " + timeString(TimeBlock.nextTarget));
-				waitForSpacebar=true;
-				focusPanel.setFocus(true);
+				
+				instructionString = "Hit the spacebar at " + timeString(TimeBlock.nextTarget);
+				
+				//stimulusDisplay.setHTML("Hit the spacebar at " + timeString(TimeBlock.nextTarget));
+				
+				timeForInstruction=true;
+				//focusPanel.setFocus(true);
 				
 				TimeBlock.nextInstruction = TimeBlock.nextTarget+generateDelay();
 				TimeBlock.lastTarget = TimeBlock.nextTarget; //save this, to check against PM response
@@ -164,11 +172,11 @@ public class TimeDisplay {
 		
 		switch(Random.nextInt(3)) {
 		case 0:
-			delay=5;
+			delay=10;
 			break;
 			
 		case 1:
-			delay=10;
+			delay=20;
 			break;
 			
 		case 2:
@@ -229,7 +237,7 @@ public class TimeDisplay {
 		
 		notvalid=true;
 		
-		if (Random.nextBoolean()) { //2-back nontarget
+		if (Math.random() > TimeBlock.nBackTargetProb) { //2-back nontarget
 			while (notvalid) {
 				notvalid=false;
 				

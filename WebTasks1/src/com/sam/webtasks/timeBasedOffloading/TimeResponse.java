@@ -5,6 +5,24 @@ import com.google.gwt.user.client.Window;
 
 public class TimeResponse {
 	public static void Run(int response) {
+		if (TimeDisplay.timeForInstruction) {
+			TimeDisplay.timeForInstruction=false;
+			
+			TimeDisplay.focusPanel.setFocus(false);
+			
+			TimeDisplay.stimulusDisplay.setHTML("");
+			
+			new Timer() {
+				public void run() {
+					if (!TimeDisplay.waitForSpacebar) { 
+						TimeDisplay.stimulusDisplay.setHTML(TimeDisplay.instructionString);
+						TimeDisplay.waitForSpacebar=true;
+						TimeDisplay.focusPanel.setFocus(true);
+					}
+				}
+			}.schedule(TimeBlock.RSI);
+		}
+		
 		if (TimeDisplay.waitForSpacebar) {
 			if (response==32) {
 				if (TimeDisplay.awaitingPMresponse) {

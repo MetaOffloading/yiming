@@ -14,6 +14,7 @@ public class TimeBlock {
 	public static int blockDuration;
 	public static int tickTime;
 	public static int RSI;
+	public static double nBackTargetProb;
 	
 	//should offloading be allowed in this block?
 	public static boolean allowOffloading=true;
@@ -39,6 +40,7 @@ public class TimeBlock {
 		blockDuration=60;
 		tickTime=1000;
 		RSI=300;
+		nBackTargetProb=0.2;
 	}
 	
 	/*-----------run a block-----------*/
