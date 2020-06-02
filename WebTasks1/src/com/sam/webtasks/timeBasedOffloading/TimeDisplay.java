@@ -133,6 +133,8 @@ public class TimeDisplay {
 			//stop reminding for target?
 			if (TimeBlock.currentTime - TimeBlock.lastTarget == TimeBlock.PMwindow) {
 				reminder.cancel();
+				TimeDisplay.showReminder = false;
+				TimeDisplay.offloadButton.setEnabled(false);
 			}
 			
 			//instruction for next target?
@@ -140,11 +142,8 @@ public class TimeDisplay {
 				awaitingPMresponse=true;
 				
 				instructionString = "Hit the spacebar at " + timeString(TimeBlock.nextTarget);
-				
-				//stimulusDisplay.setHTML("Hit the spacebar at " + timeString(TimeBlock.nextTarget));
-				
+
 				timeForInstruction=true;
-				//focusPanel.setFocus(true);
 				
 				TimeBlock.nextInstruction = TimeBlock.nextTarget+generateDelay();
 				TimeBlock.lastTarget = TimeBlock.nextTarget; //save this, to check against PM response
