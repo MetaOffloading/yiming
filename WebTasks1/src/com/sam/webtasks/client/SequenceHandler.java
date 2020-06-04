@@ -40,7 +40,6 @@ import com.sam.webtasks.basictools.Initialise;
 import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
 import com.sam.webtasks.basictools.ProgressBar;
-import com.sam.webtasks.basictools.Slider;
 import com.sam.webtasks.basictools.TimeStamp;
 import com.sam.webtasks.iotask1.IOtask1Block;
 import com.sam.webtasks.iotask1.IOtask1BlockContext;
