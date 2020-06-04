@@ -66,9 +66,10 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				//RootPanel.get().add(new Label("test3"));
-				TimeBlock.Init();
-				TimeBlock.Run();
+				ClickPage.Run(Instructions.Get(0), "Next");
+				break;
+			case 2:
+				Finish.Run();
 				break;
 			}
 			break;

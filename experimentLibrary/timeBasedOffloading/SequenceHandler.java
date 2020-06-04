@@ -18,11 +18,17 @@
 //SequenceHandler.SetLoop(0,false) will switch to the main loop,
 //continuing from where we left off.
 
+//TODO:
+//scroll
+//data output
+//resume where you left off
+
 package com.sam.webtasks.client;
 
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.sam.webtasks.basictools.CheckIdExists;
 import com.sam.webtasks.basictools.CheckScreenSize;
@@ -31,22 +37,25 @@ import com.sam.webtasks.basictools.Consent;
 import com.sam.webtasks.basictools.Counterbalance;
 import com.sam.webtasks.basictools.InfoSheet;
 import com.sam.webtasks.basictools.Initialise;
+import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
+import com.sam.webtasks.basictools.ProgressBar;
 import com.sam.webtasks.basictools.Slider;
 import com.sam.webtasks.basictools.TimeStamp;
 import com.sam.webtasks.iotask1.IOtask1Block;
 import com.sam.webtasks.iotask1.IOtask1BlockContext;
-import com.sam.webtasks.iotask1.IOtask1DisplayParams;
 import com.sam.webtasks.iotask1.IOtask1InitialiseTrial;
 import com.sam.webtasks.iotask1.IOtask1RunTrial;
 import com.sam.webtasks.iotask2.IOtask2Block;
 import com.sam.webtasks.iotask2.IOtask2BlockContext;
 import com.sam.webtasks.iotask2.IOtask2RunTrial;
+import com.sam.webtasks.perceptualTask.PerceptBlock;
+import com.sam.webtasks.timeBasedOffloading.TimeBlock;
 import com.sam.webtasks.iotask2.IOtask2InitialiseTrial;
 import com.sam.webtasks.iotask2.IOtask2PreTrial;
 
 public class SequenceHandler {
-	public static void Next() {
+	public static void Next() {	
 		// move forward one step in whichever loop we are now in
 		sequencePosition.set(whichLoop, sequencePosition.get(whichLoop) + 1);
 
@@ -57,22 +66,9 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				ClickPage.Run(Instructions.Get(0), "Next");
-				break;
-			case 2:
-				IOtask2Block block1 = new IOtask2Block();
-				block1.Run();
-				break;
-			case 3:
-				ClickPage.Run(Instructions.Get(1), "Next");
-				break;
-			case 4:
-				IOtask2Block block2 = new IOtask2Block();
-				block2.targetValues.add(5);
-				block2.Run();
-				break;
-			case 5:
-				Finish.Run();
+				//RootPanel.get().add(new Label("test3"));
+				TimeBlock.Init();
+				TimeBlock.Run();
 				break;
 			}
 			break;
@@ -100,8 +96,7 @@ public class SequenceHandler {
 				PHP.CheckStatus();
 				break;
 			case 4:
-				// check whether this participant ID has been used to access a previous
-				// experiment
+				// check whether this participant ID has been used to access a previous experiment
 				PHP.CheckStatusPrevExp();
 				break;
 			case 5:
@@ -112,21 +107,21 @@ public class SequenceHandler {
 				CheckScreenSize.Run(SessionInfo.minScreenSize, SessionInfo.minScreenSize);
 				break;
 			case 6:
-				if (SessionInfo.runInfoConsentPages) {
+				if (SessionInfo.runInfoConsentPages) { 
 					InfoSheet.Run(Instructions.InfoText());
 				} else {
 					SequenceHandler.Next();
 				}
 				break;
 			case 7:
-				if (SessionInfo.runInfoConsentPages) {
+				if (SessionInfo.runInfoConsentPages) { 
 					Consent.Run();
 				} else {
 					SequenceHandler.Next();
 				}
 				break;
 			case 8:
-				// record the participant's counterbalancing condition in the status table
+				//record the participant's counterbalancing condition in the status table				
 				if (!SessionInfo.resume) {
 					PHP.UpdateStatus("" + Counterbalance.getCounterbalancingCell() + ",1,0,0,0,0");
 				} else {
@@ -142,8 +137,8 @@ public class SequenceHandler {
 		case 2: // IOtask1 loop
 			switch (sequencePosition.get(2)) {
 			/*************************************************************
-			 * The code here defines the sequence of events in subloop 2 * This runs a
-			 * single trial of IOtask1 *
+			 * The code here defines the sequence of events in subloop 2 *
+			 * This runs a single trial of IOtask1                       *
 			 *************************************************************/
 			case 1:
 				// first check if the block has ended. If so return control to the main sequence
@@ -171,34 +166,33 @@ public class SequenceHandler {
 				break;
 			}
 			break;
-		case 3: // IOtask2 loop
+		case 3: //IOtask2 loop
 			switch (sequencePosition.get(3)) {
 			/*************************************************************
-			 * The code here defines the sequence of events in subloop 3 * This runs a
-			 * single trial of IOtask2 *
+			 * The code here defines the sequence of events in subloop 3 *
+			 * This runs a single trial of IOtask2                       *
 			 *************************************************************/
 			case 1:
 				// first check if the block has ended. If so return control to the main sequence
 				// handler
 				IOtask2Block block = IOtask2BlockContext.getContext();
-
+				
 				if (block.currentTrial == block.nTrials) {
-					SequenceHandler.SetLoop(0, false);
+					SequenceHandler.SetLoop(0,  false);
 				}
-
+				
 				SequenceHandler.Next();
 				break;
 			case 2:
 				IOtask2InitialiseTrial.Run();
 				break;
-			case 3:
-				;
-				// present the pre-trial choice if appropriate
+			case 3:;
+				//present the pre-trial choice if appropriate
 				if (IOtask2BlockContext.currentTargetValue() > -1) {
 					IOtask2PreTrial.Run();
-				} else { // otherwise just skip to the start of the block
-					if ((IOtask2BlockContext.getTrialNum() > 0) && (IOtask2BlockContext.countdownTimer())) {
-						// if we're past the first trial and there's a timer, click to begin
+				} else { //otherwise just skip to the start of the block
+					if ((IOtask2BlockContext.getTrialNum() > 0)&&(IOtask2BlockContext.countdownTimer())) {
+						//if we're past the first trial and there's a timer, click to begin
 						ClickPage.Run("Ready?", "Continue");
 					} else {
 						SequenceHandler.Next();
@@ -206,11 +200,11 @@ public class SequenceHandler {
 				}
 				break;
 			case 4:
-				if (IOtask2BlockContext.getNTrials() == -1) { // if nTrials has been set to -1, we quit before running
-					SequenceHandler.SetLoop(0, false);
+				if (IOtask2BlockContext.getNTrials() == -1) { //if nTrials has been set to -1, we quit before running
+					SequenceHandler.SetLoop(0,  false);
 					SequenceHandler.Next();
 				} else {
-					// otherwise, run the trial
+					//otherwise, run the trial
 					IOtask2RunTrial.Run();
 				}
 				break;
@@ -218,14 +212,14 @@ public class SequenceHandler {
 				IOtask2PostTrial.Run();
 				break;
 			case 6:
-				// we have reached the end, so we need to restart the loop
-				SequenceHandler.SetLoop(3, true);
+				//we have reached the end, so we need to restart the loop
+				SequenceHandler.SetLoop(3,  true);
 				SequenceHandler.Next();
 				break;
 			}
 		}
 	}
-
+	
 	private static ArrayList<Integer> sequencePosition = new ArrayList<Integer>();
 	private static int whichLoop;
 
@@ -241,7 +235,7 @@ public class SequenceHandler {
 			sequencePosition.set(whichLoop, 0);
 		}
 	}
-
+	
 	// get current loop
 	public static int GetLoop() {
 		return (whichLoop);
@@ -256,7 +250,7 @@ public class SequenceHandler {
 	public static int GetPosition() {
 		return (sequencePosition.get(whichLoop));
 	}
-
+	
 	// get current position from particular loop
 	public static int GetPosition(int nLoop) {
 		return (sequencePosition.get(nLoop));

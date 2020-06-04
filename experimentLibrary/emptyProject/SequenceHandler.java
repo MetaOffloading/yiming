@@ -18,11 +18,17 @@
 //SequenceHandler.SetLoop(0,false) will switch to the main loop,
 //continuing from where we left off.
 
+//TODO:
+//scroll
+//data output
+//resume where you left off
+
 package com.sam.webtasks.client;
 
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.sam.webtasks.basictools.CheckIdExists;
 import com.sam.webtasks.basictools.CheckScreenSize;
@@ -31,16 +37,20 @@ import com.sam.webtasks.basictools.Consent;
 import com.sam.webtasks.basictools.Counterbalance;
 import com.sam.webtasks.basictools.InfoSheet;
 import com.sam.webtasks.basictools.Initialise;
+import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
+import com.sam.webtasks.basictools.ProgressBar;
+import com.sam.webtasks.basictools.Slider;
 import com.sam.webtasks.basictools.TimeStamp;
 import com.sam.webtasks.iotask1.IOtask1Block;
 import com.sam.webtasks.iotask1.IOtask1BlockContext;
-import com.sam.webtasks.iotask1.IOtask1DisplayParams;
 import com.sam.webtasks.iotask1.IOtask1InitialiseTrial;
 import com.sam.webtasks.iotask1.IOtask1RunTrial;
 import com.sam.webtasks.iotask2.IOtask2Block;
 import com.sam.webtasks.iotask2.IOtask2BlockContext;
 import com.sam.webtasks.iotask2.IOtask2RunTrial;
+import com.sam.webtasks.perceptualTask.PerceptBlock;
+import com.sam.webtasks.timeBasedOffloading.TimeBlock;
 import com.sam.webtasks.iotask2.IOtask2InitialiseTrial;
 import com.sam.webtasks.iotask2.IOtask2PreTrial;
 
@@ -59,9 +69,6 @@ public class SequenceHandler {
 				ClickPage.Run(Instructions.Get(0), "Next");
 				break;
 			case 2:
-				PHP.UpdateStatus("finished");
-				break;
-			case 3:
 				Finish.Run();
 				break;
 			}
@@ -115,8 +122,12 @@ public class SequenceHandler {
 				}
 				break;
 			case 8:
-				//record the participant's counterbalancing condition in the status table
-				PHP.UpdateStatus("" + Counterbalance.getCounterbalancingCell());
+				//record the participant's counterbalancing condition in the status table				
+				if (!SessionInfo.resume) {
+					PHP.UpdateStatus("" + Counterbalance.getCounterbalancingCell() + ",1,0,0,0,0");
+				} else {
+					SequenceHandler.Next();
+				}
 				break;
 			case 9:
 				SequenceHandler.SetLoop(0, true); // switch to and initialise the main loop
@@ -176,7 +187,7 @@ public class SequenceHandler {
 			case 2:
 				IOtask2InitialiseTrial.Run();
 				break;
-			case 3:
+			case 3:;
 				//present the pre-trial choice if appropriate
 				if (IOtask2BlockContext.currentTargetValue() > -1) {
 					IOtask2PreTrial.Run();
@@ -190,15 +201,16 @@ public class SequenceHandler {
 				}
 				break;
 			case 4:
-				//now run the trial
-				IOtask2RunTrial.Run();
+				if (IOtask2BlockContext.getNTrials() == -1) { //if nTrials has been set to -1, we quit before running
+					SequenceHandler.SetLoop(0,  false);
+					SequenceHandler.Next();
+				} else {
+					//otherwise, run the trial
+					IOtask2RunTrial.Run();
+				}
 				break;
 			case 5:
-				if (IOtask2BlockContext.showPostTrialFeedback()) {
-					IOtask2Feedback.Run();
-				} else {
-					SequenceHandler.Next();
-				}
+				IOtask2PostTrial.Run();
 				break;
 			case 6:
 				//we have reached the end, so we need to restart the loop
@@ -224,6 +236,11 @@ public class SequenceHandler {
 			sequencePosition.set(whichLoop, 0);
 		}
 	}
+	
+	// get current loop
+	public static int GetLoop() {
+		return (whichLoop);
+	}
 
 	// set a new position
 	public static void SetPosition(int newPosition) {
@@ -233,5 +250,10 @@ public class SequenceHandler {
 	// get current position
 	public static int GetPosition() {
 		return (sequencePosition.get(whichLoop));
+	}
+	
+	// get current position from particular loop
+	public static int GetPosition(int nLoop) {
+		return (sequencePosition.get(nLoop));
 	}
 }
