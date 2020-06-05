@@ -84,7 +84,9 @@ public class IOtask2RunTrial {
 			}
 		};
 
-		ProgressBar.Increment();
+		if (IOtas2BlockContext.getUpdateProgress()) {
+			ProgressBar.Increment();
+		}
 
 		// get block context
 		IOtask2Block block = IOtask2BlockContext.getContext();

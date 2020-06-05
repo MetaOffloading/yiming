@@ -108,6 +108,7 @@ public class SequenceHandler {
 				block0.nTargets = 0;
 				block0.blockNum = 0;
 				block0.blockNum = 0;
+				block0.updateProgress = true; //increment the progress bar with each trial
 				block0.Run();
 				break;
 			case 4:
@@ -119,6 +120,7 @@ public class SequenceHandler {
 				block1.nTargets = 1;
 				block1.blockNum = 1;
 				block1.blockNum = 1;
+				block1.updateProgress = true; //increment the progress bar with each trial
 				block1.Run();
 				break;
 			case 6:
@@ -139,6 +141,7 @@ public class SequenceHandler {
 				IOtask2Block block2 = new IOtask2Block();
 				block2.blockNum = 2;
 				block2.nTrials = 2;
+				block2.updateProgress = true; //increment the progress bar with each trial
 				block2.Run();
 				break;
 			case 8:
@@ -157,6 +160,7 @@ public class SequenceHandler {
 				IOtask2Block block3 = new IOtask2Block();
 				block3.blockNum = 3;
 				block3.offloadCondition = Names.REMINDERS_MANDATORY_TARGETONLY;
+				block3.updateProgress = true; //increment the progress bar with each trial
 				block3.Run();
 				break;
 			case 12:	
@@ -178,6 +182,7 @@ public class SequenceHandler {
 				IOtask2Block block4 = new IOtask2Block();
 				block4.blockNum = 4;
 				block4.offloadCondition = Names.REMINDERS_MANDATORY_TARGETONLY;
+				block4.updateProgress = true; //increment the progress bar with each trial
 				block4.Run();
 				break;
 			case 14:
@@ -223,6 +228,8 @@ public class SequenceHandler {
 					block5.rewardFrame = Names.LOSS_FRAME;
 				}
 				
+				block5.updateProgress = true; //increment the progress bar with each trial
+				
 				block5.Run();
 				break;
 			case 20:
@@ -241,6 +248,8 @@ public class SequenceHandler {
 				if (rewardFrame == ExtraNames.GAIN_SECOND) {
 					block6.rewardFrame = Names.LOSS_FRAME;
 				}
+				
+				block6.updateProgress = true; //increment the progress bar with each trial
 				
 				block6.Run();
 				break;
@@ -263,6 +272,8 @@ public class SequenceHandler {
 				if (rewardFrame == ExtraNames.GAIN_SECOND) {
 					block7.rewardFrame = Names.LOSS_FRAME;
 				}
+				
+				block7.updateProgress = true; //increment the progress bar with each trial
 				
 				block7.Run();
 				break;
@@ -289,6 +300,8 @@ public class SequenceHandler {
 				if (rewardFrame == ExtraNames.GAIN_SECOND) {
 					block8.rewardFrame = Names.LOSS_FRAME;
 				}
+				
+				block8.updateProgress = true; //increment the progress bar with each trial
 				
 				block8.Run();
 				break;
@@ -326,6 +339,8 @@ public class SequenceHandler {
 				if (rewardFrame == ExtraNames.GAIN_FIRST) {
 					block9.rewardFrame = Names.LOSS_FRAME;
 				}
+				
+				block9.updateProgress = true; //increment the progress bar with each trial
 				
 				block9.Run();
 				break;
