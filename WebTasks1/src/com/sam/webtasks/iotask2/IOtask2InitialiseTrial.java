@@ -12,6 +12,10 @@ import com.sam.webtasks.client.SequenceHandler;
 public class IOtask2InitialiseTrial {
 	public static void Run() {		
 		IOtask2Block block = IOtask2BlockContext.getContext();
+		
+		if (block.nTargetsVariable) {
+			block.nTargets = block.nTargetsList.get(block.currentTrial);
+		}
 
 		block.reminderFlag = -1;
 		block.backupReminderFlag = -1;

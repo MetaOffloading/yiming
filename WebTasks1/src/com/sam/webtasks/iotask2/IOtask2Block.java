@@ -67,6 +67,10 @@ public class IOtask2Block {
 
 	// total number of targets to include
 	public int nTargets = 10;
+	
+	public boolean nTargetsVariable = false;
+	public boolean nTargetsShuffle = false;
+	public ArrayList<Integer> nTargetsList = new ArrayList<Integer>();
 
 	// target locations for each circle
 	int[] targetSide = new int[nTargets];
@@ -139,6 +143,13 @@ public class IOtask2Block {
 
 	// this method actually runs the block
 	public void Run() { 
+		//shuffle the various difficulty levels?
+		if (nTargetsShuffle) {
+			for (int i = 0; i < nTargetsList.size(); i++) {
+				Collections.swap(nTargetsList, i, Random.nextInt(nTargetsList.size()));
+			}
+		}
+		
 		if (standard9block) {
 			nTrials=9;
 			

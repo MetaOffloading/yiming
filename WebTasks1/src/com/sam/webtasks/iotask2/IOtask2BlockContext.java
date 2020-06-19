@@ -137,7 +137,7 @@ public class IOtask2BlockContext {
 	public static int getNTrials() {
 		return (blockContext.nTrials);
 	}
-	
+
 	// what reward frame are we in?
 	public static int getRewardFrame() {
 		return (blockContext.rewardFrame);
