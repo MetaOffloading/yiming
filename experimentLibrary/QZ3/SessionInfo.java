@@ -51,9 +51,14 @@ public class SessionInfo {
 	/*************************************************/
 	
 	//participant info variables
+	public static boolean resume=false;      //is this a resumption of an earlier session?
+	public static String status="";          //status loaded from the database
+	public static int resumePosition=1;      //what position should we resume from, if the participant comes back?
+	public static int resumeProgress=0;      //what should the progress bar be set to if we resume?
+	public static int resumePoints=0;        //if we are scoring points, what number of points should we resume from?
 	public static int gender;
 	public static int age;
 	public static String participantID;
 	public static String sessionKey="";      //use this to store a random session key
-	public static String rewardCode="";      //reward code to be revealed at end, in order to participant to claim paymen
+	public static String rewardCode="";      //reward code to be revealed at end, in order to participant to claim payment
 }

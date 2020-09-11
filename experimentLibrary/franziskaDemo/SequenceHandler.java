@@ -22,8 +22,6 @@ package com.sam.webtasks.client;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.Random;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.sam.webtasks.basictools.CheckIdExists;
 import com.sam.webtasks.basictools.CheckScreenSize;
@@ -32,14 +30,10 @@ import com.sam.webtasks.basictools.Consent;
 import com.sam.webtasks.basictools.Counterbalance;
 import com.sam.webtasks.basictools.InfoSheet;
 import com.sam.webtasks.basictools.Initialise;
-import com.sam.webtasks.basictools.Names;
 import com.sam.webtasks.basictools.PHP;
-import com.sam.webtasks.basictools.ProgressBar;
-import com.sam.webtasks.basictools.Slider;
 import com.sam.webtasks.basictools.TimeStamp;
 import com.sam.webtasks.iotask1.IOtask1Block;
 import com.sam.webtasks.iotask1.IOtask1BlockContext;
-import com.sam.webtasks.iotask1.IOtask1DisplayParams;
 import com.sam.webtasks.iotask1.IOtask1InitialiseTrial;
 import com.sam.webtasks.iotask1.IOtask1RunTrial;
 import com.sam.webtasks.iotask2.IOtask2Block;
@@ -61,6 +55,7 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 ********************************************************************/		
 			case 1:
+				//first set the counterbalancing factors, based on the participant ID, and log data to the database
 				int ID = Integer.parseInt(SessionInfo.participantID);
 				Counterbalance.setCounterbalancingFactors(ID % 4);
 						
@@ -72,18 +67,15 @@ public class SequenceHandler {
 				
 				PHP.logData("start", data, false);
 				
+				//present the first page of instructions
 				ClickPage.Run(Instructions.Get(0),  "Next");
 				break;		
 			case 2:
-				//reduce default size of circles, because there will be more on screen
-				IOtask2DisplayParams.circleRadius = 0.05;
-				IOtask2DisplayParams.circleTextSize = 20;
-				
 				IOtask2Block block1 = new IOtask2Block();
 				block1.logDragData=true; //log trial-by-trial data to the database
 				block1.blockNum=1;
-				block1.totalCircles=8;
-				block1.nTargets=0;
+				block1.totalCircles=8;   //we will have 8 circles on screen for this first practice trial
+				block1.nTargets=0;       //there are no targets here
 				block1.nTrials=1;		
 				//different coloured circles can be worth different numbers of points
 				block1.variablePoints = true;
@@ -103,7 +95,7 @@ public class SequenceHandler {
 				block2.logDragData=true; //log trial-by-trial data to the database
 				block2.blockNum=2;
 				block2.totalCircles=8;
-				block2.nTargets=1;
+				block2.nTargets=1; //this time, we will include 1 target
 				block2.nTrials=1;
 				block2.variablePoints = true;
 				block2.pointValues = new int[] {0,1,1,0};
@@ -111,8 +103,9 @@ public class SequenceHandler {
 				block2.Run();
 				break;
 			  case 5:
+				  //check whether the participant correctly responded to the target. if not, re-run the trial 
 				  if (IOtask2BlockContext.getnHits() == 0) {
-					  SequenceHandler.SetPosition(SequenceHandler.GetPosition() - 2);
+					  SequenceHandler.SetPosition(SequenceHandler.GetPosition() - 2); //go back in the sequence, to repeat the trial
 					  ClickPage.Run("You did not drag the special circle to the instructed location. Please try again.", "Continue");
 				  } else {
 					  SequenceHandler.Next();
@@ -121,7 +114,8 @@ public class SequenceHandler {
 			case 6:
 				ClickPage.Run(Instructions.Get(2),  "Next");
 				break;			
-			case 7:// need add feedback 
+			case 7:
+				//now run a block with the full number of circles and targets, as defined in Params.java
 				IOtask2Block block3 = new IOtask2Block();
 				block3.logDragData=true; //log trial-by-trial data to the database
 				block3.blockNum=3;
@@ -131,10 +125,10 @@ public class SequenceHandler {
 				block3.nTrials=1;
 				block3.variablePoints = true;
 				block3.pointValues = new int[] {0,1,1,0};
-				block3.countdownTimer = true;
+				block3.countdownTimer = true; //show a countdown timer on the screen
 				
 				block3.Run();
-			    break;			
+			    break;		
 			case 8:
 				ClickPage.Run(Instructions.Get(3),  "Next");
 				break;
@@ -151,223 +145,58 @@ public class SequenceHandler {
 				block4.variablePoints = true;
 				block4.countdownTimer = true;
 				
+				int lowValSide, highValSide;
+				
 				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
+					highValSide=1;
+					lowValSide=2;
+					
 					block4.pointValues = new int[] {0,10,1,0};
 					
 				} else {
+					highValSide=2;
+					lowValSide=1;
 					block4.pointValues = new int[] {0,1,10,0}; 
 				}
-
+				
+				//usually, the code automatically assign the targets. But here we have a specific target list in mind,
+				//so we will specify it manually (we will want to automate this in code when we've settled on a design).
+				
+				//for now, we are going to manually specify this sequence:
+				//L L L (circles 7, 9, and 11; NB these are indexed as 6, 8, and 10 because indexing begins at 0 in Java)
+				//L H L (circles 19, 21, 23)
+				//L L L (circles 31, 33, 35)
+				//L H L (circles 43, 45, 47)
+				block4.specifyTargets = true;
+				
+				//first initialise all circles as nontargets
+				for (int i = 0; i < block4.totalCircles; i++) {
+					block4.targetSide[i] = 0;
+				}
+				
+				//now assign targets		
+				block4.targetSide[6] = lowValSide;
+				block4.targetSide[8] = lowValSide;
+				block4.targetSide[10] = lowValSide;
+				
+				block4.targetSide[18] = lowValSide;
+				block4.targetSide[20] = highValSide;
+				block4.targetSide[22] = lowValSide;
+				
+				block4.targetSide[30] = lowValSide;
+				block4.targetSide[32] = lowValSide;
+				block4.targetSide[34] = lowValSide;
+				
+				block4.targetSide[42] = lowValSide;
+				block4.targetSide[44] = highValSide;
+				block4.targetSide[46] = lowValSide;
+				
 				
 				block4.Run();
 				break;
 			case 10:
-				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_FIRST) {
-					ClickPage.Run(Instructions.Get(4), "Next");
-				} else {
-					SequenceHandler.Next();
-				}
-				break;
-			case 11:
-				IOtask2Block block5 = new IOtask2Block();
-				block5.logDragData=true; //log trial-by-trial data to the database
-				block5.blockNum = 5;
-				block5.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
-				block5.showLivePoints=true;
-				block5.showPointLabels = true;
-				block5.nCircles=Params.nCircles;
-				block5.totalCircles=Params.totalCircles;
-				block5.nTargets=Params.nTargets;
-				block5.nTrials=1;
-				block5.variablePoints = true;
-				block5.countdownTimer = true;
-				
-				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
-					block5.pointValues = new int[] {0,10,1,0};
-					block5.moveableSides = new boolean[] {false,true,false,false};
-				} else {
-					block5.pointValues = new int[] {0,1,10,0}; 
-					block5.moveableSides = new boolean[] {false,false,true,false};
-				}
-				
-				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_FIRST) {
-					block5.offloadCondition = Names.REMINDERS_VARIABLE;
-				} else {
-					block5.offloadCondition = Names.REMINDERS_NOTALLOWED;
-				}
-				
-				block5.Run();
-				break;
-			case 12:
-				ClickPage.Run(Instructions.Get(5), "Next");
-				break;
-			case 13:
-				IOtask2Block block6 = new IOtask2Block();
-				block6.logDragData=true;
-				block6.blockNum = 6;
-				block6.totalPoints = IOtask2BlockContext.getTotalPoints();
-				block6.showLivePoints = true;
-				block6.showPointLabels = true;
-				block6.nCircles=Params.nCircles;
-				block6.totalCircles=Params.totalCircles;
-				block6.nTargets=Params.nTargets;
-				block6.nTrials=1;
-				block6.variablePoints=true;
-				block6.countdownTimer=true;
-				
-				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
-					block6.pointValues = new int[] {0,10,1,0};
-					block6.moveableSides = new boolean[] {false,true,false,false};
-				} else {
-					block6.pointValues = new int[] {0,1,10,0}; 
-					block6.moveableSides = new boolean[] {false,false,true,false};
-				}
-				
-				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_FIRST) {
-					block6.offloadCondition = Names.REMINDERS_VARIABLE;
-				} else {
-					block6.offloadCondition = Names.REMINDERS_NOTALLOWED;
-				}
-				
-				block6.surpriseTest=12;
-				
-				block6.Run();
-				break;
-			case 14:			
-				ClickPage.Run(Instructions.Get(6), "Next");
-				break;
-			case 15:
-				//add progress bar to screen
-				ProgressBar.Initialise();
-				ProgressBar.Show();
-				ProgressBar.SetProgress(0,  (2*Params.nTrials)-1);
-				Params.progress=0;
-				
-				IOtask2Block block7 = new IOtask2Block();
-				block7.logDragData=true; //log trial-by-trial data to the database
-				block7.blockNum = 7;
-				block7.totalPoints = (int) (2 * Params.pointsPerPound); //start with £2
-				block7.showLivePoints=true;
-				block7.showPointLabels = true;
-				block7.nCircles=Params.nCircles;
-				block7.totalCircles=Params.totalCircles;
-				block7.nTargets=Params.nTargets;
-				block7.nTrials=Params.nTrials;
-				block7.variablePoints = true;
-				block7.countdownTimer = true;
-				
-				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
-					block7.pointValues = new int[] {0,10,1,0};
-					block7.moveableSides = new boolean[] {false,true,false,false};
-				} else {
-					block7.pointValues = new int[] {0,1,10,0}; 
-					block7.moveableSides = new boolean[] {false,false,true,false};
-				}
-				
-				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_FIRST) {
-					block7.offloadCondition = Names.REMINDERS_VARIABLE;
-				} else {
-					block7.offloadCondition = Names.REMINDERS_NOTALLOWED;
-				}
-				
-				block7.surpriseTests.add(999);
-				block7.surpriseTests.add(Params.nCircles + Random.nextInt(Params.totalCircles - Params.nCircles));
-				block7.surpriseTests.add(999);
-				block7.surpriseTests.add(Params.nCircles + Random.nextInt(Params.totalCircles - Params.nCircles));
-				block7.surpriseTests.add(999);
-				block7.surpriseTests.add(Params.nCircles + Random.nextInt(Params.totalCircles - Params.nCircles));
-				block7.surpriseTests.add(999);
-				block7.surpriseTests.add(Params.nCircles + Random.nextInt(Params.totalCircles - Params.nCircles));
-				block7.Run();
-				break;
-			case 16:
-				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_FIRST) {
-					ClickPage.Run(Instructions.Get(7), "Next");
-				} else {
-					ClickPage.Run(Instructions.Get(4), "Next");
-				}
-				break;
-			case 17:
-				IOtask2Block block8 = new IOtask2Block();
-				block8.logDragData=true; //log trial-by-trial data to the database
-				block8.blockNum = 8;
-				block8.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
-				block8.showLivePoints=true;
-				block8.showPointLabels = true;
-				block8.nCircles=Params.nCircles;
-				block8.totalCircles=Params.totalCircles;
-				block8.nTargets=Params.nTargets;
-				block8.nTrials=1;
-				block8.variablePoints = true;
-				block8.countdownTimer = true;
-				
-				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
-					block8.pointValues = new int[] {0,10,1,0};
-					block8.moveableSides = new boolean[] {false,true,false,false};
-				} else {
-					block8.pointValues = new int[] {0,1,10,0}; 
-					block8.moveableSides = new boolean[] {false,false,true,false};
-				}
-				
-				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_SECOND) {
-					block8.offloadCondition = Names.REMINDERS_VARIABLE;
-				} else {
-					block8.offloadCondition = Names.REMINDERS_NOTALLOWED;
-				}
-				
-				block8.Run();
-				break;
-			case 18:
-				IOtask2Block block10 = new IOtask2Block();
-				block10.logDragData=true; //log trial-by-trial data to the database
-				block10.blockNum = 10;
-				block10.totalPoints = IOtask2BlockContext.getTotalPoints(); //carry over points from previous block
-				block10.showLivePoints=true;
-				block10.showPointLabels = true;
-				block10.nCircles=Params.nCircles;
-				block10.totalCircles=Params.totalCircles;
-				block10.nTargets=Params.nTargets;
-				block10.nTrials=Params.nTrials;
-				block10.variablePoints = true;
-				block10.countdownTimer = true;
-				
-				if (Counterbalance.getFactorLevel("colourMeaning") == ExtraNames.BLUE_HIGHVAL) {
-					block10.pointValues = new int[] {0,10,1,0};
-					block10.moveableSides = new boolean[] {false,true,false,false};
-				} else {
-					block10.pointValues = new int[] {0,1,10,0}; 
-					block10.moveableSides = new boolean[] {false,false,true,false};
-				}
-				
-				if (Counterbalance.getFactorLevel("conditionOrder") == ExtraNames.OFFLOAD_SECOND) {
-					block10.offloadCondition = Names.REMINDERS_VARIABLE;
-				} else {
-					block10.offloadCondition = Names.REMINDERS_NOTALLOWED;
-				}
-				
-				block10.surpriseTests.add(999);
-				block10.surpriseTests.add(Params.nCircles + Random.nextInt(Params.totalCircles - Params.nCircles));
-				block10.surpriseTests.add(999);
-				block10.surpriseTests.add(Params.nCircles + Random.nextInt(Params.totalCircles - Params.nCircles));
-				block10.surpriseTests.add(999);
-				block10.surpriseTests.add(Params.nCircles + Random.nextInt(Params.totalCircles - Params.nCircles));
-				block10.surpriseTests.add(999);
-				block10.surpriseTests.add(Params.nCircles + Random.nextInt(Params.totalCircles - Params.nCircles));
-				
-				block10.Run();
-				break;
-			case 19:
-				String finishData = Counterbalance.getFactorLevel("colourMeaning") + ",";
-				finishData = finishData + Counterbalance.getFactorLevel("conditionOrder") + ",";
-				finishData = finishData + IOtask2BlockContext.getMoneyString() + ",";
-				finishData = finishData + TimeStamp.Now();
-
-				PHP.logData("finish", finishData, true);
-				break;
-			case 20:
-				Finish.Run();
-				break;
-				   
+				ClickPage.Run("You have now completed the demo.", "Finish");
+				break;	   
 			}
 			break; 
 		
