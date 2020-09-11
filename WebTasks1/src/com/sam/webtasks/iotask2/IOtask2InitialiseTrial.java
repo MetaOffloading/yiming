@@ -125,19 +125,20 @@ public class IOtask2InitialiseTrial {
 				binPositions.clear();
 			}
 			
-			// now assign targets
-
-			// first set default side to zero
-			for (int i = 0; i < block.totalCircles; i++) {
-				block.targetSide[i] = 0;
-			}
-
-			// now add targets
-			for (int i = 0; i < block.nTargets; i++) {
-				block.targetSide[targetPositions.get(0)] = targetDirections.get(0);
-
-				targetPositions.remove(0);
-				targetDirections.remove(0);
+			// now assign targets if they are not being specified manually 
+			if (!block.specifyTargets) {
+				//first initialise all circles as nontargets
+				for (int i = 0; i < block.totalCircles; i++) {
+					block.targetSide[i] = 0;
+				}
+				
+				//then add targets
+				for (int i = 0; i < block.nTargets; i++) {
+					block.targetSide[targetPositions.get(0)] = targetDirections.get(0);
+	
+					targetPositions.remove(0);
+					targetDirections.remove(0);
+				}
 			}
 			
 			if (block.surpriseTest < 999) {

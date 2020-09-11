@@ -73,7 +73,10 @@ public class IOtask2Block {
 	public ArrayList<Integer> nTargetsList = new ArrayList<Integer>();
 
 	// target locations for each circle
-	int[] targetSide = new int[nTargets];
+	public int[] targetSide = new int[nTargets];
+	
+	// are targets set manually?
+	public boolean specifyTargets = false;
 
 	// target values
 	public ArrayList<Integer> targetValues = new ArrayList<Integer>();
