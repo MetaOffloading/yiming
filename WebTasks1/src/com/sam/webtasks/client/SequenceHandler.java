@@ -71,6 +71,7 @@ public class SequenceHandler {
 				TimeBlock.PMinterval_list.add(10);
 				TimeBlock.PMinterval_list.add(20);
 				TimeBlock.blockDuration=55;
+				TimeBlock.blockNumber=1;
 				TimeBlock.Run();
 				break;
 			case 2:
@@ -78,6 +79,7 @@ public class SequenceHandler {
 				break;
 			case 3:
 				TimeBlock.Init();
+				TimeBlock.blockNumber=2;
 				TimeBlock.Run();
 				break;
 			}

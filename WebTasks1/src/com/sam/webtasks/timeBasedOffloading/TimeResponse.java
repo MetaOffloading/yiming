@@ -1,12 +1,28 @@
 package com.sam.webtasks.timeBasedOffloading;
 
+import java.util.Date;
+
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.sam.webtasks.basictools.PHP;
+import com.sam.webtasks.basictools.TimeStamp;
 import com.sam.webtasks.client.SequenceHandler;
 
 public class TimeResponse {
+	public static Date stimOn;
+	
 	public static void Run(int response) {
+		int RT = (int) (new Date().getTime() - stimOn.getTime());
+		
+		String data = TimeBlock.blockNumber + "," + TimeDisplay.stimulus + ",";
+		data = data + response + "," + RT + ",";
+		data = data + TimeDisplay.awaitingPMresponse + "," + (TimeDisplay.stimulus == TimeDisplay.stimulus_2back) + ",";
+		data = data + TimeBlock.nextTarget + "," + TimeBlock.currentTime + ",";
+		data = data + TimeStamp.Now();
+		
+		PHP.logData("TB_response", data, false);
+		
 		//end of block? if so return control to the sequencehandler
 		if (TimeBlock.currentTime >= TimeBlock.blockDuration) {
 			RootPanel.get().remove(TimeDisplay.wrapper);
@@ -87,6 +103,12 @@ public class TimeResponse {
 						if (!TimeDisplay.waitForSpacebar) { 
 							TimeDisplay.stimulusDisplay.setHTML(TimeDisplay.generateStimulus());
 							TimeDisplay.focusPanel.setFocus(true);
+							TimeResponse.stimOn = new Date();
+							
+							String data = TimeBlock.blockNumber + "," + TimeDisplay.stimulus + ",";
+							data = data + TimeStamp.Now();
+							
+							PHP.logData("TB_stimOn", data, false);
 						}
 					}
 				}.schedule(TimeBlock.RSI);

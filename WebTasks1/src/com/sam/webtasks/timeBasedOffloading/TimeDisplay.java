@@ -14,6 +14,8 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.sam.webtasks.basictools.PHP;
+import com.sam.webtasks.basictools.TimeStamp;
 
 public class TimeDisplay {
 	//we can use this to check whether the display has been initialised, if not it needs to be done
@@ -105,6 +107,10 @@ public class TimeDisplay {
 		//set up the offload button
 		offloadButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				String data = TimeBlock.blockNumber + "," + TimeBlock.currentTime + "," + TimeStamp.Now();
+				
+				PHP.logData("TB_offloadButtonClick", data, false);
+				
 				showReminder=true;
 				offloadButton.setEnabled(false);
 				focusPanel.setFocus(true);
@@ -119,24 +125,36 @@ public class TimeDisplay {
 				TimeBlock.currentTime = 0;
 			}
 			
+			String data = TimeBlock.blockNumber + "," + TimeBlock.currentTime + "," + TimeStamp.Now();
+			PHP.logData("TB_clockTick", data, false);
+			
 			clockDisplay.setHTML(timeString(TimeBlock.currentTime));
 			
 			//start reminding for target?
 			if (TimeBlock.lastTarget - TimeBlock.currentTime == TimeBlock.PMwindow) {
 				if (showReminder) {
+					PHP.logData("TB_reminderOn", data, false);
+					TimeDisplay.showReminder = false;
+					
 					reminder.scheduleRepeating(200);
 				}
 			}
 			
 			//stop reminding for target?
 			if (TimeBlock.currentTime - TimeBlock.lastTarget == TimeBlock.PMwindow) {
+				PHP.logData("TB_reminderOff", data, false);
+				
 				reminder.cancel();
-				TimeDisplay.showReminder = false;
 				TimeDisplay.offloadButton.setEnabled(false);
 			}
 			
 			//instruction for next target?
 			if (TimeBlock.currentTime == TimeBlock.nextInstruction) {
+				data = TimeBlock.blockNumber + "," + TimeBlock.currentTime + ",";
+				data = data + TimeBlock.nextInstruction + "," + TimeStamp.Now();
+				
+				PHP.logData("TB_instruction", data, false);
+				
 				awaitingPMresponse=true;
 				
 				instructionString = "Hit the spacebar at " + timeString(TimeBlock.nextTarget);
@@ -175,11 +193,10 @@ public class TimeDisplay {
 	}
 	
 	public static void startClock() {
+		String data = TimeBlock.blockNumber + "," + TimeBlock.currentTime + "," + TimeStamp.Now();
+		PHP.logData("TB_clockStart", data, false);
+		
 		clockTimer.scheduleRepeating(TimeBlock.tickTime);
-	}
-	
-	public static void stopClock() {
-		clockTimer.cancel();
 	}
 	
 	public static final String timeString(int timeInt) {

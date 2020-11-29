@@ -7,6 +7,8 @@ import java.util.Date;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.sam.webtasks.basictools.PHP;
+import com.sam.webtasks.basictools.TimeStamp;
 
 public class TimeBlock {
 	//display settings
@@ -94,5 +96,8 @@ public class TimeBlock {
 
 		//set timestamp for beginning of block
 		blockStart = new Date();
+		TimeResponse.stimOn = new Date();
+		
+		PHP.logData("TB_blockstart", blockNumber + "," + TimeStamp.Now(), false);
 	}
 }
