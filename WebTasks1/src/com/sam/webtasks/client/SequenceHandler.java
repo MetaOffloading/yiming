@@ -66,10 +66,19 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				ClickPage.Run(Instructions.Get(0), "Next");
+				TimeBlock.Init();
+				TimeBlock.defaultPMintervals=false;
+				TimeBlock.PMinterval_list.add(10);
+				TimeBlock.PMinterval_list.add(20);
+				TimeBlock.blockDuration=55;
+				TimeBlock.Run();
 				break;
 			case 2:
-				Finish.Run();
+				ClickPage.Run("instructions", "next");
+				break;
+			case 3:
+				TimeBlock.Init();
+				TimeBlock.Run();
 				break;
 			}
 			break;

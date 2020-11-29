@@ -48,8 +48,8 @@ public class TimeDisplay {
 	public static final HorizontalPanel stimulusPanel = new HorizontalPanel();
 	public static final HorizontalPanel offloadPanel = new HorizontalPanel();
 	
-	public static final HTML clockDisplay = new HTML("0:00");
-	public static final HTML stimulusDisplay = new HTML("Press spacebar to start");
+	public static final HTML clockDisplay = new HTML();
+	public static final HTML stimulusDisplay = new HTML();
 	public static final Button offloadButton = new Button("Remind me");
 	
 	
@@ -102,8 +102,6 @@ public class TimeDisplay {
 			}
 		});
 		
-		focusPanel.setFocus(true);
-		
 		//set up the offload button
 		offloadButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -145,7 +143,7 @@ public class TimeDisplay {
 
 				timeForInstruction=true;
 				
-				TimeBlock.nextInstruction = TimeBlock.nextTarget+generateDelay();
+				TimeBlock.nextInstruction = TimeBlock.nextTarget+TimeBlock.targetInstructionInterval;
 				TimeBlock.lastTarget = TimeBlock.nextTarget; //save this, to check against PM response
 				TimeBlock.nextTarget = TimeBlock.nextInstruction+generateDelay();
 				
@@ -169,20 +167,10 @@ public class TimeDisplay {
 	public static int generateDelay() {
 		int delay=0;
 		
-		switch(Random.nextInt(3)) {
-		case 0:
-			delay=10;
-			break;
-			
-		case 1:
-			delay=20;
-			break;
-			
-		case 2:
-			delay=30;
-			break;
+		if (TimeBlock.PMinterval_list.size()>0) {
+			delay = TimeBlock.PMinterval_list.get(0);
+			TimeBlock.PMinterval_list.remove(0);
 		}
-		
 		return(delay);
 	}
 	

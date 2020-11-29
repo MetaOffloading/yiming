@@ -2,10 +2,23 @@ package com.sam.webtasks.timeBasedOffloading;
 
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.sam.webtasks.client.SequenceHandler;
 
 public class TimeResponse {
 	public static void Run(int response) {
-		if (TimeDisplay.timeForInstruction) {
+		//end of block? if so return control to the sequencehandler
+		if (TimeBlock.currentTime >= TimeBlock.blockDuration) {
+			RootPanel.get().remove(TimeDisplay.wrapper);
+			
+			TimeDisplay.clockTimer.cancel();
+			
+			new Timer() {
+				public void run() {
+					SequenceHandler.Next();
+				}
+			}.schedule(1000);
+		} else if (TimeDisplay.timeForInstruction) {
 			TimeDisplay.timeForInstruction=false;
 			
 			TimeDisplay.focusPanel.setFocus(false);
