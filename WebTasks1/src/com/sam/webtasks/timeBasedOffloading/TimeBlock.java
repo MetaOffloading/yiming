@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -30,7 +31,15 @@ public class TimeBlock {
 	public static ArrayList<Integer> PMinterval_list = new ArrayList<Integer>();
 	public static boolean shufflePMintervals;
 	public static int blockNumber;
-	
+	public static int trialNumber;
+	public static int spaceBarKey = KeyCodes.KEY_SPACE;
+	public static int nonMatchKey = KeyCodes.KEY_Z;
+	public static int matchKey = KeyCodes.KEY_X;
+	public static int nBackMatchCorr ; //number of correct 'match' responses
+	public static int nBackNonMatchCorr; //number of correct 'nonmatch' responses
+	public static int nBackTargetsPresented;
+	public static int PMhits;
+	public static boolean offloadButtonOperated;
 	
 	//should offloading be allowed in this block?
 	public static boolean allowOffloading=true;
@@ -62,6 +71,12 @@ public class TimeBlock {
 		defaultPMintervals = true;
 		shufflePMintervals = true;
 		blockNumber = -1;
+		trialNumber = 0;
+		nBackMatchCorr = 0;
+		nBackNonMatchCorr = 0;
+		nBackTargetsPresented = 0;
+		PMhits=0;
+		offloadButtonOperated=false;
 		
 		TimeDisplay.clockDisplay.setHTML("0:00");
 		TimeDisplay.stimulusDisplay.setHTML("Press spacebar to start");
@@ -86,12 +101,17 @@ public class TimeBlock {
 			}
 		}
 		
+		if (targetInstructionInterval<0) { //negative interval means don't present instructions
+			targetInstructionInterval = Integer.MAX_VALUE;
+			nextInstruction = targetInstructionInterval;
+		}
+		
 		nextTarget=nextInstruction+TimeDisplay.generateDelay();
 		lastTarget=nextTarget;
 		
 		TimeDisplay.clockDisplay.setVisible(clockVisible);
 		TimeDisplay.offloadButton.setVisible(offloadButtonVisible);
-		RootPanel.get().add(TimeDisplay.wrapper);
+		RootPanel.get().add(TimeDisplay.focusPanel);
 		TimeDisplay.waitForSpacebar = true;
 
 		//set timestamp for beginning of block

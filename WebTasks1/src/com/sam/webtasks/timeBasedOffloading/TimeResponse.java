@@ -15,17 +15,52 @@ public class TimeResponse {
 	public static void Run(int response) {
 		int RT = (int) (new Date().getTime() - stimOn.getTime());
 		
-		String data = TimeBlock.blockNumber + "," + TimeDisplay.stimulus + ",";
+		TimeDisplay.spacebarToContinue.cancel(); // no need to remind participant they need to press spacebar
+		
+		if (response != TimeBlock.spaceBarKey) { //increment trial number if a key other than spacebar was pressed
+			TimeBlock.trialNumber++;
+		}
+		
+		boolean nBackCorrect = false;
+		
+		if (TimeDisplay.stimulus == TimeDisplay.stimulus_2back) {
+			if (response == TimeBlock.matchKey) {
+				nBackCorrect = true;
+				TimeBlock.nBackMatchCorr++;
+			}
+		} else {
+			if (response == TimeBlock.nonMatchKey) {
+				nBackCorrect = true;
+				TimeBlock.nBackNonMatchCorr++;
+			}
+		}
+		
+		String data = TimeBlock.blockNumber + "," + TimeBlock.trialNumber + "," + TimeDisplay.stimulus + ",";
 		data = data + response + "," + RT + ",";
 		data = data + TimeDisplay.awaitingPMresponse + "," + (TimeDisplay.stimulus == TimeDisplay.stimulus_2back) + ",";
-		data = data + TimeBlock.nextTarget + "," + TimeBlock.currentTime + ",";
+		data = data + nBackCorrect + "," + TimeBlock.nextTarget + "," + TimeBlock.currentTime + ",";
 		data = data + TimeStamp.Now();
 		
 		PHP.logData("TB_response", data, false);
 		
 		//end of block? if so return control to the sequencehandler
-		if (TimeBlock.currentTime >= TimeBlock.blockDuration) {
-			RootPanel.get().remove(TimeDisplay.wrapper);
+		//we specify blockDuration in seconds if it is positive, or trials if it is negative
+		boolean blockOver = false;
+		
+		if (TimeBlock.blockDuration > 0) { //specified in seconds
+			if (TimeBlock.currentTime >= TimeBlock.blockDuration) {
+				blockOver = true;
+			}
+		}
+		
+		if (TimeBlock.blockDuration < 0) { //specified in trials
+			if (TimeBlock.trialNumber >= -TimeBlock.blockDuration) {
+				blockOver = true;
+			}
+		}
+		
+		if (blockOver) {
+			RootPanel.get().remove(TimeDisplay.focusPanel);
 			
 			TimeDisplay.clockTimer.cancel();
 			
@@ -47,13 +82,15 @@ public class TimeResponse {
 						TimeDisplay.stimulusDisplay.setHTML(TimeDisplay.instructionString);
 						TimeDisplay.waitForSpacebar=true;
 						TimeDisplay.focusPanel.setFocus(true);
+						
+						TimeDisplay.spacebarToContinue.schedule(7000); //remind them to press the spacebar to continue
 					}
 				}
 			}.schedule(TimeBlock.RSI);
 		}
 		
 		if (TimeDisplay.waitForSpacebar) {
-			if (response==32) {
+			if (response==TimeBlock.spaceBarKey) {
 				if (TimeDisplay.awaitingPMresponse) {
 					if (TimeBlock.allowOffloading) {
 						TimeDisplay.offloadButton.setEnabled(true);
@@ -72,12 +109,14 @@ public class TimeResponse {
 					}
 				}.schedule(TimeBlock.RSI);
 			} else {
-				Window.alert("Press the spacebar to start the clock");
+				Window.alert("Press the spacebar to continue");
 			}
 		} else {
-			if (response==32) {
+			if (response==TimeBlock.spaceBarKey) {
 				if (TimeDisplay.awaitingPMresponse) {
 					if (Math.abs(TimeBlock.currentTime-TimeBlock.lastTarget) <= TimeBlock.PMwindow) {
+						TimeBlock.PMhits++;
+						
 						TimeDisplay.awaitingPMresponse=false;
 						
 						TimeDisplay.reminder.cancel();

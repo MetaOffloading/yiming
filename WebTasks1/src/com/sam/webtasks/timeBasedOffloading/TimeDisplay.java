@@ -78,10 +78,8 @@ public class TimeDisplay {
 		
 		//stimulus panel (we wrap it inside a focus panel so that it can receive keypresses)
 		stimulusDisplay.addStyleName("timeText");
-		
-		focusPanel.add(stimulusDisplay);
-		
-		stimulusPanel.add(focusPanel);
+
+		stimulusPanel.add(stimulusDisplay);
 		
 		displayPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		displayPanel.add(stimulusPanel);
@@ -94,8 +92,9 @@ public class TimeDisplay {
 		displayPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		displayPanel.add(offloadPanel);
 		
-		//we wrap the display panel inside a focus panel so that it can receive keypress responses
+		//we wrap the wrapper / display panel inside a focus panel so that it can receive keypress responses
 		wrapper.add(displayPanel);
+		focusPanel.add(wrapper);
 		
 		//set up focus panel to receive keypress responses
 		focusPanel.addKeyDownHandler(new KeyDownHandler() {
@@ -112,6 +111,7 @@ public class TimeDisplay {
 				PHP.logData("TB_offloadButtonClick", data, false);
 				
 				showReminder=true;
+				TimeBlock.offloadButtonOperated=true;
 				offloadButton.setEnabled(false);
 				focusPanel.setFocus(true);
 			}
@@ -167,6 +167,12 @@ public class TimeDisplay {
 				
 				cancel();
 			}
+		}
+	};
+	
+	public static final Timer spacebarToContinue = new Timer() {
+		public void run() {
+			Window.alert("Press the spacebar to resume the task.");
 		}
 	};
 	
@@ -261,6 +267,13 @@ public class TimeDisplay {
 			}
 		} else { //2-back target
 			newStimulus = stimulus_1back;
+			TimeBlock.nBackTargetsPresented++;
+		}
+		
+		//present a target if this is the last trial and there have not been any yet
+		if ((TimeBlock.nBackTargetsPresented==0)&(TimeBlock.trialNumber == (-TimeBlock.blockDuration)-1)) {
+			newStimulus = stimulus_1back;
+			TimeBlock.nBackTargetsPresented++;
 		}
 		
 		stimulus_2back=stimulus_1back;
