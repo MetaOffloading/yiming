@@ -10,17 +10,7 @@ public class Instructions {
 		 
 		switch(index) {
 		case 0:
-			i="In this task you will see a sequence of letters, one by one.<br><br>If the letter "
-					+ "matches the one you saw two letters ago, please press the <b>X</b> key. "
-					+ "Otherwise, press the <b>Z</b> key.<br><br>For example, if you saw the sequence "
-					+ "O A S A P, you would press Z Z Z X Z.<br><br>Please respond as quickly "
-					+ "and as accurately as possible.";
-			break;
-		case 10:
-			i = "While you are doing this test, you will also do a 'timer task'. A digital clock "
-					+ "will be displayed above the letters. You will be asked to press "
-					+ "the <b>spacebar</b> at a particular time.<br><br>For example you might get "
-					+ "the instruction";
+			i="Here are some instructions";
 			break;
 		}
 
