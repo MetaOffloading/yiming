@@ -14,35 +14,7 @@ public class TimeResponse {
 	
 	public static void Run(int response) {
 		int RT = (int) (new Date().getTime() - stimOn.getTime());
-		
-		TimeDisplay.spacebarToContinue.cancel(); // no need to remind participant they need to press spacebar
-		
-		if (response != TimeBlock.spaceBarKey) { //increment trial number if a key other than spacebar was pressed
-			TimeBlock.trialNumber++;
-		}
-		
-		boolean nBackCorrect = false;
-		
-		if (TimeDisplay.stimulus == TimeDisplay.stimulus_2back) {
-			if (response == TimeBlock.matchKey) {
-				nBackCorrect = true;
-				TimeBlock.nBackMatchCorr++;
-			}
-		} else {
-			if (response == TimeBlock.nonMatchKey) {
-				nBackCorrect = true;
-				TimeBlock.nBackNonMatchCorr++;
-			}
-		}
-		
-		String data = TimeBlock.blockNumber + "," + TimeBlock.trialNumber + "," + TimeDisplay.stimulus + ",";
-		data = data + response + "," + RT + ",";
-		data = data + TimeDisplay.awaitingPMresponse + "," + (TimeDisplay.stimulus == TimeDisplay.stimulus_2back) + ",";
-		data = data + nBackCorrect + "," + TimeBlock.nextTarget + "," + TimeBlock.currentTime + ",";
-		data = data + TimeStamp.Now();
-		
-		PHP.logData("TB_response", data, false);
-		
+	
 		//end of block? if so return control to the sequencehandler
 		//we specify blockDuration in seconds if it is positive, or trials if it is negative
 		boolean blockOver = false;
@@ -97,6 +69,7 @@ public class TimeResponse {
 					}
 				}
 				
+				TimeDisplay.spacebarToContinue.cancel(); // no need to remind participant they need to press spacebar
 				TimeDisplay.waitForSpacebar = false;
 				TimeDisplay.focusPanel.setFocus(false);
 				TimeDisplay.stimulusDisplay.setHTML("");
@@ -112,6 +85,32 @@ public class TimeResponse {
 				Window.alert("Press the spacebar to continue");
 			}
 		} else {
+			if (response != TimeBlock.spaceBarKey) { //increment trial number if a key other than spacebar was pressed
+				TimeBlock.trialNumber++;
+			}
+			
+			boolean nBackCorrect = false;
+			
+			if (TimeDisplay.stimulus == TimeDisplay.stimulus_2back) {
+				if (response == TimeBlock.matchKey) {
+					nBackCorrect = true;
+					TimeBlock.nBackMatchCorr++;
+				}
+			} else {
+				if (response == TimeBlock.nonMatchKey) {
+					nBackCorrect = true;
+					TimeBlock.nBackNonMatchCorr++;
+				}
+			}
+			
+			String data = TimeBlock.blockNumber + "," + TimeBlock.trialNumber + "," + TimeDisplay.stimulus + ",";
+			data = data + response + "," + RT + ",";
+			data = data + TimeDisplay.awaitingPMresponse + "," + (TimeDisplay.stimulus == TimeDisplay.stimulus_2back) + ",";
+			data = data + nBackCorrect + "," + TimeBlock.nextTarget + "," + TimeBlock.currentTime + ",";
+			data = data + TimeStamp.Now();
+			
+			PHP.logData("TB_response", data, false);
+			
 			if (response==TimeBlock.spaceBarKey) {
 				if (TimeDisplay.awaitingPMresponse) {
 					if (Math.abs(TimeBlock.currentTime-TimeBlock.lastTarget) <= TimeBlock.PMwindow) {

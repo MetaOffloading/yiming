@@ -9,8 +9,79 @@ public class Instructions {
 		String i="";
 		 
 		switch(index) {
-		case 0:
-			i="Here are some instructions";
+		case 10:
+			i="In this task you will see a sequence of letters, one by one.<br><br>If the letter "
+					+ "matches the one you saw two letters ago, please press the <b>X</b> key. "
+					+ "Otherwise, press the <b>Z</b> key.<br><br>For example, if you saw the sequence "
+					+ "O A S A P, you would press Z Z Z X Z.<br><br>Please respond as quickly "
+					+ "and as accurately as possible.";
+			break;
+		case 20:
+			i = "At the same time as doing this test, you will also do a 'timer task'. A digital clock "
+					+ "will be displayed above the letters. You will be asked to press "
+					+ "the <b>spacebar</b> at a particular time.<br><br>For example you might get "
+					+ "the instruction \"Hit the spacebar at 0:20\". When you see a message "
+					+ "like this, first you should immediately press the spacebar to continue "
+					+ "with the letter task. You should keep going with the letter task like before. Then, "
+					+ "when the clock gets to the specified time (such as 0:20) you should press the "
+					+ "spacebar again. Keep going with the letter task after this.<br><br>"
+					+ "Please perform both the letter task and the timer task as accurately as possible. "
+					+ "Both tasks are important.<br><br>"
+					+ "If you press the spacebar within 2 seconds of the instructed time (for example "
+					+ "0:18 to 0:22) this will be counted as correct.";
+			break;
+		case 30:
+			i = "Now let's do some more practice of the task you have just done.<br><br>"
+					+ "When you get an instruction to press the spacebar, there will always be a <b>10 "
+					+ "second</b> wait until you should press it.<br><br>";
+			break;
+		case 40:
+			i = "Now that you have had some practice, we would like you to tell us how accurately you "
+					+ "think you can perform the timer task when it is exactly like the task you have just "
+					+ "practiced, with a <b>10 second wait</b> until you are supposed "
+					+ "to press the spacebar.<br><br>Please use the scale below to indicate what percentage "
+					+ "of times you will remember to press the spacebar correctly when there is a <b>10 second wait</b>."
+					+ "<br><br>100% would mean that you will always get every single one correct. 0% would mean "
+					+ "that you can never get any of them correct.";
+			break;
+		case 50:
+			i = "Now we'll do some more practice of the task, but this time there will always be a "
+					+ "<b>20 second wait</b> in the timer task.";
+			break;
+		case 60:
+			i = "Now that you have had some practice, we would like you to tell us how accurately you "
+					+ "think you can perform the timer task when it is exactly like the task you have just "
+					+ "practiced, with a <b>20 second wait</b> until you are supposed "
+					+ "to press the spacebar.<br><br>Please use the scale below to indicate what percentage "
+					+ "of times you will remember to press the spacebar correctly when there is a <b>20 second wait</b>."
+					+ "<br><br>100% would mean that you will always get every single one correct. 0% would mean "
+					+ "that you can never get any of them correct.";
+			break;
+		case 70:
+			i = "Now we'll do some more practice of the task, but this time there will always be a "
+					+ "<b>30 second wait</b> in the timer task.";
+			break;
+		case 80:
+			i = "Now that you have had some practice, we would like you to tell us how accurately you "
+					+ "think you can perform the timer task when it is exactly like the task you have just "
+					+ "practiced, with a <b>30 second wait</b> until you are supposed "
+					+ "to press the spacebar.<br><br>Please use the scale below to indicate what percentage "
+					+ "of times you will remember to press the spacebar correctly when there is a <b>30 second wait</b>."
+					+ "<br><br>100% would mean that you will always get every single one correct. 0% would mean "
+					+ "that you can never get any of them correct.";
+			break;
+		case 90:
+			i = "There is one last thing to explain about the task. Sometimes, there will be a button on "
+					+ "the screen saying \"Remind Me\". Once you have been told to press the spacebar at "
+					+ "a particular time, you can press this button to set a reminder. This means that when "
+					+ "it's nearly time to press the spacebar, the clock will start flashing to remind you.<br><br>"
+					+ "Please try using this button now.";
+			break;
+		case 100:
+			i = "When the \"Remind Me\" button is on the screen, it is completely up to you whether to use it or not. "
+					+ "You can set reminders if you want to, or you can just remember to press the spacebar "
+					+ "with your own memory, without setting a reminder. It's your choice, so you should just do whatever you prefer.<br><br>"
+					+ "That's the end of the practice. The main experiment will start now.";
 			break;
 		}
 

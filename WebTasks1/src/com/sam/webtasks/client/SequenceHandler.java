@@ -66,10 +66,134 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				ClickPage.Run(Instructions.Get(0), "Next");
+				ClickPage.Run(Instructions.Get(10), "Next");
 				break;
 			case 2:
-				Finish.Run();
+				TimeBlock.Init();
+				TimeBlock.blockDuration=-10;
+				TimeBlock.clockVisible=false;
+				TimeBlock.offloadButtonVisible=false;
+				TimeBlock.targetInstructionInterval = -1; //don't present any targets
+				TimeBlock.blockNumber=-1;
+				TimeBlock.Run();
+				break;
+			case 3:
+				if ((TimeBlock.nBackNonMatchCorr==0)|(TimeBlock.nBackMatchCorr==0)) {
+					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2);
+					
+					ClickPage.Run("Your accuracy was too low", "Try again");
+				} else {
+					ClickPage.Run(Instructions.Get(20), "Next");
+				}
+				break;
+			case 4:
+				TimeBlock.Init();
+				TimeBlock.blockDuration=25;
+				TimeBlock.offloadButtonVisible=false;
+				TimeBlock.defaultPMintervals=false;
+				TimeBlock.PMinterval_list.add(10);
+				TimeBlock.blockNumber=-2;
+				TimeBlock.Run();
+				break;
+			case 5:
+				if (TimeBlock.PMhits==0) {
+					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-3);
+					
+					//we set the nBack accuracy to greater than 0, so that the
+					//practice session for this task does not get triggered again
+					TimeBlock.nBackNonMatchCorr=1;
+					TimeBlock.nBackMatchCorr=1;
+					
+					ClickPage.Run("You didn't remember to press the spacebar.", "Try again");
+				} else {
+					ClickPage.Run(Instructions.Get(30),  "Next");
+				}
+				break;
+			case 6:
+				TimeBlock.Init();
+				TimeBlock.blockDuration=65;
+				TimeBlock.offloadButtonVisible=false;
+				TimeBlock.defaultPMintervals=false;
+				TimeBlock.PMinterval_list.add(10);
+				TimeBlock.PMinterval_list.add(10);
+				TimeBlock.PMinterval_list.add(10);
+				TimeBlock.blockNumber=-3;
+				TimeBlock.Run();
+				break;
+			case 7:
+				Slider.Run(Instructions.Get(40), "0%", "100%");
+				break;
+			case 8:
+				PHP.logData("slider_10s", ""+Slider.getSliderValue(), true);
+				break;
+			case 9:
+				ClickPage.Run(Instructions.Get(50),  "Next");
+				break;
+			case 10:
+				TimeBlock.Init();
+				TimeBlock.blockDuration=95;
+				TimeBlock.offloadButtonVisible=false;
+				TimeBlock.defaultPMintervals=false;
+				TimeBlock.PMinterval_list.add(20);
+				TimeBlock.PMinterval_list.add(20);
+				TimeBlock.PMinterval_list.add(20);
+				TimeBlock.blockNumber=-4;
+				TimeBlock.Run();
+				break;
+			case 11:
+				Slider.Run(Instructions.Get(60), "0%", "100%");
+				break;
+			case 12:
+				PHP.logData("slider_20s",  ""+Slider.getSliderValue(),  true);
+				break;
+			case 13:
+				ClickPage.Run(Instructions.Get(70),  "Next");
+				break;
+			case 14:
+				TimeBlock.Init();
+				TimeBlock.blockDuration=125;
+				TimeBlock.offloadButtonVisible=false;
+				TimeBlock.defaultPMintervals=false;
+				TimeBlock.PMinterval_list.add(30);
+				TimeBlock.PMinterval_list.add(30);
+				TimeBlock.PMinterval_list.add(30);
+				TimeBlock.blockNumber=-5;
+				TimeBlock.Run();
+				break;
+			case 15:
+				Slider.Run(Instructions.Get(80), "0%", "100%");
+				break;
+			case 16:
+				PHP.logData("slider_30s",  ""+Slider.getSliderValue(),  true);
+				break;
+			case 17:
+				ClickPage.Run(Instructions.Get(90), "Next");
+				break;
+			case 18:
+				TimeBlock.Init();
+				TimeBlock.blockDuration=35;
+				TimeBlock.defaultPMintervals=false;
+				TimeBlock.PMinterval_list.add(20);
+				TimeBlock.blockNumber=-6;
+				TimeBlock.Run();
+				break;
+			case 19:
+				if (TimeBlock.offloadButtonOperated==false) {
+					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2);
+					ClickPage.Run("You didn't set a reminder",  "Try again");
+				} else {
+					ClickPage.Run(Instructions.Get(100), "Next");		
+				}
+				break;
+			case 20:
+				TimeBlock.Init();
+				TimeBlock.blockNumber=1;
+				TimeBlock.Run();
+				break;
+			case 21:
+				ClickPage.Run("This is the end of the demo.<br>At this point in the experiment we will want "
+						+ "to have more experimental blocks.<br><br>We also might want to collect more "
+						+ "metacognitive evaluations at the end.", "end");
 				break;
 			}
 			break;
