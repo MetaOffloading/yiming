@@ -38,7 +38,12 @@ public class TimeResponse {
 			
 			new Timer() {
 				public void run() {
-					SequenceHandler.Next();
+					String data = TimeBlock.blockNumber + "," + TimeBlock.trialNumber + ",";
+					data = data + TimeBlock.offloadButtonVisible + ",";
+					data = data + TimeBlock.nBackNonMatchCorr + "," + TimeBlock.nBackMatchCorr + ",";
+					data = data + TimeBlock.PMhits + "," + TimeBlock.nReminders;
+					
+					PHP.logData("blockEnd", data, true);
 				}
 			}.schedule(1000);
 		} else if (TimeDisplay.timeForInstruction) {
@@ -103,7 +108,8 @@ public class TimeResponse {
 				}
 			}
 			
-			String data = TimeBlock.blockNumber + "," + TimeBlock.trialNumber + "," + TimeDisplay.stimulus + ",";
+			String data = TimeBlock.blockNumber + "," + TimeBlock.offloadButtonVisible + ",";
+			data = data + TimeBlock.trialNumber + "," + TimeDisplay.stimulus + ",";
 			data = data + response + "," + RT + ",";
 			data = data + TimeDisplay.awaitingPMresponse + "," + (TimeDisplay.stimulus == TimeDisplay.stimulus_2back) + ",";
 			data = data + nBackCorrect + "," + TimeBlock.nextTarget + "," + TimeBlock.currentTime + ",";

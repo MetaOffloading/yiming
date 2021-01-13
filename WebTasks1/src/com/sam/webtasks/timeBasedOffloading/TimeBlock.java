@@ -40,6 +40,7 @@ public class TimeBlock {
 	public static int nBackTargetsPresented;
 	public static int PMhits;
 	public static boolean offloadButtonOperated;
+	public static int nReminders;
 	
 	//should offloading be allowed in this block?
 	public static boolean allowOffloading=true;
@@ -53,7 +54,7 @@ public class TimeBlock {
 	/*-----------reset all block settings-----------*/
 	
 	public static void Init() {
-		 if (TimeDisplay.isInitialised == false) {
+		if (TimeDisplay.isInitialised == false) {
 			TimeDisplay.Init();
 		}
 		 
@@ -77,11 +78,15 @@ public class TimeBlock {
 		nBackTargetsPresented = 0;
 		PMhits=0;
 		offloadButtonOperated=false;
+		nReminders=0;
 		
 		TimeDisplay.clockDisplay.setHTML("0:00");
 		TimeDisplay.stimulusDisplay.setHTML("Press spacebar to start");
 		
 		TimeDisplay.focusPanel.setFocus(true);
+		TimeDisplay.offloadButton.setEnabled(false);
+		TimeDisplay.awaitingPMresponse=false;
+		TimeDisplay.timeForInstruction=false;
 	}
 	
 	/*-----------run a block-----------*/

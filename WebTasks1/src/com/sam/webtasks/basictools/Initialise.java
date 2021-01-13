@@ -15,6 +15,12 @@ import com.sam.webtasks.client.SessionInfo;
 
 public class Initialise {
 	public static void Run() {
+		//set timestamp for the beginning of the experiment
+		TimeStamp.Start();
+		
+		//generate a reward code, which can be used to claim payment at end
+		RewardCode.Generate();
+				
 		if (SessionInfo.localTesting) {
 			Window.alert("Set to local testing mode. Data will not be stored on server.");
 		}
@@ -22,6 +28,16 @@ public class Initialise {
 		if (SessionInfo.experimentType == Names.EXPERIMENT_MTURK) {
 			RootPanel.get().add(new Label("initalising..."));
 			
+			//generate a random session key so that we have an identifier for this session
+		    SessionInfo.sessionKey=SessionKey.Get();
+		    
+		    //get participant ID from query line
+			SessionInfo.participantID = Window.Location.getParameter("workerId");
+			
+			if (SessionInfo.participantID == null) {
+				SessionInfo.participantID = "null";
+			}
+		    
 			//set up the counterbalancing
 			for (int i = 0; i < SessionInfo.counterbalanceFactors.length; i++) {
 				if (SessionInfo.specifiedLevels[i]==-1) { //randomised level
@@ -32,23 +48,43 @@ public class Initialise {
 			}
 		}
 		
-		//set timestamp for the beginning of the experiment
-		TimeStamp.Start();
-		
-		//generate a random session key so that we have an identifier for this session
-	    SessionInfo.sessionKey=SessionKey.Get();
-
-		//get participant ID from query line
-		SessionInfo.participantID = Window.Location.getParameter("workerId");
-		
-		if (SessionInfo.participantID == null) {
-			SessionInfo.participantID = "null";
+		if (SessionInfo.experimentType == Names.EXPERIMENT_PROLIFIC) {
+			RootPanel.get().add(new Label("initalising..."));
+			
+			//get session key from query line
+			SessionInfo.sessionKey = Window.Location.getParameter("SESSION_ID");
+			SessionInfo.prolificExperimentCode = Window.Location.getParameter("STUDY_ID");
+			SessionInfo.participantID = Window.Location.getParameter("PROLIFIC_PID");
+			
+			if (SessionInfo.participantID == null) {
+				SessionInfo.participantID = Window.prompt("What is your Prolific ID?",  "");
+			}
+			
+			if (SessionInfo.sessionKey == null) {
+				SessionInfo.sessionKey = SessionKey.Get();
+			}
+			
+			if (SessionInfo.prolificExperimentCode == null) {
+				SessionInfo.prolificExperimentCode = SessionInfo.experimentCode;
+			}
+			
+			//set up the counterbalancing
+			for (int i = 0; i < SessionInfo.counterbalanceFactors.length; i++) {
+				if (SessionInfo.specifiedLevels[i]==-1) { //randomised level
+					Counterbalance.addFactor(SessionInfo.counterbalanceFactors[i], SessionInfo.counterbalanceLevels[i]);
+				} else { //specified level
+					Counterbalance.addFactor(SessionInfo.counterbalanceFactors[i], SessionInfo.counterbalanceLevels[i], SessionInfo.specifiedLevels[i]);
+				}
+			}
+			
+			
 		}
 		
-		//generate a reward code, which can be used to claim payment at end
-		RewardCode.Generate();
 
 		if (SessionInfo.experimentType == Names.EXPERIMENT_STANDALONE) {
+			//generate a random session key so that we have an identifier for this session
+		    SessionInfo.sessionKey=SessionKey.Get();
+		    
 			HTML participantHTML = new HTML("Experiment: " + SessionInfo.experimentCode + ", Version: " + SessionInfo.experimentVersion + 
 					"<br>Participant code:");
 			final TextBox textBox = new TextBox();

@@ -66,9 +66,18 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				ClickPage.Run(Instructions.Get(10), "Next");
+				String data = TimeStamp.Now() + ",";
+				data = data + Counterbalance.getFactorLevel("startingCondition") + ",";
+				data = data + Counterbalance.getFactorLevel("buttonPositions") + ",";
+				data = data + Counterbalance.getFactorLevel("buttonColours") + ",";
+				data = data + SessionInfo.prolificExperimentCode;
+				
+				PHP.logData("start", data, true);
 				break;
 			case 2:
+				ClickPage.Run(Instructions.Get(10), "Next");
+				break;
+			case 3:
 				TimeBlock.Init();
 				TimeBlock.blockDuration=-10;
 				TimeBlock.clockVisible=false;
@@ -77,7 +86,7 @@ public class SequenceHandler {
 				TimeBlock.blockNumber=-1;
 				TimeBlock.Run();
 				break;
-			case 3:
+			case 4:
 				if ((TimeBlock.nBackNonMatchCorr==0)|(TimeBlock.nBackMatchCorr==0)) {
 					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2);
 					
@@ -86,7 +95,7 @@ public class SequenceHandler {
 					ClickPage.Run(Instructions.Get(20), "Next");
 				}
 				break;
-			case 4:
+			case 5:
 				TimeBlock.Init();
 				TimeBlock.blockDuration=25;
 				TimeBlock.offloadButtonVisible=false;
@@ -95,7 +104,7 @@ public class SequenceHandler {
 				TimeBlock.blockNumber=-2;
 				TimeBlock.Run();
 				break;
-			case 5:
+			case 6:
 				if (TimeBlock.PMhits==0) {
 					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-3);
 					
@@ -109,7 +118,7 @@ public class SequenceHandler {
 					ClickPage.Run(Instructions.Get(30),  "Next");
 				}
 				break;
-			case 6:
+			case 7:
 				TimeBlock.Init();
 				TimeBlock.blockDuration=65;
 				TimeBlock.offloadButtonVisible=false;
@@ -120,16 +129,16 @@ public class SequenceHandler {
 				TimeBlock.blockNumber=-3;
 				TimeBlock.Run();
 				break;
-			case 7:
+			case 8:
 				Slider.Run(Instructions.Get(40), "0%", "100%");
 				break;
-			case 8:
+			case 9:
 				PHP.logData("slider_10s", ""+Slider.getSliderValue(), true);
 				break;
-			case 9:
+			case 10:
 				ClickPage.Run(Instructions.Get(50),  "Next");
 				break;
-			case 10:
+			case 11:
 				TimeBlock.Init();
 				TimeBlock.blockDuration=95;
 				TimeBlock.offloadButtonVisible=false;
@@ -140,16 +149,16 @@ public class SequenceHandler {
 				TimeBlock.blockNumber=-4;
 				TimeBlock.Run();
 				break;
-			case 11:
+			case 12:
 				Slider.Run(Instructions.Get(60), "0%", "100%");
 				break;
-			case 12:
+			case 13:
 				PHP.logData("slider_20s",  ""+Slider.getSliderValue(),  true);
 				break;
-			case 13:
+			case 14:
 				ClickPage.Run(Instructions.Get(70),  "Next");
 				break;
-			case 14:
+			case 15:
 				TimeBlock.Init();
 				TimeBlock.blockDuration=125;
 				TimeBlock.offloadButtonVisible=false;
@@ -160,16 +169,16 @@ public class SequenceHandler {
 				TimeBlock.blockNumber=-5;
 				TimeBlock.Run();
 				break;
-			case 15:
+			case 16:
 				Slider.Run(Instructions.Get(80), "0%", "100%");
 				break;
-			case 16:
+			case 17:
 				PHP.logData("slider_30s",  ""+Slider.getSliderValue(),  true);
 				break;
-			case 17:
+			case 18:
 				ClickPage.Run(Instructions.Get(90), "Next");
 				break;
-			case 18:
+			case 19:
 				TimeBlock.Init();
 				TimeBlock.blockDuration=35;
 				TimeBlock.defaultPMintervals=false;
@@ -177,7 +186,7 @@ public class SequenceHandler {
 				TimeBlock.blockNumber=-6;
 				TimeBlock.Run();
 				break;
-			case 19:
+			case 20:
 				if (TimeBlock.offloadButtonOperated==false) {
 					SequenceHandler.SetPosition(SequenceHandler.GetPosition()-2);
 					ClickPage.Run("You didn't set a reminder",  "Try again");
@@ -185,15 +194,110 @@ public class SequenceHandler {
 					ClickPage.Run(Instructions.Get(100), "Next");		
 				}
 				break;
-			case 20:
+			case 21:
+				ProgressBar.Initialise();
+				ProgressBar.SetProgress(1,7);
+				ProgressBar.Show();
+
 				TimeBlock.Init();
 				TimeBlock.blockNumber=1;
+				
+				if ((Counterbalance.getFactorLevel("startingCondition")+TimeBlock.blockNumber) % 2 == 0) {
+					TimeBlock.offloadButtonVisible=false;
+				}
+				
 				TimeBlock.Run();
 				break;
-			case 21:
-				ClickPage.Run("This is the end of the demo.<br>At this point in the experiment we will want "
-						+ "to have more experimental blocks.<br><br>We also might want to collect more "
-						+ "metacognitive evaluations at the end.", "end");
+			case 22:
+				ProgressBar.SetProgress(2,7);
+				
+				ClickPage.Run(Instructions.Get(110), "Next");
+				break;
+			case 23:
+				TimeBlock.Init();
+				TimeBlock.blockNumber=2;
+				
+				if ((Counterbalance.getFactorLevel("startingCondition")+TimeBlock.blockNumber) % 2 == 0) {
+					TimeBlock.offloadButtonVisible=false;
+				}
+
+				TimeBlock.Run();
+				break;
+			case 24:
+				ProgressBar.SetProgress(3,7);
+				
+				ClickPage.Run(Instructions.Get(110), "Next");
+				break;
+			case 25:
+				TimeBlock.Init();
+				TimeBlock.blockNumber=3;
+				
+				if ((Counterbalance.getFactorLevel("startingCondition")+TimeBlock.blockNumber) % 2 == 0) {
+					TimeBlock.offloadButtonVisible=false;
+				}
+				
+				TimeBlock.Run();
+				break;
+			case 26:
+				ProgressBar.SetProgress(4,7);
+				
+				ClickPage.Run(Instructions.Get(110), "Next");
+				break;
+			case 27:
+				TimeBlock.Init();
+				TimeBlock.blockNumber=4;
+				
+				if ((Counterbalance.getFactorLevel("startingCondition")+TimeBlock.blockNumber) % 2 == 0) {
+					TimeBlock.offloadButtonVisible=false;
+				}
+				
+				TimeBlock.Run();
+				break;
+			case 28:
+				ProgressBar.SetProgress(5,7);
+				
+				ClickPage.Run(Instructions.Get(110), "Next");
+				break;
+			case 29:
+				TimeBlock.Init();
+				TimeBlock.blockNumber=5;
+				
+				if ((Counterbalance.getFactorLevel("startingCondition")+TimeBlock.blockNumber) % 2 == 0) {
+					TimeBlock.offloadButtonVisible=false;
+				}
+				
+				TimeBlock.Run();
+				break;
+			case 30:
+				ProgressBar.SetProgress(6,7);
+				
+				ClickPage.Run(Instructions.Get(110), "Next");
+				break;
+			case 31:
+				TimeBlock.Init();
+				TimeBlock.blockNumber=6;
+				
+				if ((Counterbalance.getFactorLevel("startingCondition")+TimeBlock.blockNumber) % 2 == 0) {
+					TimeBlock.offloadButtonVisible=false;
+				}
+				
+				ProgressBar.SetProgress(TimeBlock.blockNumber,7);
+				
+				TimeBlock.Run();
+				break;
+			case 32:
+				String data2 = TimeStamp.Now() + ",";
+				data2 = data2 + SessionInfo.prolificExperimentCode + ",";
+				data2 = data2 + Counterbalance.getFactorLevel("startingCondition") + ",";
+				data2 = data2 + Counterbalance.getFactorLevel("buttonPositions") + ",";
+				data2 = data2 + Counterbalance.getFactorLevel("buttonColours");
+
+				PHP.UpdateStatus("finished");
+				PHP.logData("finish", data2, true);
+				break;
+			case 33:
+				ProgressBar.SetProgress(7, 7);
+				ClickPage.Run(Instructions.Get(120), "nobutton");
 				break;
 			}
 			break;

@@ -42,7 +42,10 @@ public class ClickPage {
 	    //add elements to panel
 	    displayText.setStyleName("instructionText");
 	    verticalPanel.add(displayText);
-	    verticalPanel.add(continueButton);
+	    
+	    if (!buttonText.contentEquals("nobutton")) {
+	    	verticalPanel.add(continueButton);
+	    }
 
 	    //place vertical panel inside horizontal panel, so it can be centred
 	    horizontalPanel.setWidth(Window.getClientWidth() + "px");

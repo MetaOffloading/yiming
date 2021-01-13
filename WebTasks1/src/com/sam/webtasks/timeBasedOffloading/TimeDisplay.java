@@ -112,6 +112,7 @@ public class TimeDisplay {
 				
 				showReminder=true;
 				TimeBlock.offloadButtonOperated=true;
+				TimeBlock.nReminders++;
 				offloadButton.setEnabled(false);
 				focusPanel.setFocus(true);
 			}

@@ -51,5 +51,6 @@ public class Names {
 	//what experiment type is this?
 	public final static int EXPERIMENT_MTURK=0;      //experiment to be run on the MTurk platform
 	public final static int EXPERIMENT_STANDALONE=1; //experiment to be run without uploading to MTurk, e.g. on a tablet computer or on a desktop
+	public final static int EXPERIMENT_PROLIFIC=2;   //experiment to be run on prolific academic
 }
 

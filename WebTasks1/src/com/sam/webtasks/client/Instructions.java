@@ -83,6 +83,17 @@ public class Instructions {
 					+ "with your own memory, without setting a reminder. It's your choice, so you should just do whatever you prefer.<br><br>"
 					+ "That's the end of the practice. The main experiment will start now.";
 			break;
+		case 110:
+			i = "Time for a break. Press below to continue with the experiment.";
+			break;
+		case 120:
+			i = "You have now completed the experiment. Thank you for taking part.<br><br>"
+					+ "Last of all, we would like you to complete a brief survey about the experiment. "
+					+ "When you have done this, you will receive a link to receive your payment from "
+					+ "the Prolific Academic system.<br><br>Click below to complete the survey:<br><br>"
+					+ "<b><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSeKfIkV4v2KjORr2HvXmNckd_4cK3sOj9NXfIAX6VzbJOR5vA/viewform?usp=sf_link\">"
+					+ "CLICK HERE</a></b>";
+			break;
 		}
 
 		return(i);	
@@ -95,15 +106,14 @@ public class Instructions {
                 + "want to take part, please read the following information carefully and "
                 + "discuss it with others if you wish. Ask us if there is anything that "
                 + "is not clear or you would like more information.<br><br>"
-                + "We are recruiting volunteers from the Amazon Mechanical Turk website to "
+                + "We are recruiting volunteers to "
                 + "take part in an experiment aiming to improve our understanding of human "
-                + "attention and memory. You will see various objects on the screen like coloured, numbered circles, "
-                + "and you will be asked to move them with your computer mouse. Sometimes you will be asked to remember "
-                + "particular numbers and move the corresponding circle in a particular direction. You will be asked how "
-                + "confident you are in your ability to solve the task. "
+                + "attention and memory. You will see various stimuli on the screen like letters of the alphabet "
+                + "and you will be asked to respond to them by pressing keys. Sometimes you will be asked how "
+                + "confident you are in your ability to perform the task. "
                 + "The experiment "
-                + "will last approximately 45 minutes and you will receive a payment of $2 plus an additional bonus via the "
-                + "Amazon Mechanical Turk payment system. There are no anticipated risks or "
+                + "will last approximately 1 hour and you will receive a payment of £7.50 via the "
+                + "Prolific Academic payment system. There are no anticipated risks or "
                 + "benefits associated with participation in this study.<br><br>"
                 + "It is up to you to decide whether or not to take part. If you choose "
                 + "not to participate, you won't incur any penalties or lose any "
@@ -116,7 +126,7 @@ public class Instructions {
                 + "<br><br>All data will be collected and stored in accordance with the General Data Protection "
                 + "Regulations 2018. Personal information is stored separately from test results, and researchers "
                 + "on this project have no access to this data. Your personal information such as name and email "
-                + "address is held by Amazon Mechanical Turk but the researchers on this project have no acccess "
+                + "address is held by Prolific Academic but the researchers on this project have no acccess "
                 + "to this. Data from this experiment may be made available to the research community, for example by "
                 + "posting them on websites such as the Open Science Framework (<a href=\"http://osf.io\">http://osf.io</a>). "
                 + "It will not be possible to identify you from these data.<br><br>"
