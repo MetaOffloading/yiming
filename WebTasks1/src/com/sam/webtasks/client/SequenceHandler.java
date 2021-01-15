@@ -288,10 +288,8 @@ public class SequenceHandler {
 			case 32:
 				String data2 = TimeStamp.Now() + ",";
 				data2 = data2 + SessionInfo.prolificExperimentCode + ",";
-				data2 = data2 + Counterbalance.getFactorLevel("startingCondition") + ",";
-				data2 = data2 + Counterbalance.getFactorLevel("buttonPositions") + ",";
-				data2 = data2 + Counterbalance.getFactorLevel("buttonColours");
-
+				data2 = data2 + Counterbalance.getFactorLevel("startingCondition"); 
+				
 				PHP.UpdateStatus("finished");
 				PHP.logData("finish", data2, true);
 				break;

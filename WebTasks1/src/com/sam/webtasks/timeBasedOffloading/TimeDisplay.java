@@ -152,7 +152,7 @@ public class TimeDisplay {
 			//instruction for next target?
 			if (TimeBlock.currentTime == TimeBlock.nextInstruction) {
 				data = TimeBlock.blockNumber + "," + TimeBlock.currentTime + ",";
-				data = data + TimeBlock.nextInstruction + "," + TimeStamp.Now();
+				data = data + TimeBlock.nextInstruction + "," + TimeBlock.nextTarget + "," + TimeStamp.Now();
 				
 				PHP.logData("TB_instruction", data, false);
 				
