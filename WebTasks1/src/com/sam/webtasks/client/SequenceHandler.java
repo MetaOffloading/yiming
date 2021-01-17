@@ -196,7 +196,7 @@ public class SequenceHandler {
 				break;
 			case 21:
 				ProgressBar.Initialise();
-				ProgressBar.SetProgress(1,7);
+				ProgressBar.SetProgress(1,8);
 				ProgressBar.Show();
 
 				TimeBlock.Init();
@@ -209,7 +209,7 @@ public class SequenceHandler {
 				TimeBlock.Run();
 				break;
 			case 22:
-				ProgressBar.SetProgress(2,7);
+				ProgressBar.SetProgress(2,8);
 				
 				ClickPage.Run(Instructions.Get(110), "Next");
 				break;
@@ -224,7 +224,7 @@ public class SequenceHandler {
 				TimeBlock.Run();
 				break;
 			case 24:
-				ProgressBar.SetProgress(3,7);
+				ProgressBar.SetProgress(3,8);
 				
 				ClickPage.Run(Instructions.Get(110), "Next");
 				break;
@@ -239,7 +239,7 @@ public class SequenceHandler {
 				TimeBlock.Run();
 				break;
 			case 26:
-				ProgressBar.SetProgress(4,7);
+				ProgressBar.SetProgress(4,8);
 				
 				ClickPage.Run(Instructions.Get(110), "Next");
 				break;
@@ -254,7 +254,7 @@ public class SequenceHandler {
 				TimeBlock.Run();
 				break;
 			case 28:
-				ProgressBar.SetProgress(5,7);
+				ProgressBar.SetProgress(5,8);
 				
 				ClickPage.Run(Instructions.Get(110), "Next");
 				break;
@@ -269,7 +269,7 @@ public class SequenceHandler {
 				TimeBlock.Run();
 				break;
 			case 30:
-				ProgressBar.SetProgress(6,7);
+				ProgressBar.SetProgress(6,8);
 				
 				ClickPage.Run(Instructions.Get(110), "Next");
 				break;
@@ -286,15 +286,36 @@ public class SequenceHandler {
 				TimeBlock.Run();
 				break;
 			case 32:
+				ProgressBar.SetProgress(7, 8);
+				Slider.Run(Instructions.Get(120), "0%", "100%");
+				break;
+			case 33:
+				PHP.logData("slider_10s_end", ""+Slider.getSliderValue(), true);
+				break;
+			case 34:
+				Slider.Run(Instructions.Get(130), "0%", "100%");
+				break;
+			case 35:
+				PHP.logData("slider_20s_end", ""+Slider.getSliderValue(), true);
+				break;
+			case 36:
+				Slider.Run(Instructions.Get(140), "0%", "100%");
+				break;
+			case 37:
+				PHP.logData("slider_30s_end", ""+Slider.getSliderValue(), true);
+				break;
+			case 38:
 				String data2 = TimeStamp.Now() + ",";
 				data2 = data2 + SessionInfo.prolificExperimentCode + ",";
-				data2 = data2 + Counterbalance.getFactorLevel("startingCondition"); 
+				data2 = data2 + Counterbalance.getFactorLevel("startingCondition");
+				data2 = data2 + SessionInfo.gender;
+				data2 = data2 + SessionInfo.age;
 				
 				PHP.UpdateStatus("finished");
 				PHP.logData("finish", data2, true);
 				break;
-			case 33:
-				ProgressBar.SetProgress(7, 7);
+			case 39:
+				ProgressBar.SetProgress(8, 8);
 				ClickPage.Run(Instructions.Get(120), "nobutton");
 				break;
 			}

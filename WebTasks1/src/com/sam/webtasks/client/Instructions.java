@@ -87,6 +87,33 @@ public class Instructions {
 			i = "Time for a break. Press below to continue with the experiment.";
 			break;
 		case 120:
+			i = "You have now completed the task. Now that you have finished, please tell us how accurately you "
+					+ "think you can perform the timer task when you just use your own memory (no reminders) "
+					+ ", with a <b>10 second wait</b> until you are supposed "
+					+ "to press the spacebar.<br><br>Please use the scale below to indicate what percentage "
+					+ "of times you can remember to press the spacebar correctly when there is a <b>10 second wait</b> and no reminder."
+					+ "<br><br>100% would mean that you will always get every single one correct. 0% would mean "
+					+ "that you can never get any of them correct.";
+			break;
+		case 130:
+			i = "Now, please tell us how accurately you "
+					+ "think you can perform the timer task when you just use your own memory (no reminders) "
+					+ ", with a <b>20 second wait</b> until you are supposed "
+					+ "to press the spacebar.<br><br>Please use the scale below to indicate what percentage "
+					+ "of times you can remember to press the spacebar correctly when there is a <b>20 second wait</b> and no reminder."
+					+ "<br><br>100% would mean that you will always get every single one correct. 0% would mean "
+					+ "that you can never get any of them correct.";
+			break;
+		case 140:
+			i = "Now, please tell us how accurately you "
+					+ "think you can perform the timer task when you just use your own memory (no reminders) "
+					+ ", with a <b>30 second wait</b> until you are supposed "
+					+ "to press the spacebar.<br><br>Please use the scale below to indicate what percentage "
+					+ "of times you can remember to press the spacebar correctly when there is a <b>30 second wait</b> and no reminder."
+					+ "<br><br>100% would mean that you will always get every single one correct. 0% would mean "
+					+ "that you can never get any of them correct.";
+			break;
+		case 150:
 			i = "You have now completed the experiment. Thank you for taking part.<br><br>"
 					+ "Last of all, we would like you to complete a brief survey about the experiment. "
 					+ "When you have done this, you will receive a link to receive your payment from "
