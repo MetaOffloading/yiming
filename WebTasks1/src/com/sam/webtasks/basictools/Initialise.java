@@ -32,7 +32,7 @@ public class Initialise {
 		    SessionInfo.sessionKey=SessionKey.Get();
 		    
 		    //get participant ID from query line
-			SessionInfo.participantID = Window.Location.getParameter("workerId");
+		    SessionInfo.participantID = Window.Location.getParameter("workerId");
 			
 			if (SessionInfo.participantID == null) {
 				SessionInfo.participantID = "null";

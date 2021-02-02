@@ -87,7 +87,7 @@ public class Instructions {
 			i = "Time for a break. Press below to continue with the experiment.";
 			break;
 		case 120:
-			i = "You have now completed the task. Now that you have finished, please tell us how accurately you "
+			i = "You have now completed the task. Now that you have finished, please tell us how accurately you"
 					+ "think you can perform the timer task when you just use your own memory (no reminders) "
 					+ ", with a <b>10 second wait</b> until you are supposed "
 					+ "to press the spacebar.<br><br>Please use the scale below to indicate what percentage "
@@ -97,7 +97,7 @@ public class Instructions {
 			break;
 		case 130:
 			i = "Now, please tell us how accurately you "
-					+ "think you can perform the timer task when you just use your own memory (no reminders) "
+					+ "think you can perform the timer task when you just use your own memory (no reminders)"
 					+ ", with a <b>20 second wait</b> until you are supposed "
 					+ "to press the spacebar.<br><br>Please use the scale below to indicate what percentage "
 					+ "of times you can remember to press the spacebar correctly when there is a <b>20 second wait</b> and no reminder."
@@ -106,7 +106,7 @@ public class Instructions {
 			break;
 		case 140:
 			i = "Now, please tell us how accurately you "
-					+ "think you can perform the timer task when you just use your own memory (no reminders) "
+					+ "think you can perform the timer task when you just use your own memory (no reminders)"
 					+ ", with a <b>30 second wait</b> until you are supposed "
 					+ "to press the spacebar.<br><br>Please use the scale below to indicate what percentage "
 					+ "of times you can remember to press the spacebar correctly when there is a <b>30 second wait</b> and no reminder."

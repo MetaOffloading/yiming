@@ -307,8 +307,8 @@ public class SequenceHandler {
 			case 38:
 				String data2 = TimeStamp.Now() + ",";
 				data2 = data2 + SessionInfo.prolificExperimentCode + ",";
-				data2 = data2 + Counterbalance.getFactorLevel("startingCondition");
-				data2 = data2 + SessionInfo.gender;
+				data2 = data2 + Counterbalance.getFactorLevel("startingCondition") + ",";
+				data2 = data2 + SessionInfo.gender + ",";
 				data2 = data2 + SessionInfo.age;
 				
 				PHP.UpdateStatus("finished");
@@ -316,7 +316,7 @@ public class SequenceHandler {
 				break;
 			case 39:
 				ProgressBar.SetProgress(8, 8);
-				ClickPage.Run(Instructions.Get(120), "nobutton");
+				ClickPage.Run(Instructions.Get(150), "nobutton");
 				break;
 			}
 			break;
