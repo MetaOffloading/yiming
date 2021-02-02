@@ -53,7 +53,7 @@ public class Initialise {
 			
 			//get session key from query line
 			SessionInfo.sessionKey = Window.Location.getParameter("SESSION_ID");
-			SessionInfo.prolificExperimentCode = Window.Location.getParameter("STUDY_ID");
+			//SessionInfo.prolificExperimentCode = Window.Location.getParameter("STUDY_ID");
 			SessionInfo.participantID = Window.Location.getParameter("PROLIFIC_PID");
 			
 			if (SessionInfo.participantID == null) {
@@ -64,9 +64,9 @@ public class Initialise {
 				SessionInfo.sessionKey = SessionKey.Get();
 			}
 			
-			if (SessionInfo.prolificExperimentCode == null) {
+			/*if (SessionInfo.prolificExperimentCode == null) {
 				SessionInfo.prolificExperimentCode = SessionInfo.experimentCode;
-			}
+			}*/
 			
 			//set up the counterbalancing
 			for (int i = 0; i < SessionInfo.counterbalanceFactors.length; i++) {

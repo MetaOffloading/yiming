@@ -8,15 +8,15 @@ public class SessionInfo {
 	/*******************************************************/
 		
 	//are we just testing locally? set this to true if so and it won't try to log data to the database
-	public static boolean localTesting=false;
-	public static boolean runInfoConsentPages=true; //should we do the info and consent pages?
-	public static int experimentType = Names.EXPERIMENT_PROLIFIC;
+	public static boolean localTesting=true;
+	public static boolean runInfoConsentPages=false; //should we do the info and consent pages?
+	public static int experimentType = Names.EXPERIMENT_STANDALONE;
 	
 	//what is the name for this experiment?
-	public static String experimentCode="PT1";
+	public static String experimentCode="EmptyProject";
 	
 	//which version of the experiment is this?
-	public static int experimentVersion=18;
+	public static int experimentVersion=1;
 	
 	//what is the minimum permitted screen size in pixels?
 	//if the screen is smaller than this the participant will be asked
@@ -39,9 +39,9 @@ public class SessionInfo {
 	//if you want to specify the level of any of those factors, set it with specifiedLevels. otherwise set to -1
 	//e.g. specifiedLevels = {-1, 2, -1}; would randomise factors 1 and 3, and set the second factor to level 2
 	//NB levels range from 0 to (maximum - 1)
-	public static String[] counterbalanceFactors = {"startingCondition"};
-	public static int[] counterbalanceLevels = {2};
-	public static int[] specifiedLevels = {-1};
+	public static String[] counterbalanceFactors = {};
+	public static int[] counterbalanceLevels = {};
+	public static int[] specifiedLevels = {};
 	
 	/*************************************************/
     /* no need to edit the settings below this point */
@@ -57,6 +57,5 @@ public class SessionInfo {
 	public static int age;
 	public static String participantID;
 	public static String sessionKey="";      //use this to store a random session key
-	public static String prolificExperimentCode="";
 	public static String rewardCode="";      //reward code to be revealed at end, in order to participant to claim paymen
 }

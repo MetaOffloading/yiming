@@ -1,0 +1,13 @@
+package com.sam.webtasks.client;
+
+import com.sam.webtasks.basictools.Counterbalance;
+import com.sam.webtasks.basictools.PHP;
+import com.sam.webtasks.basictools.ProgressBar;
+import com.sam.webtasks.iotask2.IOtask2BlockContext;
+
+public class SavePosition {
+	public static void Save() {
+
+	}
+
+}
