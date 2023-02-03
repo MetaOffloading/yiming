@@ -66,9 +66,14 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 **********************************************************************/
 			case 1:
-				ClickPage.Run(Instructions.Get(0), "Next");
+				ClickPage.Run("The circles will switch exactly once", "Next");
 				break;
 			case 2:
+				IOtask2Block block1 = new IOtask2Block();
+				block1.rePosition = 1;
+				block1.Run();
+				break;
+			case 3:
 				Finish.Run();
 				break;
 			}

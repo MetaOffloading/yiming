@@ -37,6 +37,10 @@ public class IOtask2Block {
 	// total number of circles in one trial
 	public int totalCircles = 25;
 	
+	// randomly re-position circles? if so how many times per trial?
+	public int rePosition = 0;
+	public ArrayList<Integer> rePositions = new ArrayList<Integer>();
+	
 	// update the progress bar with progress through the block? 
 	public boolean updateProgress = false;
 

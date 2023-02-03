@@ -49,6 +49,14 @@ import com.sam.webtasks.iotask1.IOtask1BlockContext;
 import com.sam.webtasks.iotask1.IOtask1DisplayParams;
 
 public class IOtask2RunTrial {
+	static int c = 0;
+	static int randomCounter = 0;
+	static int randomFlag = 0;
+	static int[] circleX;
+	static int[] circleY;
+	static int margin;
+	static IOtask2Block block;
+	
 
 	public static void Run() {
 		int m = IOtask2BlockContext.countdownTime() / 60;
@@ -89,7 +97,7 @@ public class IOtask2RunTrial {
 		}
 
 		// get block context
-		IOtask2Block block = IOtask2BlockContext.getContext();
+		block = IOtask2BlockContext.getContext();
 
 		// set up labels to put inside circles
 		final String[] labels = new String[block.nCircles];
@@ -120,7 +128,7 @@ public class IOtask2RunTrial {
 		}
 
 		final int boxSize = (int) (minDim * IOtask2DisplayParams.boxSize);
-		int margin = (int) (boxSize * IOtask2DisplayParams.margin);
+		margin = (int) (boxSize * IOtask2DisplayParams.margin);
 		final int circleRadius = (int) (boxSize * IOtask2DisplayParams.circleRadius);
 
 		final LienzoPanel panel = new LienzoPanel(boxSize, boxSize);
@@ -211,21 +219,20 @@ public class IOtask2RunTrial {
 		// set up circles
 		final Layer circleLayer = new Layer();
 
-		int[] circleX = new int[block.nCircles];
-		int[] circleY = new int[block.nCircles];
 		final Circle[] circles = new Circle[block.nCircles];
 		final Circle[] circleOverlays = new Circle[block.nCircles];
 		final Text[] circleText = new Text[block.nCircles];
 		final Group[] circleGroup = new Group[block.nCircles];
-		int randomFlag = 0;
 		IOtask2BlockContext.setCompletedCircles(0);
 		IOtask2BlockContext.setNextCircle(0);
 		IOtask2BlockContext.setCircleAdjust(0);
 		IOtask2BlockContext.setnHits(0);
+		
+		circleX = new int[block.nCircles];
+		circleY = new int[block.nCircles];
 
-		int c = 0;
-		int randomCounter = 0;
-
+		c=0;
+		
 		while (c < block.nCircles) {
 			randomFlag = 1;
 
@@ -720,6 +727,67 @@ public class IOtask2RunTrial {
 						IOtask2BlockContext.setCheckExitFlag(1); // ready for next exit event
 						IOtask2BlockContext.setExitFlag(0);
 						IOtask2BlockContext.incrementNextCircle();
+						
+						//re-randomise circle positions 
+						if (block.rePositions.size()>0) {
+							if (IOtask2BlockContext.getCompletedCircles() == block.rePositions.get(0)) {
+
+								block.rePositions.remove(0);
+
+								c=0;
+
+								while (c < block.nCircles) {
+									circleGroup[c].setVisible(false);
+
+									randomFlag = 1;
+
+									while (randomFlag == 1) {
+										randomCounter++;
+
+										if (randomCounter > 10000) {
+											randomCounter = 0;
+											c = 0; // start again if failing to position the circles appropriately
+										}
+
+										randomFlag = 0;
+
+										circleX[c] = Random.nextInt(boxSize - (2 * circleRadius) - (2 * margin)) + circleRadius + margin;
+										circleY[c] = Random.nextInt(boxSize - (2 * circleRadius) - (2 * margin)) + circleRadius + margin;
+
+										for (int cc = 0; cc < c; cc++) {
+											int distanceX = circleX[c] - circleX[cc];
+											int distanceY = circleY[c] - circleY[cc];
+
+											double distanceAbs = Math.pow(Math.pow(distanceX, 2) + Math.pow(distanceY, 2), 0.5);
+
+											if (distanceAbs < (3 * circleRadius)) {
+												randomFlag = 1;
+											}
+										}
+									}
+
+									c++;
+								}
+
+								c=0;
+
+								new Timer() {
+									public void run() {							
+										while (c < block.nCircles) {
+											circleGroup[c].setX(circleX[c]);
+											circleGroup[c].setY(circleY[c]);
+
+											circleGroup[c].setVisible(true);
+											circleGroup[c].draw();
+
+											c++;
+										}
+									}
+								}.schedule(500);
+
+								circleLayer.draw();
+							}
+						}
 
 						// run surprise test
 						if (IOtask2BlockContext.getSurpriseTest() == IOtask2BlockContext.getCompletedCircles()) {

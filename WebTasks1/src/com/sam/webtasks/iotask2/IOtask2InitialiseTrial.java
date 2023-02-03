@@ -38,6 +38,24 @@ public class IOtask2InitialiseTrial {
 		if (block.surpriseTests.size() > 0) {
 			block.surpriseTest = block.surpriseTests.get(block.currentTrial);
 		}
+		
+		// set up repositions
+		if (block.rePosition > 0) {
+			for (int i = block.nCircles + 1; i < block.totalCircles; i++) { 
+				block.rePositions.add(i);
+			}
+			
+			// shuffle repositions
+			for (int i = 0; i < block.rePositions.size(); i++) {
+				Collections.swap(block.rePositions, i, Random.nextInt(block.rePositions.size()));
+			}
+			
+			while (block.rePositions.size() > block.rePosition) {
+				block.rePositions.remove(block.rePositions.size()-1);
+			}
+		} else {
+			block.rePositions.add(-1);
+		}
 
 		// set up target directions
 		ArrayList<Integer> targetDirections = new ArrayList<Integer>();
